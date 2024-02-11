@@ -36,12 +36,15 @@ class settings_manager(object) :
         print(field_keys)
 
         #по ключам json подставляет атрибуты для класса и проверяет их
-        if len(field_keys)<7:
-            raise Exception("Неполные настройки")
+        check_atrs=0
         for cur_key in field_keys:
-            value = self.__data[cur_key]
-            setattr(self.__settings,cur_key,value)
-            print(getattr(self.__settings,cur_key))
+            if cur_key in fields:
+                check_atrs+=1
+                value = self.__data[cur_key]
+                setattr(self.__settings,cur_key,value)
+                print(getattr(self.__settings,cur_key))
+        if check_atrs!=7:
+            raise Exception("Неполные настройки")
 
 
 
