@@ -94,10 +94,11 @@ class test_settings(unittest.TestCase):
     def test_check_manager_convert(self):
         # Подготовка
         manager = settings_manager()
-        manager.open("settings.json")
+
+        #Действия
+        A=manager.open("settings.json")
          
-        # Действие
-        A=manager.convert()       
+        
         
         # Проверка 
         assert A==True
@@ -123,10 +124,10 @@ class test_settings(unittest.TestCase):
         #подготовка
         manager=settings_manager()
         #адрес
-        adres=os.path.join(Path(__file__).parent.parent,'Jsons')
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
 
 
-        result=manager.open("Tester.json",adres)
+        result=manager.open("Tester.json",address)
                 
         
         

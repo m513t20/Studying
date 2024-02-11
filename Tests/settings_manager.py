@@ -23,7 +23,7 @@ class settings_manager(object) :
             cls.instance = super(settings_manager, cls).__new__(cls)
         return cls.instance  
     
-    def convert(self):
+    def __convert(self):
         if len(self.__data) == 0:
             raise Exception("Невозможно создать объект типа settings.py")
         
@@ -43,8 +43,7 @@ class settings_manager(object) :
                 value = self.__data[cur_key]
                 setattr(self.__settings,cur_key,value)
                 print(getattr(self.__settings,cur_key))
-        if check_atrs!=7:
-            raise Exception("Неполные настройки")
+
 
 
 
@@ -64,6 +63,7 @@ class settings_manager(object) :
         self.__file_path=file_path
         try:
             self.__open()
+            self.__convert()
             return True
         except:
             return False
