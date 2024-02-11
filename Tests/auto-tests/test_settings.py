@@ -124,10 +124,12 @@ class test_settings(unittest.TestCase):
         #подготовка
         manager=settings_manager()
         #адрес
-        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        address=os.path.join(Path(__file__).parent.parent.parent,'Jsons')
+        print(address)
 
 
         result=manager.open("Tester.json",address)
+        assert result==True
                 
         
         
