@@ -63,8 +63,8 @@ class settings:
     #Сеттеры
     @INN.setter
     def INN(self,value: str):
-        #делаем через replace на случай введения с пробелами
-        value_stripped=value.replace(' ','')
+        #value_stripped=value.replace(' ','')
+        value_stripped=value.strip()
         #Состоит ли из символов (value у нас str на случай незначащих нулей в начале числа)
         if not isinstance(value,str) or not(value_stripped.isdigit()):
             raise  Exception("Некорректный аргумент")
@@ -79,7 +79,7 @@ class settings:
     @account.setter
     def account(self,value:str):
         #делаем через replace на случай введения с пробелами
-        value_stripped=value.replace(' ','')
+        value_stripped=value.strip()
         #Состоит ли из символов (value у нас str на случай незначащих нулей в начале числа)
         if not isinstance(value,str) or not(value_stripped.isdigit()):
             raise  Exception("Некорректный аргумент")
@@ -95,7 +95,7 @@ class settings:
     @correspond_account.setter
     def correspond_account(self,value:str):
         #делаем через replace на случай введения с пробелами
-        value_stripped=value.replace(' ','')
+        value_stripped=value.strip()
         #Состоит ли из символов (value у нас str на случай незначащих нулей в начале числа)
         if not isinstance(value,str) or not(value_stripped.isdigit()):
             raise  Exception("Некорректный аргумент")
@@ -109,8 +109,7 @@ class settings:
 
     @BIK.setter
     def BIK(self,value:str):
-        #делаем через replace на случай введения с пробелами
-        value_stripped=value.replace(' ','')
+        value_stripped=value.strip()
         #Состоит ли из символов (value у нас str на случай незначащих нулей в начале числа)
         if not isinstance(value,str) or not(value_stripped.isdigit()):
             raise  Exception("Некорректный аргумент")

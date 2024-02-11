@@ -38,7 +38,7 @@ class test_settings(unittest.TestCase):
     def test_INN_check(self):
         item=settings()
 
-        item.INN="0000 00  12  3456"
+        item.INN="    000000123456          "
 
         assert item.INN=="000000123456"
 
@@ -46,7 +46,7 @@ class test_settings(unittest.TestCase):
     def test_account_check(self):
         item=settings()
 
-        item.account="123 456 789 01"
+        item.account="       12345678901"
 
         assert item.account=="12345678901"
 
@@ -54,7 +54,7 @@ class test_settings(unittest.TestCase):
     def test_cor_account_check(self):
         item=settings()
 
-        item.correspond_account="123 456 789 01"
+        item.correspond_account="        12345678901                "
 
         assert item.correspond_account=="12345678901"
 
@@ -62,7 +62,7 @@ class test_settings(unittest.TestCase):
     def test_BIK_check(self):
         item=settings()
 
-        item.BIK="123 456 789"
+        item.BIK="       123456789        "
 
         assert item.BIK=="123456789"
 
