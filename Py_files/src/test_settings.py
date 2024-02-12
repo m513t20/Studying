@@ -1,13 +1,12 @@
+
 from pathlib import Path
 import os
 import sys
-
 sys.path.append(os.path.join(Path(__file__).parent.parent,'src'))
 
 
 from settings import settings
 from settings_manager import  settings_manager
-
 import unittest
 
 
@@ -181,3 +180,6 @@ class test_settings(unittest.TestCase):
 
         result=manager.open("Tester.json",address)
         assert result==True
+                
+        
+        
