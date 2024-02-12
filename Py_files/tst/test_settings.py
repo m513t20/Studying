@@ -1,3 +1,4 @@
+
 from settings import settings
 from settings_manager import  settings_manager
 from pathlib import Path
@@ -81,6 +82,51 @@ class test_settings(unittest.TestCase):
         item.property_type="'000'   "
 
         assert item.property_type=="'000'"
+
+
+
+
+
+
+
+
+
+    #Проверки с пробелами
+    def test_INN_check_spaces(self):
+        item=settings()
+
+        item.INN="    000 00 0123 456          "
+
+        assert item.INN=="000000123456"
+
+    #account проверка с пробелами
+    def test_account_check_spaces(self):
+        item=settings()
+
+        item.account="       1234 56   7 8 90 1"
+
+        assert item.account=="12345678901"
+
+    #коррепсондетский счет проверка с пробелами
+    def test_cor_account_chec_spaces(self):
+        item=settings()
+
+        item.correspond_account="        12 34 56 78 901                "
+
+        assert item.correspond_account=="12345678901"
+
+    #BIK проверка с пробелами
+    def test_BIK_check_spaces(self):
+        item=settings()
+
+        item.BIK="       1234 56 78 9        "
+
+        assert item.BIK=="123456789"
+
+
+
+
+
 
 
 
