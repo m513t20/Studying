@@ -175,7 +175,7 @@ class test_settings(unittest.TestCase):
         #подготовка
         manager=settings_manager()
         #адрес
-        address=os.path.join(Path(__file__).parent.parent.parent,'Jsons')
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
         print(address)
 
 
