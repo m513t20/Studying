@@ -1,4 +1,4 @@
-
+from exceptions import argument_exception, operation_exception
 
 class settings:
     __first_name = ""
@@ -29,7 +29,7 @@ class settings:
             Exception: _description_
         """
         if not isinstance(value, str):
-            raise Exception("Некорректный аргумент!")
+            raise argument_exception("Некорректный аргумент!")
         
         self.__first_name = value.strip()
     
@@ -67,12 +67,12 @@ class settings:
         value_stripped=value.strip().replace(' ','')
         #Состоит ли из символов (value у нас str на случай незначащих нулей в начале числа)
         if not isinstance(value,str) or not(value_stripped.isdigit()):
-            raise  Exception("Некорректный аргумент")
+            raise  argument_exception("Некорректный аргумент")
         
 
         #проверка на длинну
         if len(value_stripped)!=12:
-            raise Exception("Некорректная длинна")
+            raise argument_exception("Некорректная длинна")
             
         self.__INN=value_stripped
 
@@ -82,12 +82,12 @@ class settings:
         value_stripped=value.strip().replace(' ','')
         #Состоит ли из символов (value у нас str на случай незначащих нулей в начале числа)
         if not isinstance(value,str) or not(value_stripped.isdigit()):
-            raise  Exception("Некорректный аргумент")
+            raise  argument_exception("Некорректный аргумент")
         
 
         #проверка на длинну
         if len(value_stripped)!=11:
-            raise Exception("Некорректная длинна")
+            raise argument_exception("Некорректная длинна")
             
         self.__account=value_stripped
 
@@ -98,12 +98,12 @@ class settings:
         value_stripped=value.strip().replace(' ','')
         #Состоит ли из символов (value у нас str на случай незначащих нулей в начале числа)
         if not isinstance(value,str) or not(value_stripped.isdigit()):
-            raise  Exception("Некорректный аргумент")
+            raise  argument_exception("Некорректный аргумент")
         
 
         #проверка на длинну
         if len(value_stripped)!=11:
-            raise Exception("Некорректная длинна")
+            raise argument_exception("Некорректная длинна")
             
         self.__correspond_account=value_stripped
 
@@ -112,12 +112,12 @@ class settings:
         value_stripped=value.strip().replace(' ','')
         #Состоит ли из символов (value у нас str на случай незначащих нулей в начале числа)
         if not isinstance(value,str) or not(value_stripped.isdigit()):
-            raise  Exception("Некорректный аргумент")
+            raise  argument_exception("Некорректный аргумент")
         
 
         #проверка на длинну
         if len(value_stripped)!=9:
-            raise Exception("Некорректная длинна")
+            raise argument_exception("Некорректная длинна")
             
         self.__BIK=value_stripped
 
@@ -125,7 +125,7 @@ class settings:
     def name(self,value:str):
         #берем first name
         if not isinstance(value, str):
-            raise Exception("Некорректный аргумент!")
+            raise argument_exception("Некорректный аргумент!")
         
         self.__name = value.strip()
 
@@ -133,11 +133,11 @@ class settings:
     def property_type(self,value:str):
         value_stripped=value.strip()
         if not isinstance(value,str):
-            raise  Exception("Некорректный аргумент")
+            raise  argument_exception("Некорректный аргумент")
         
 
         #проверка на длинну
         if len(value_stripped)!=5:
-            raise Exception("Некорректная длинна")
+            raise argument_exception("Некорректная длинна")
             
         self.__property_type=value_stripped
