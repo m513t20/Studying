@@ -61,7 +61,7 @@ class organisation_model(abstract_reference):
         self.__id=self.get_id()
         #берем общие атрибуты с property и передаём их классу
         for pr_name in (dir(self)):
-            if isinstance(getattr(organisation_model,pr_name),property) and (pr_name in settings_names):
+            if (pr_name in settings_names) and  isinstance(getattr(organisation_model,pr_name),property)  :
                 setattr(self,pr_name,getattr(value,pr_name))
                 print (getattr(self,pr_name))
 
