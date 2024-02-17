@@ -69,7 +69,9 @@ class settings_manager(object) :
             return False
 
 
-
+    @property
+    def settings(self):
+        return self.__settings
         
         
     
