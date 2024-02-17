@@ -2,10 +2,16 @@ from pathlib import Path
 import os
 import sys
 
+
+a=os.path.join(Path(__file__).parent.parent,'src')
 sys.path.append(os.path.join(Path(__file__).parent.parent,'src'))
+sys.path.append(os.path.join(Path(__file__).parent.parent,'src','models'))
 
 
-from models import range_model,organisation_model,nomenclature,nomenclature_group
+from models.nomenclature_model import nomenclature_model,nomenclature_group_model,range_model
+
+from models.organisation_model import organisation_model
+
 from settings import settings
 from settings_manager import  settings_manager
 
@@ -171,7 +177,7 @@ class test_settings(unittest.TestCase):
     #группы номенклатуры
     def test_nomenclature_atributes(self):
         #подготовка
-        item=nomenclature_group("  name_example    ")
+        item=nomenclature_group_model("  name_example    ")
 
         #действие
         
@@ -184,25 +190,33 @@ class test_settings(unittest.TestCase):
     #номенклатура
     def test_nomenclature(self):
         #подготвка 
-        item1=nomenclature_group("some_name")
-        item2=range_model("model_name")
         
+        item1=nomenclature_group_model("some_nome")
 
+
+        item2=range_model("model_name",2)
+
+
+        
+        k='f'*100
         #действие
-        item3=nomenclature("name_nome","f"*100,item1,item2)
+        item3=nomenclature_model("name_nome",k,item1,item2)
+
+
+
         #проверка
         assert item3.nom_group.name==item1.name and item2.name==item3.ran_mod.name
 
     def test_nomenclature_length(self):
         #подготвка 
-        item1=nomenclature_group("some_name")
+        item1=nomenclature_group_model("some_name")
         item2=range_model("model_name")
         
 
         #действие
         
         try: 
-            item3=nomenclature("name_nome","f"*256,item1,item2)
+            item3=nomenclature_model("name_nome","f"*256,item1,item2)
 
         except Exception as ex:
             assert True==True

@@ -1,3 +1,9 @@
+from pathlib import Path
+import os
+import sys
+
+sys.path.append(Path(__file__).parent.parent)
+
 import uuid
 from abc import ABC
 from exceptions import argument_exception
