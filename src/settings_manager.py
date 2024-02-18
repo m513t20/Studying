@@ -3,7 +3,7 @@ from pathlib import Path
 import json
 import uuid
 from settings import settings
-
+from exceptions import argument_exception, operation_exception
 
 class settings_manager(object) :
     # Имя файла настроек
@@ -25,7 +25,7 @@ class settings_manager(object) :
     
     def __convert(self):
         if len(self.__data) == 0:
-            raise Exception("Невозможно создать объект типа settings.py")
+            raise operation_exception("Невозможно создать объект типа settings.py")
         
         fields = dir(self.__settings.__class__)
         print(fields)
@@ -54,10 +54,10 @@ class settings_manager(object) :
     
     def open(self, file_name='settings.json',file_path=Path(__file__).parent) -> bool:
         if not isinstance(file_name, str):
-            raise Exception("ERROR: Неверный аргумент!")
+            raise argument_exception("ERROR: Неверный аргумент!")
         
         if file_name == "":
-            raise Exception("ERROR: Неверный аргумент!")
+            raise argument_exception("ERROR: Неверный аргумент!")
         
         self.__file_name = file_name.strip()
         self.__file_path=file_path
@@ -69,7 +69,9 @@ class settings_manager(object) :
             return False
 
 
-
+    @property
+    def settings(self):
+        return self.__settings
         
         
     
@@ -101,7 +103,7 @@ class settings_manager(object) :
         #settings_file = file_path.parent+self.__file_name
         settings_file = file_path
         if not os.path.exists(settings_file):
-            raise Exception("ERROR: Невозможно загрузить настройки! Не найден файл %s", settings_file)
+            raise operation_exception("ERROR: Невозможно загрузить настройки! Не найден файл %s", settings_file)
 
         with open(settings_file, "r") as read_file:
             self.__data = json.load(read_file)          
