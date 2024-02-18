@@ -19,17 +19,11 @@ class organisation_model(abstract_reference):
     __property_type=""
     
 
-    def __init__(self,value:settings=None):
-        if not isinstance(value,settings):
-            raise argument_exception("Неверный аргумент")
-        
-        settings_names=dir(settings)
+    def __init__(self,value:settings):
+
         self.__id=self.get_id()
-        #берем общие атрибуты с property и передаём их классу
-        for pr_name in (dir(self)):
-            if (pr_name in settings_names) and  isinstance(getattr(organisation_model,pr_name),property)  :
-                setattr(self,pr_name,getattr(value,pr_name))
-                print (getattr(self,pr_name))
+        self.__convert_to_model(value)
+
 
 
     #обьявление атрибутов
@@ -111,3 +105,15 @@ class organisation_model(abstract_reference):
             raise argument_exception("Некорректная длинна")
             
         self.__property_type=value_stripped
+
+    def __convert_to_model(self, value:settings):
+        if not isinstance(value,settings):
+            raise argument_exception("Неверный аргумент")
+        
+        settings_names=dir(settings)
+        #берем общие атрибуты с property и передаём их классу
+        for pr_name in (dir(self)):
+            if (pr_name in settings_names) and  isinstance(getattr(organisation_model,pr_name),property)  :
+                setattr(self,pr_name,getattr(value,pr_name))
+                print (getattr(self,pr_name))
+
