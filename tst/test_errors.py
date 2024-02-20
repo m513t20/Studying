@@ -12,7 +12,7 @@ from exceptions import argument_exception, operation_exception
 import unittest
 
 
-class test_settings(unittest.TestCase):
+class test_errors(unittest.TestCase):
     def test_check_set_error_text(self):
         #Podg"
         error=error_proxy("Test",'test')

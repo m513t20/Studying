@@ -19,7 +19,7 @@ from settings_manager import  settings_manager
 import unittest
 
 
-class test_settings(unittest.TestCase):
+class test_models(unittest.TestCase):
 
     def test_abstract_name_length(self):
         #подготовка

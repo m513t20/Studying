@@ -2,7 +2,7 @@ from exceptions import argument_exception, operation_exception
 
 class settings:
     __first_name = ""
-
+    __first_start=True
 
 
     #переменные для settings
@@ -141,3 +141,15 @@ class settings:
             raise argument_exception("Некорректная длинна")
             
         self.__property_type=value_stripped
+
+    @property
+    def is_first_start(self):
+        return self.__first_start
+
+    @is_first_start.setter
+    def is_first_start(self,value):
+        if not isinstance(value,bool):
+            raise argument_exception("wrong argument")
+        
+
+        self.__first_start=True
