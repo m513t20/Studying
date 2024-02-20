@@ -148,8 +148,8 @@ class settings:
 
     @is_first_start.setter
     def is_first_start(self,value):
-        if not isinstance(value,bool):
+        if not isinstance(value,str):
             raise argument_exception("wrong argument")
         
 
-        self.__first_start=True
+        self.__first_start=(value.lower()=='true')

@@ -79,3 +79,5 @@ class nomenclature_model(abstract_reference):
             raise argument_exception("Неверный аргумент")
         
         self.__ran_mod=value
+
+
