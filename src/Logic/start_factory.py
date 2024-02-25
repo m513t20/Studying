@@ -58,7 +58,7 @@ class start_factory:
         sht=create_shtuka()
 
 
-        #создаём рецепты
+        #создаём рецепты через фабричный метод в reciepe_model
         draniki=create_draniki()
         
 
@@ -80,6 +80,7 @@ class start_factory:
         Output.append(nomenclature_model('лук репчатый','лук репчатый',group,sht))
         Output.append(nomenclature_model('соль','соль',group,gr))
 
+        #создаём пропорции для рецептов
         draniki_prop={Output[2]:'2 ст л',Output[0]:"2 ст л",Output[12]:"7 шт",Output[13]:"1 шт",Output[14]:"2 г"}
 
         draniki.ingridient_proportions=draniki_prop

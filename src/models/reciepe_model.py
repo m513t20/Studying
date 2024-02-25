@@ -26,6 +26,8 @@ class reciepe_model(abstract_reference):
         self.ingrident_proportions=propotions
 
 
+    
+    #описание рецепта
     @property
     def coocking_algoritm(self):
         return self.__coocking_algoritm
@@ -42,7 +44,7 @@ class reciepe_model(abstract_reference):
         
         self.__coocking_algoritm=value_stripped
 
-
+    #Пропорции ингридиентов
     @property
     def ingridient_proportions(self):
         return self.__ingridient_proportions
