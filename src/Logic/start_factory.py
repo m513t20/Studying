@@ -6,7 +6,7 @@ sys.path.append(os.path.join(Path(__file__).parent.parent,'models'))
 
 
 from models.range_model import create_gramm,create_kilogram,create_litr,create_mililitr,create_shtuka
-from models.reciepe_model import reciepe_model
+from models.reciepe_model import reciepe_model,create_draniki
 from storage.storage import storage
 from exceptions import argument_exception
 from models.nomenclature_model import nomenclature_model,nomenclature_group_model,range_model
@@ -33,6 +33,7 @@ class start_factory:
         self.__storage.data[storage.nomenclature_key()]=nom[0]
         self.__storage.data[storage.unit_key()]=nom[1]      
         self.__storage.data[storage.group_key()]=nom[2]
+        self.__storage.data[storage.reciepe_key()]=nom[3]
 
 
     @property
@@ -58,24 +59,32 @@ class start_factory:
 
 
         #создаём рецепты
+        draniki=create_draniki()
+        
 
 
         #добавляем в номенклатуру
-        Output.append(nomenclature_model('Pshenichnaya muka','Pshenichnaya muka',group,kg))
-        Output.append(nomenclature_model('sugar','sugar',group,kg))
-        Output.append(nomenclature_model('maslo','slivochnoe maslo',group,gr))
-        Output.append(nomenclature_model('eggs','eggs',group_eggs,sht))
-        Output.append(nomenclature_model('Vanilin','Vanilin',group,gr))
-        Output.append(nomenclature_model('Yaichyi belok','yaichyi belok',group_eggs,sht))
-        Output.append(nomenclature_model('Saharnaya pudra','saharnaya pudra',group,kg))
-        Output.append(nomenclature_model('Koritsa','Koritsa',group,gr))
-        Output.append(nomenclature_model('Kakao','Kakao',group,gr))
-        Output.append(nomenclature_model("chiken file","chicken file",group_meat,kg))
-        Output.append(nomenclature_model("Romano salad","Romano salad",group_vegs, gr))
-        Output.append(nomenclature_model("Suahri","Suhari",group,kg))
+        Output.append(nomenclature_model('Пшеничная мука','Пшеничная мука',group,kg))
+        Output.append(nomenclature_model('сахар','сахар',group,kg))
+        Output.append(nomenclature_model('масло','масло',group,gr))
+        Output.append(nomenclature_model('яйца','яйца',group_eggs,sht))
+        Output.append(nomenclature_model('ванилин','ванилин',group,gr))
+        Output.append(nomenclature_model('яичный белок','яичный белок',group_eggs,sht))
+        Output.append(nomenclature_model('сахарная пудра','сахарная пудра',group,kg))
+        Output.append(nomenclature_model('корица','корица',group,gr))
+        Output.append(nomenclature_model('какао','какао',group,gr))
+        Output.append(nomenclature_model("куринное филе","куринное филе",group_meat,kg))
+        Output.append(nomenclature_model("салат романо","салат романо",group_vegs, gr))
+        Output.append(nomenclature_model("сухари","сухари",group,kg))
+        Output.append(nomenclature_model('картофель','картофель',group,sht))
+        Output.append(nomenclature_model('лук репчатый','лук репчатый',group,sht))
+        Output.append(nomenclature_model('соль','соль',group,gr))
 
+        draniki_prop={Output[2]:'2 ст л',Output[0]:"2 ст л",Output[12]:"7 шт",Output[13]:"1 шт",Output[14]:"2 г"}
 
-        return [Output,[kg,gr,l,ml,sht],[group,group_eggs,group_vegs,group_meat]]
+        draniki.ingridient_proportions=draniki_prop
+
+        return [Output,[kg,gr,l,ml,sht],[group,group_eggs,group_vegs,group_meat],[draniki]]
 
     def create_receipts(self):
         pass

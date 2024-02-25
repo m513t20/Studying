@@ -34,12 +34,22 @@ class test_factory(unittest.TestCase):
             return
         
         
-        #assert  len(check)==0
+        #существование storage
         assert not item.storage is None 
-        print(item.storage.data)
+
+
+
+
+
+
+        #проверка наличия номенклатуры
         assert storage().nomenclature_key() in item.storage.data
+        #проверка наличия единиц измерения
         assert storage().unit_key()in item.storage.data
+        #проверка наличия группы номенклатур
         assert storage().group_key() in item.storage.data
+        #проверка наличия рецептов
+        assert storage().reciepe_key() in item.storage.data
 
     #проверка на не первый старт
     def test_check_not_first_start(self):
