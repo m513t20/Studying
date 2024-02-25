@@ -9,7 +9,7 @@ sys.path.append(os.path.join(Path(__file__).parent.parent,'src','models'))
 
 
 from models.nomenclature_model import nomenclature_model,nomenclature_group_model,range_model
-
+from models.reciepe_model import reciepe_model
 from models.organisation_model import organisation_model
 
 from settings import settings
@@ -19,7 +19,7 @@ from settings_manager import  settings_manager
 import unittest
 
 
-class test_settings(unittest.TestCase):
+class test_models(unittest.TestCase):
 
     def test_abstract_name_length(self):
         #подготовка
@@ -224,4 +224,27 @@ class test_settings(unittest.TestCase):
 
         assert False==True
 
+
+
+    #рецепт
+    def test_reciepe(self):
+        #подготвка 
+        algoritm="""Способ приготовления:
+                Картофель хорошо вымойте и очистите. С лука снимите шелуху, ополосните головку водой.
+                Картофель и лук натрите на крупной терке.
+                Овощную массу выложите в дуршлаг, оставьте на 10 минут и удалите выделившийся сок, хорошо отжав картофель с луком.
+                Переложите в объемную миску, добавьте муку. Посолите и поперчите по вкусу. По желанию добавьте другие специи.
+                В сковороду влейте масло, хорошо разогрейте на сильном огне. 
+                Выкладывайте массу большой ложкой, формируя оладьи, прижимая сверху лопаткой.
+                Убавьте огонь до среднего и жарьте с обеих сторон по 4 минуты, до золотистости.
+                Драники получаются хорошо прожаренными и хрустящими. Сразу подавайте к столу!"""
             
+
+        #действие       
+        item=reciepe_model("     Драники         ", algoritm,{"a":"b","b":"c"})
+
+
+        #проверка
+        assert item.name=="Драники"
+        assert item.coocking_algoritm==algoritm     
+        assert len(item.ingrident_proportions) !=0

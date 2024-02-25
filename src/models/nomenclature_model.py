@@ -9,7 +9,7 @@ sys.path.append(Path(__file__).parent.parent)
 from abstract_reference import abstract_reference
 from exceptions import argument_exception
 from nomenclature_group_model import nomenclature_group_model
-from range_model import range_model
+from models.range_model import range_model
 
 
 
@@ -79,3 +79,5 @@ class nomenclature_model(abstract_reference):
             raise argument_exception("Неверный аргумент")
         
         self.__ran_mod=value
+
+

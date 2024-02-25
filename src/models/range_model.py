@@ -6,7 +6,7 @@ sys.path.append(Path(__file__).parent.parent)
 
 
 
-from abstract_reference import abstract_reference
+from models.abstract_reference import abstract_reference
 from exceptions import argument_exception
 from settings import settings
 import uuid
@@ -49,6 +49,8 @@ class range_model(abstract_reference):
     @property 
     def base_range(self):
         return self.__base_range
+    
+
     #сеттер
     @base_range.setter
     def base_range(self,value):
@@ -56,3 +58,28 @@ class range_model(abstract_reference):
             raise argument_exception("некорректный аргумент")
         
         self.__base_range=value
+
+
+
+@staticmethod
+def create_gramm():
+    item=range_model("Грамм",1)
+    return item
+
+@staticmethod
+def create_kilogram():
+    return range_model("Килограм",1000,create_gramm())
+
+
+@staticmethod
+def create_mililitr():
+    item=range_model("Милилитр",1)
+    return item
+
+@staticmethod
+def create_litr():
+    return range_model("Литр",1000,create_mililitr())
+
+@staticmethod
+def create_shtuka():
+    return range_model("Штука",1)
