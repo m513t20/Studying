@@ -69,3 +69,17 @@ def create_gramm():
 @staticmethod
 def create_kilogram():
     return range_model("Килограм",1000,create_gramm())
+
+
+@staticmethod
+def create_mililitr():
+    item=range_model("Милилитр",1)
+    return item
+
+@staticmethod
+def create_litr():
+    return range_model("Литр",1000,create_mililitr())
+
+@staticmethod
+def create_shtuka():
+    return range_model("Штука",1)
