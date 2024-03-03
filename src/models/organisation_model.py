@@ -21,7 +21,7 @@ class organisation_model(abstract_reference):
 
     def __init__(self,value:settings):
 
-        self.__id=self.get_id()
+        self.__id=self.create_id()
         self.__convert_to_model(value)
 
 

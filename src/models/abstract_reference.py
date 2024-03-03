@@ -16,7 +16,7 @@ class abstract_reference(ABC):
     
     def __init__(self, name: str = "untituled") -> None:
         self.name = name
-        self.__id=self.get_id()
+        self.__id=self.create_id()
 
         
     @property    
@@ -40,7 +40,7 @@ class abstract_reference(ABC):
     
 
     
-    def get_id(self):
+    def create_id(self):
         return uuid.uuid4()
 
         

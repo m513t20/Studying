@@ -21,9 +21,9 @@ class nomenclature_model(abstract_reference):
     __ran_mod:range_model
 
     
-    def __init__(self, name:str, f_NAME:str, nom:nomenclature_group_model,ran:range_model):
+    def __init__(self, name:str="untituled", f_NAME:str="untituled", nom:nomenclature_group_model=nomenclature_group_model(),ran:range_model=range_model()):
         self.name=name 
-        self.__id=self.get_id()
+        self.__id=self.create_id()
         self.full_name=f_NAME
 
         self.nom_group=nom
@@ -31,7 +31,14 @@ class nomenclature_model(abstract_reference):
         self.ran_mod=ran
         
 
-    
+    @property    
+    def id(self):
+        """
+            Уникальный код
+        Returns:
+            _type_: _description_
+        """
+        return self.__id    
 
     @property
     def full_name(self):

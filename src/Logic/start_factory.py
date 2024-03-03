@@ -5,8 +5,8 @@ import sys
 sys.path.append(os.path.join(Path(__file__).parent.parent,'models'))
 
 
-from models.range_model import create_gramm,create_kilogram,create_litr,create_mililitr,create_shtuka
-from models.reciepe_model import reciepe_model,create_draniki
+from models.range_model import range_model
+from models.reciepe_model import reciepe_model
 from storage.storage import storage
 from exceptions import argument_exception
 from models.nomenclature_model import nomenclature_model,nomenclature_group_model,range_model
@@ -51,15 +51,15 @@ class start_factory:
         Output=[]
 
         #создаём еденицы
-        kg=create_kilogram()
-        gr=create_gramm()
-        ml=create_mililitr()
-        l=create_litr()
-        sht=create_shtuka()
+        kg=range_model.create_kilogram()
+        gr=range_model.create_gramm()
+        ml=range_model.create_mililitr()
+        l=range_model.create_litr()
+        sht=range_model.create_shtuka()
 
 
         #создаём рецепты через фабричный метод в reciepe_model
-        draniki=create_draniki()
+        draniki=reciepe_model.create_draniki()
         
 
 
