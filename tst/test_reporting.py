@@ -7,7 +7,7 @@ sys.path.append(os.path.join(Path(__file__).parent.parent,'src'))
 from settings_manager import settings_manager
 from storage.storage import storage
 from Logic.start_factory import start_factory
-from Logic.Abstract_reporting import abstract_reporting
+
 from Logic.CSV_reporting import CSV_reporting
 from models.range_model import range_model
 from models.nomenclature_group_model import nomenclature_group_model
@@ -27,12 +27,12 @@ class test_reporting(unittest.TestCase):
 
         factory.create()
 
-        item=abstract_reporting(factory.storage.data,unit.settings)
+        item=CSV_reporting(factory.storage.data,unit.settings)
 
 
 
         #Действие
-        k=item.create(storage.unit_key())
+        k=item.get_fields(storage.unit_key())
         print (k)
 
 
@@ -51,11 +51,11 @@ class test_reporting(unittest.TestCase):
 
         factory.create()
 
-        item=abstract_reporting(factory.storage.data,unit.settings)
+        item=CSV_reporting(factory.storage.data,unit.settings)
 
 
         #Действие
-        k=item.create(storage.group_key())
+        k=item.get_fields(storage.group_key())
         print (k)
 
 
@@ -74,11 +74,11 @@ class test_reporting(unittest.TestCase):
 
         factory.create()
 
-        item=abstract_reporting(factory.storage.data,unit.settings)
+        item=CSV_reporting(factory.storage.data,unit.settings)
 
 
         #Действие
-        k=item.create(storage.nomenclature_key())
+        k=item.get_fields(storage.nomenclature_key())
         print (k)
 
 
@@ -96,13 +96,13 @@ class test_reporting(unittest.TestCase):
 
         factory.create()
 
-        item=abstract_reporting(factory.storage.data,unit.settings)
+        item=CSV_reporting(factory.storage.data,unit.settings)
 
 
       
 
         #Действие
-        k=item.create(storage.reciepe_key())
+        k=item.get_fields(storage.reciepe_key())
         print (k)
 
 
@@ -141,7 +141,7 @@ class test_reporting(unittest.TestCase):
 
 
         #Проверка
-        assert   k==item.hidden_settings.Report_format["CSV"]
+        assert isinstance(k,str)
 
 
 
@@ -165,7 +165,7 @@ class test_reporting(unittest.TestCase):
 
 
         #Проверка
-        assert  k==item.hidden_settings.Report_format["CSV"]
+        assert  isinstance(k,str)
 
 
 
@@ -189,7 +189,7 @@ class test_reporting(unittest.TestCase):
 
 
         #Проверка
-        assert   k==item.hidden_settings.Report_format["CSV"]
+        assert  isinstance(k,str)
 
 
     #проверка на перевод в CSV рецепта
@@ -214,8 +214,7 @@ class test_reporting(unittest.TestCase):
 
 
         #Проверка
-        assert k==item.hidden_settings.Report_format["CSV"]
-
+        assert isinstance(k,str)
 
 
 

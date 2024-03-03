@@ -4,12 +4,12 @@ import sys
 
 sys.path.append(Path(__file__).parent.parent)
 
-import uuid
+
 from abc import ABC
 from settings import settings
 from exceptions import argument_exception
-from error_proxy import error_proxy
-from Logic.start_factory import start_factory,range_model,nomenclature_group_model,nomenclature_model,reciepe_model
+
+from Logic.start_factory import range_model,nomenclature_group_model,nomenclature_model,reciepe_model
 from storage.storage import storage
 
 #range model, nomenclatur model, nomenclature group model v str csv 
@@ -60,13 +60,15 @@ class abstract_reporting(ABC):
 
     #возвращает ключи для отчёта
     def create(self,value:str):
-        if not isinstance(value,str):
-            raise argument_exception("Неверный аргумент")
-
-        fields = list(filter(lambda x: not x.startswith("_") and not x.startswith('create_'), dir(self.__types[value].__class__)))
-        print(fields)
-
-        return fields
+        return "string"
     
 
 
+    def get_fields(self,value:str):
+        if not isinstance(value,str):
+            raise argument_exception("Неверный аргумент")
+
+        fields = list(filter(lambda x: not x.startswith("_") and not x.startswith('create_'), dir(self.data[value][0].__class__)))
+        print(fields)
+
+        return fields

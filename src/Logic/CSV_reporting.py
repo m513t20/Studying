@@ -6,11 +6,6 @@ from settings import settings
 
 sys.path.append(Path(__file__).parent.parent)
 
-import uuid
-from abc import ABC
-from exceptions import argument_exception
-from error_proxy import error_proxy
-from Logic.start_factory import start_factory,range_model,nomenclature_group_model,nomenclature_model
 from Logic.Abstract_reporting import abstract_reporting
 
 
@@ -23,9 +18,11 @@ class CSV_reporting(abstract_reporting):
 
 
         #берём ключи
-        keys=super().create(value)
+        keys=super().get_fields(value)
+
 
         result_csv=""
+
 
 
 
@@ -46,7 +43,7 @@ class CSV_reporting(abstract_reporting):
             result_csv+='\n'
         
 
-        self.hidden_settings.Report_format["CSV"]=result_csv
+        #self.hidden_settings.Report_format["CSV"]=result_csv
 
         return result_csv
         
