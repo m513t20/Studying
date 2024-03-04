@@ -14,6 +14,16 @@ class settings:
     __property_type=""
 
 
+    #Репорт формат, из него будем брать строки 
+    __Report_format={"CSV":"","Markdown":"","Json":""}
+
+
+    @property
+    def Report_format(self):
+        return self.__Report_format
+
+
+
     @property
     def first_name(self):
         return self.__first_name
@@ -58,6 +68,20 @@ class settings:
     @property 
     def property_type(self):
         return self.__property_type
+    
+
+    #вывод CSV
+    @property
+    def Report_CSV(self):
+        return self.__Report_format['CSV']
+    
+    @property
+    def Report_Markdown(self):
+        return self.__Report_format['Markdown']
+    
+    @property
+    def Report_Json(self):
+        return self.__Report_format['Json']
 
 
     #Сеттеры

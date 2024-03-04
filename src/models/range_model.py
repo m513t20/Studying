@@ -21,11 +21,20 @@ class range_model(abstract_reference):
 
         self.recount_ratio=ratio 
 
-        self.__id=self.get_id()
+        self.__id=self.create_id()
 
         if base:
             self.base_range=base 
 
+
+    @property    
+    def id(self):
+        """
+            Уникальный код
+        Returns:
+            _type_: _description_
+        """
+        return self.__id    
     
 
     #коэффициент пересчёта
@@ -61,25 +70,25 @@ class range_model(abstract_reference):
 
 
 
-@staticmethod
-def create_gramm():
-    item=range_model("Грамм",1)
-    return item
+    @staticmethod
+    def create_gramm():
+        item=range_model("Грамм",1)
+        return item
 
-@staticmethod
-def create_kilogram():
-    return range_model("Килограм",1000,create_gramm())
+    @staticmethod
+    def create_kilogram():
+        return range_model("Килограм",1000,range_model.create_gramm())
 
 
-@staticmethod
-def create_mililitr():
-    item=range_model("Милилитр",1)
-    return item
+    @staticmethod
+    def create_mililitr():
+        item=range_model("Милилитр",1)
+        return item
 
-@staticmethod
-def create_litr():
-    return range_model("Литр",1000,create_mililitr())
+    @staticmethod
+    def create_litr():
+        return range_model("Литр",1000,range_model.create_mililitr())
 
-@staticmethod
-def create_shtuka():
-    return range_model("Штука",1)
+    @staticmethod
+    def create_shtuka():
+        return range_model("Штука",1)
