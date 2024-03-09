@@ -52,9 +52,12 @@ class start_factory:
 
         #создаём еденицы
         kg=range_model.create_kilogram()
-        gr=range_model.create_gramm()
-        ml=range_model.create_mililitr()
+        gr=kg.base_range
+        
         l=range_model.create_litr()
+        ml=l.base_range
+
+        
         sht=range_model.create_shtuka()
 
 

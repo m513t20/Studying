@@ -2,6 +2,8 @@ class error_proxy:
     __error_text=""
     __error_source=""
 
+
+
     def __init__ (self, error_text: str="", error_source:str=""):
         self.error_source=error_source
         self.error_text=error_text
@@ -55,4 +57,7 @@ class error_proxy:
             return
         self.error_text=f"ERROR! {str(exception)}"
         self.error_source=f"Exception {type(exception)}"
+
+    def __str__(self):
+        return str(self.if_error)
 

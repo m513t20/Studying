@@ -18,7 +18,9 @@ class abstract_reference(ABC):
         self.name = name
         self.__id=self.create_id()
 
-        
+    def __str__(self):
+        return str(self.id)
+
     @property    
     def error(self):
         """
@@ -36,7 +38,7 @@ class abstract_reference(ABC):
         Returns:
             _type_: _description_
         """
-        return self.__id    
+        return (self.__id).hex    
     
 
     

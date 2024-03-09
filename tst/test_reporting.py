@@ -8,7 +8,7 @@ from settings_manager import settings_manager
 from storage.storage import storage
 from Logic.start_factory import start_factory
 
-from Logic.CSV_reporting import CSV_reporting
+from Logic.Reporting.CSV_reporting import CSV_reporting
 from models.range_model import range_model
 from models.nomenclature_group_model import nomenclature_group_model
 
@@ -27,7 +27,7 @@ class test_reporting(unittest.TestCase):
 
         factory.create()
 
-        item=CSV_reporting(factory.storage.data,unit.settings)
+        item=CSV_reporting(factory.storage.data)
 
 
 
@@ -51,7 +51,7 @@ class test_reporting(unittest.TestCase):
 
         factory.create()
 
-        item=CSV_reporting(factory.storage.data,unit.settings)
+        item=CSV_reporting(factory.storage.data)
 
 
         #Действие
@@ -74,7 +74,7 @@ class test_reporting(unittest.TestCase):
 
         factory.create()
 
-        item=CSV_reporting(factory.storage.data,unit.settings)
+        item=CSV_reporting(factory.storage.data)
 
 
         #Действие
@@ -96,7 +96,7 @@ class test_reporting(unittest.TestCase):
 
         factory.create()
 
-        item=CSV_reporting(factory.storage.data,unit.settings)
+        item=CSV_reporting(factory.storage.data)
 
 
       
@@ -130,7 +130,7 @@ class test_reporting(unittest.TestCase):
 
         factory.create()
 
-        item=CSV_reporting(factory.storage.data,unit.settings)
+        item=CSV_reporting(factory.storage.data)
 
 
 
@@ -155,7 +155,7 @@ class test_reporting(unittest.TestCase):
 
         factory.create()
 
-        item=CSV_reporting(factory.storage.data,unit.settings)
+        item=CSV_reporting(factory.storage.data)
 
 
         #Действие
@@ -179,7 +179,7 @@ class test_reporting(unittest.TestCase):
 
         factory.create()
 
-        item=CSV_reporting(factory.storage.data,unit.settings)
+        item=CSV_reporting(factory.storage.data)
 
 
         #Действие
@@ -202,7 +202,7 @@ class test_reporting(unittest.TestCase):
 
         factory.create()
 
-        item=CSV_reporting(factory.storage.data,unit.settings)
+        item=CSV_reporting(factory.storage.data)
 
 
        

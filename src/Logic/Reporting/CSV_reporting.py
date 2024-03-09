@@ -6,13 +6,13 @@ from settings import settings
 
 sys.path.append(Path(__file__).parent.parent)
 
-from Logic.Abstract_reporting import abstract_reporting
+from Logic.Reporting.Abstract_reporting import abstract_reporting
 
 
 class CSV_reporting(abstract_reporting):
 
-    def __init__(self, data_examp: list, settings_examp: settings):
-        super().__init__(data_examp, settings_examp)
+    def __init__(self, data_examp: list):
+        super().__init__(data_examp)
 
     def create(self, value):
 

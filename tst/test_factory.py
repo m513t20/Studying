@@ -8,6 +8,7 @@ from storage.storage import storage
 from Logic.start_factory import start_factory
 from models.range_model import range_model
 from src.settings_manager import settings_manager
+from Logic.report_factory import report_factory
 
 
 import unittest
@@ -66,3 +67,39 @@ class test_factory(unittest.TestCase):
 
         assert item.storage is None
         assert len(check)==0
+
+
+    def test_check_factory_report_create(self):
+        #preparation
+        unit=settings_manager()
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        unit.open('Tester.json',address)
+        item=start_factory(unit.settings)
+        item.create()
+        factory=report_factory()
+
+
+        #action
+        result=factory.create("CSV",item.storage.data,storage.unit_key())
+
+        print(result)
+
+        assert result is not None
+
+
+    def test_check_factory_report_create_MD(self):
+        #preparation
+        unit=settings_manager()
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        unit.open('Tester.json',address)
+        item=start_factory(unit.settings)
+        item.create()
+        factory=report_factory()
+
+
+        #action
+        result=factory.create("Markdown",item.storage.data,storage.unit_key())
+
+        print(result)
+
+        assert result is not None
