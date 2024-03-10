@@ -164,13 +164,18 @@ class test_convert(unittest.TestCase):
 
 
 
-
-        item=reference_conventor(type(factory.storage.data[storage.nomenclature_key()][0]),type(error_proxy()),type(factory.storage.data[storage.group_key()][0]),type(factory.storage.data[storage.unit_key()][0]))
+        #передаём рефернсы для работы конвентора (тк в рецепты входят и еденицы измерения и error proxy, кидам их в референсы. Фабричный метод это автоматизирует)
+        #
+        item=reference_conventor(type(error_proxy()),type(factory.storage.data[storage.unit_key()][0]))
 
         #Действие
+        #конвертируем рецепт
         res=item.convert(factory.storage.data[storage.reciepe_key()][0])
 
         print(res)
+
+        with open(Path(__file__).parent.parent/'Json.json','w') as source:
+            json.dump(res,source)
 
 
         assert isinstance(res,dict)  

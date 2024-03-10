@@ -45,7 +45,7 @@ def get_report(storage_key:str,report_type:str):
 
 
     response_type=app.response_class(
-        response=f" KEY {storage_key}\n{result}",
+        response=f"{result}",
         status=200,
         mimetype="application/text"
     )
