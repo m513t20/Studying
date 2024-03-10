@@ -68,7 +68,7 @@ class abstract_reporting(ABC):
         return fields
     
 
-    #если в словаре сложный тип данных, или другой словарь - переводим всё в str
+    #если в словаре сложный тип данных, или другой словарь - переводим всё в str (нужно для markdown и csv, чтобы небыло <object at ...>)
     def dict_to_str(self,inp_dict:dict):
         result={}
         for key in list(inp_dict.keys()):
