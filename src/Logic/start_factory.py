@@ -57,6 +57,7 @@ class start_factory:
         l=range_model.create_litr()
         ml=l.base_range
 
+        sp=range_model.create_spoon()
         
         sht=range_model.create_shtuka()
 
@@ -83,12 +84,12 @@ class start_factory:
         Output.append(nomenclature_model('лук репчатый','лук репчатый',group,sht))
         Output.append(nomenclature_model('соль','соль',group,gr))
 
-        #создаём пропорции для рецептов
-        draniki_prop={Output[2]:'2 ст л',Output[0]:"2 ст л",Output[12]:"7 шт",Output[13]:"1 шт",Output[14]:"2 г"}
+        #создаём пропорции для рецептов (словарь типа {ингридиент:{количество : единица измерения}})
+        draniki_prop={Output[2]:{2:sp},Output[0]:{2:sp},Output[12]:{7:sht},Output[13]:{1:sht},Output[14]:{2:gr}}
 
         draniki.ingridient_proportions=draniki_prop
 
-        return [Output,[kg,gr,l,ml,sht],[group,group_eggs,group_vegs,group_meat],[draniki]]
+        return [Output,[kg,gr,l,ml,sht,sp],[group,group_eggs,group_vegs,group_meat],[draniki]]
 
     def create_receipts(self):
         pass

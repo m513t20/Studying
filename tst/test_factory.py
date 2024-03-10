@@ -103,3 +103,21 @@ class test_factory(unittest.TestCase):
         print(result)
 
         assert result is not None
+
+
+    def test_check_factory_report_create_Json(self):
+        #preparation
+        unit=settings_manager()
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        unit.open('Tester.json',address)
+        item=start_factory(unit.settings)
+        item.create()
+        factory=report_factory()
+
+
+        #action
+        result=factory.create("Json",item.storage.data,storage.unit_key())
+
+        print(result)
+
+        assert result is not None

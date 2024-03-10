@@ -52,12 +52,12 @@ class abstract_reporting(ABC):
 
 
 
-    #возвращает ключи для отчёта
+    
     def create(self,value:str):
         return "string"
     
 
-
+    #возвращает ключи для отчёта
     def get_fields(self,value:str):
         if not isinstance(value,str):
             raise argument_exception("Неверный аргумент")
@@ -66,3 +66,16 @@ class abstract_reporting(ABC):
         print(fields)
 
         return fields
+    
+
+    #если в словаре сложный тип данных, или другой словарь - переводим всё в str
+    def dict_to_str(self,inp_dict:dict):
+        result={}
+        for key in list(inp_dict.keys()):
+            if isinstance(inp_dict[key],dict):
+                result[str(key)]=self.dict_to_str(inp_dict[key])
+            else:
+                result[str(key)]=str(inp_dict[key])
+
+        return result
+            

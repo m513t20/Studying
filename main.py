@@ -25,7 +25,7 @@ def get_report(storage_key:str,report_type:str):
 
     check=[storage.unit_key(),storage.group_key(),storage.reciepe_key(),storage.nomenclature_key()]
 
-    type=["CSV","Markdown"]
+    type=["CSV","Markdown","Json"]
 
     #preparation
     unit=settings_manager()

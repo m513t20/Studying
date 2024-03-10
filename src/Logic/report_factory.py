@@ -1,6 +1,7 @@
 from src.Logic.Reporting.Abstract_reporting import abstract_reporting
 from src.Logic.Reporting.CSV_reporting import CSV_reporting
 from src.Logic.Reporting.MD_reporting import MD_reporting
+from src.Logic.Reporting.JSON_reporting import Json_reporting
 from exceptions import argument_exception,operation_exception
 
 
@@ -11,7 +12,7 @@ class report_factory:
     def __build_structure(self):
         self.__maps["CSV"]=CSV_reporting
         self.__maps["Markdown"]=MD_reporting
-        #TAKJE DLYA DRUGIH TIPOV
+        self.__maps["Json"]=Json_reporting
 
 
     def  __init__(self):

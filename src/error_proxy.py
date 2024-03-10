@@ -50,7 +50,7 @@ class error_proxy:
     def if_error(self):
         return self.__if_error
     
-    def set_error(self,exception: Exception):
+    def create_error(self,exception: Exception):
         if not isinstance(exception,Exception):
             self.error_text="Invalid parameters"
             self.error_source="set_error"

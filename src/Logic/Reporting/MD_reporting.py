@@ -14,6 +14,11 @@ class MD_reporting(abstract_reporting):
     def __init__(self, data_examp: list):
         super().__init__(data_examp)
 
+    def __dict_to_str(self, inp_dict: dict):
+        return super().dict_to_str(inp_dict)
+
+
+
     def create(self, value):
 
 
@@ -46,7 +51,11 @@ class MD_reporting(abstract_reporting):
 
             result_md+='|'
             for cur_key in keys:
-                result_md+=str(getattr(cur_val,cur_key))+'|'
+                cur_atr=getattr(cur_val,cur_key)
+                if isinstance(cur_atr,dict):
+                    result_md+=str(self.__dict_to_str(cur_atr))+'|'
+                else:
+                    result_md+=str(cur_atr)+'|'
             
             result_md+='\n'
         

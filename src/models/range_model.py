@@ -8,12 +8,13 @@ sys.path.append(Path(__file__).parent.parent)
 
 from models.abstract_reference import abstract_reference
 from exceptions import argument_exception
-from settings import settings
-import uuid
+from datetime import datetime
+
 
 class range_model(abstract_reference):
     __recount_ratio:int=1 
     __base_range=None
+    __creation_date=None 
     
 
     def __init__(self, name:str="untituled", ratio:int=1, base=None):
@@ -22,9 +23,16 @@ class range_model(abstract_reference):
         self.recount_ratio=ratio 
 
         self.__id=self.create_id()
+        self.__creation_date=datetime.now()
 
         if base:
             self.base_range=base 
+
+
+    #дата создания 
+    @property
+    def creation_date(self):
+        return self.__creation_date
 
 
     @property    
@@ -92,3 +100,7 @@ class range_model(abstract_reference):
     @staticmethod
     def create_shtuka():
         return range_model("Штука",1)
+    
+    @staticmethod 
+    def create_spoon():
+        return range_model("Столовая ложка",1)
