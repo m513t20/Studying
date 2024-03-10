@@ -98,7 +98,7 @@ class test_factory(unittest.TestCase):
 
 
         #action
-        result=factory.create("Markdown",item.storage.data,storage.unit_key())
+        result=factory.create("Markdown",item.storage.data,storage.reciepe_key())
 
         print(result)
 
