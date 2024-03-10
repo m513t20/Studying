@@ -16,6 +16,9 @@ class Json_reporting(abstract_reporting):
 
     __factory=None
 
+    def load(self, name: str, result):
+        return super().load(name, result)
+
     #отдаём типы сложных классов в convert factory
     def __build_references(self):
         types=[type(error_proxy())]
@@ -40,5 +43,9 @@ class Json_reporting(abstract_reporting):
         #по делаем json по индексам
         for index,cur_val in enumerate(self.data[value]):
             Json_return[index]=self.__factory.create(cur_val)
+
+        
+        self.load('json',json.dumps(Json_return))
+
 
         return json.dumps(Json_return)

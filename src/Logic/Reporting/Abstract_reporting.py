@@ -78,4 +78,11 @@ class abstract_reporting(ABC):
                 result[str(key)]=str(inp_dict[key])
 
         return result
+    
+
+    #выгрузка в файл
+    def load(self,name:str,result):
+        with open(Path(__file__).parent.parent.parent.parent/f'report.{name}','w') as loader:
+            loader.write(result)
+        
             

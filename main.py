@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,send_file
 
 from pathlib import Path
 import os
@@ -20,12 +20,14 @@ app=Flask(__name__)
 
 
 
-@app.route("/api/report/<storage_key>/<report_type>",methods=["GET"])
-def get_report(storage_key:str,report_type:str):
+
+#по ссылке выдаёт результат 
+@app.route("/api/report/<storage_key>",methods=["GET"])
+def get_report(storage_key:str):
 
     check=[storage.unit_key(),storage.group_key(),storage.reciepe_key(),storage.nomenclature_key()]
 
-    type=["CSV","Markdown","Json"]
+    types=["CSV","MD","Json"]
 
     #preparation
     unit=settings_manager()
@@ -37,10 +39,10 @@ def get_report(storage_key:str,report_type:str):
 
     result=storage_key
     #action
-    if storage_key in check and report_type in type:
-        result=factory.create(report_type,item.storage.data,storage_key)
 
-
+    if storage_key in check:
+        for report_type in types:
+            result=factory.create(report_type,item.storage.data,storage_key)
 
 
 
@@ -49,8 +51,11 @@ def get_report(storage_key:str,report_type:str):
         status=200,
         mimetype="application/text"
     )
-
+   
     return response_type
+
+
+
 
 
 

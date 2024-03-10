@@ -14,6 +14,10 @@ class CSV_reporting(abstract_reporting):
     def __init__(self, data_examp: list):
         super().__init__(data_examp)
 
+
+    def load(self, name: str, result):
+        return super().load(name, result)
+
     def __dict_to_str(self, inp_dict: dict):
         return super().dict_to_str(inp_dict)
 
@@ -27,7 +31,7 @@ class CSV_reporting(abstract_reporting):
         result_csv=""
 
 
-
+        
 
 
         #шапка таблицы
@@ -53,6 +57,8 @@ class CSV_reporting(abstract_reporting):
         
 
         #self.hidden_settings.Report_format["CSV"]=result_csv
+        self.load('csv',result_csv)
+
 
         return result_csv
         

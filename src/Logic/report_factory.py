@@ -11,7 +11,7 @@ class report_factory:
 
     def __build_structure(self):
         self.__maps["CSV"]=CSV_reporting
-        self.__maps["Markdown"]=MD_reporting
+        self.__maps["MD"]=MD_reporting
         self.__maps["Json"]=Json_reporting
 
 
@@ -30,7 +30,7 @@ class report_factory:
             raise argument_exception("No DATA")
         
         if format not in self.__maps.keys():
-            raise operation_exception(f"for {format} wrong obrabotka")
+            raise operation_exception(f"for wrong obrabotka")
         
 
         report_type=self.__maps[format]

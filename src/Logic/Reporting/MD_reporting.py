@@ -13,6 +13,9 @@ class MD_reporting(abstract_reporting):
 
     def __init__(self, data_examp: list):
         super().__init__(data_examp)
+    
+    def load(self, name: str, result):
+        return super().load(name, result)
 
     def __dict_to_str(self, inp_dict: dict):
         return super().dict_to_str(inp_dict)
@@ -61,6 +64,9 @@ class MD_reporting(abstract_reporting):
         
 
         #self.hidden_settings.Report_format["CSV"]=result_csv
+
+        self.load('md',result_md)
+
 
         return result_md
         
