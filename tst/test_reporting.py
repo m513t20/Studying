@@ -371,7 +371,7 @@ class test_reporting(unittest.TestCase):
 
 
 
-    #проверка на перевод в MD группы номенклатуры
+    #проверка на перевод в Json группы номенклатуры
     def test_check_to_Json_group(self):
         #Подготовка
         unit=settings_manager()
@@ -401,7 +401,7 @@ class test_reporting(unittest.TestCase):
 
 
 
-    #проверка на перевод в MD номенклатуры
+    #проверка на перевод в Json номенклатуры
     def test_check_to_Json_nomenclature(self):
         #Подготовка
         unit=settings_manager()
@@ -429,7 +429,7 @@ class test_reporting(unittest.TestCase):
             assert False==True
 
 
-    #проверка на перевод в MD рецепта
+    #проверка на перевод в Json рецепта
     def test_check_to_Json_reciepe(self):
         #Подготовка
         unit=settings_manager()
