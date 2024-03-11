@@ -27,7 +27,7 @@ class test_errors(unittest.TestCase):
         try:
             result=1/0
         except Exception as ex:
-            error.set_error(ex)
+            error.create_error(ex)
 
         assert error.if_error
 

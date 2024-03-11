@@ -9,18 +9,12 @@ from abc import ABC
 from settings import settings
 from exceptions import argument_exception
 
-from Logic.start_factory import range_model,nomenclature_group_model,nomenclature_model,reciepe_model
-from storage.storage import storage
-
 #range model, nomenclatur model, nomenclature group model v str csv 
 class abstract_reporting(ABC):
     #инкапсуляция настроек
     __settings=None
     
-    #типы перерабатываемой номенклатуры
-    __types={storage.unit_key():range_model(),storage.reciepe_key():reciepe_model(),storage.nomenclature_key():nomenclature_model(),storage.group_key():nomenclature_group_model()}
-
-
+ 
     #Данные из start_factory
     __data={}
 
@@ -37,10 +31,10 @@ class abstract_reporting(ABC):
         
         self.__data=value
 
-
-    def __init__(self,data_examp:list,settings_examp:settings):
+    #,settings_examp:settings=settings()
+    def __init__(self,data_examp:list):
         self.data=data_examp
-        self.hidden_settings=settings_examp
+        #self.hidden_settings=settings_examp
 
 
 
@@ -58,12 +52,12 @@ class abstract_reporting(ABC):
 
 
 
-    #возвращает ключи для отчёта
+    
     def create(self,value:str):
         return "string"
     
 
-
+    #возвращает ключи для отчёта
     def get_fields(self,value:str):
         if not isinstance(value,str):
             raise argument_exception("Неверный аргумент")
@@ -72,3 +66,23 @@ class abstract_reporting(ABC):
         print(fields)
 
         return fields
+    
+
+    #если в словаре сложный тип данных, или другой словарь - переводим всё в str (нужно для markdown и csv, чтобы небыло <object at ...>)
+    def dict_to_str(self,inp_dict:dict):
+        result={}
+        for key in list(inp_dict.keys()):
+            if isinstance(inp_dict[key],dict):
+                result[str(key)]=self.dict_to_str(inp_dict[key])
+            else:
+                result[str(key)]=str(inp_dict[key])
+
+        return result
+    
+
+    #выгрузка в файл
+    def load(self,name:str,result):
+        with open(Path(__file__).parent.parent.parent.parent/f'report.{name}','w') as loader:
+            loader.write(result)
+        
+            

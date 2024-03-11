@@ -6,10 +6,10 @@ sys.path.append(Path(__file__).parent.parent)
 
 
 
-from abstract_reference import abstract_reference
-from exceptions import argument_exception
-from nomenclature_group_model import nomenclature_group_model
-from models.range_model import range_model
+from src.models.abstract_reference import abstract_reference
+from src.exceptions import argument_exception
+from src.models.nomenclature_group_model import nomenclature_group_model
+from src.models.range_model import range_model
 
 
 

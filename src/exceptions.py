@@ -6,7 +6,7 @@ class argument_exception:
 
     def __init__ (Self,*args:object):
         super().__init__(*args)
-        Self.__inner_error.set_error(Self)
+        Self.__inner_error.create_error(Self)
     
     @property
     def error(self):
