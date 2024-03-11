@@ -38,21 +38,23 @@ def get_report(storage_key:str):
     factory=report_factory()
 
     result=storage_key
+
+
+    report_type=item.options.report_type
     #action
 
     if storage_key in check:
-        for report_type in types:
-            result=factory.create(report_type,item.storage.data,storage_key)
+        factory.create(report_type,item.storage.data,storage_key)
 
 
 
-    response_type=app.response_class(
-        response=f"{result}",
-        status=200,
-        mimetype="application/text"
-    )
+    # response_type=app.response_class(
+    #     response=f"{result}",
+    #     status=200,
+    #     mimetype="application/text"
+    # )
    
-    return response_type
+    return send_file(f'report.{report_type.lower()}')
 
 
 

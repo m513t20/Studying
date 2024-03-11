@@ -12,6 +12,7 @@ class settings:
     __BIK=""
     __name=""
     __property_type=""
+    __report_type=""
 
 
     #Репорт формат, из него будем брать строки 
@@ -42,6 +43,28 @@ class settings:
             raise argument_exception("Некорректный аргумент!")
         
         self.__first_name = value.strip()
+
+
+    
+    @property
+    def report_type(self):
+        return self.__report_type
+    
+    @report_type.setter
+    def report_type(self, value: str):
+        """
+            Полное наименование
+        Args:
+            value (str): _description_
+
+        Raises:
+            Exception: _description_
+        """
+        if not isinstance(value, str):
+            raise argument_exception("Некорректный аргумент!")
+        
+        self.__report_type = value.strip()
+    
     
 
     #объявления
