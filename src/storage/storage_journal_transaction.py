@@ -15,23 +15,37 @@ class storage_journal_transaction:
 
     __id:uuid=None
 
+    __amount:int=None
 
+
+    #id
     @property
     def id(self):
         return self.__id
     
+    #период
     @property
     def period(self):
         return self.__period
 
+    #тип операции
     @property 
     def type(self):
         return self.__type*"add" +(not (self.__type))*"delete"
 
 
+    #количество
+    @property
+    def amount(self):
+        return self.__amount
+
+    #номенклатура
     @property
     def nomenclature(self):
         return self.__nomenclature
+
+
+
 
     @type.setter
     def type(self,value:bool):
@@ -53,10 +67,20 @@ class storage_journal_transaction:
             raise argument_exception("Wrong argument")
         self.__nomenclature=value
 
+    @amount.setter
+    def amount(self,value:int):
+        if not isinstance(value,int) or value<0:
+            raise argument_exception("Wrong argument")
+        
+
+        self.__amount=value
 
 
-    def __init__(self,type_arg:bool,nomenclature:nomenclature_model,date:datetime) -> None:
+
+
+    def __init__(self,type_arg:bool,nomenclature:nomenclature_model,how_many:int,date:datetime) -> None:
         self.type=type_arg
         self.nomenclature=nomenclature
         self.period=date
+        self.amount=how_many
         self.__id=uuid.uuid4()

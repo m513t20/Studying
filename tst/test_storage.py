@@ -41,9 +41,11 @@ class test_storage(unittest.TestCase):
         nom=nomenclature_model()
 
         #действие
-        item=storage_journal_transaction(True,nom,datetime.now())
+        item=storage_journal_transaction(True,nom,23,datetime.now())
+        print(item.amount)
 
         #проверка
+        assert item.amount==23
         assert item.id is not None
         assert item.type=="add"
         assert item.period.month    ==datetime.now().month
@@ -52,7 +54,7 @@ class test_storage(unittest.TestCase):
     def test_build_journal_row(self):
         #подготовка
         nom=nomenclature_model()
-        item1=storage_journal_transaction(True,nom,datetime(2014,12,1))
+        item1=storage_journal_transaction(True,nom,2,datetime(2014,12,1))
         loc='    Улица малых богов 123       '
         item2=storage_model(loc)
 
@@ -63,6 +65,7 @@ class test_storage(unittest.TestCase):
 
 
         #проверка
+        assert item3.amount==item1.amount
         assert item3.location==item2.location
         assert item3.operation_id==item1.id
         assert item3.storage_id==item2.id

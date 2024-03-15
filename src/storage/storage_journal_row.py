@@ -17,6 +17,7 @@ class storage_journal_row:
 
     __period=None
 
+    __amount=None
 
     #storage
     __location=""
@@ -54,7 +55,10 @@ class storage_journal_row:
     def location(self):
         return self.__location
     
-
+    #количсество
+    @property
+    def amount(self):
+        return self.__amount
 
 
     #так как конструктор формирует класс через классы storage_model и storage_journal_transaction, наши аргументы уже проверены, но на всякий случай
@@ -106,6 +110,15 @@ class storage_journal_row:
         self.__operation_id=value
    
 
+   
+    @amount.setter
+    def amount(self,value:int):
+        if not isinstance(value,int) or value<0:
+            raise argument_exception("Wrong argument")
+        self.__amount=value
+
+
+
     
 
     def __init__(self,target_storage:storage_model,operation:storage_journal_transaction) -> None:
@@ -114,6 +127,7 @@ class storage_journal_row:
         self.period=(operation.period)
         self.operation_type=(operation.type=="add")
         self.nomenclature=operation.nomenclature
+        self.amount=operation.amount
 
         #Бёрём от склада
         self.location=target_storage.location
