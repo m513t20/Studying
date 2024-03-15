@@ -1,7 +1,7 @@
 
 import uuid
 from datetime import datetime
-from src.models.nomenclature_model import nomenclature_model
+from models.nomenclature_model import nomenclature_model
 from src.exceptions import argument_exception
 
 

@@ -42,3 +42,8 @@ class storage:
     def reciepe_key():
         return "reciepe"
     
+
+    #ключ хранения журнала
+    @staticmethod
+    def journal_key():
+        return "journal"

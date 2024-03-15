@@ -10,7 +10,7 @@ from datetime import datetime
 from src.storage.storage_journal_row import storage_journal_row
 from src.storage.storage_model import storage_model
 from src.storage.storage_journal_transaction import storage_journal_transaction
-from src.models.nomenclature_model import nomenclature_model
+from models.nomenclature_model import nomenclature_model
 
 
 import unittest

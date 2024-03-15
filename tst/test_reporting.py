@@ -219,6 +219,31 @@ class test_reporting(unittest.TestCase):
         #Проверка
         assert isinstance(k,str)
 
+    #проверка на перевод в CSV журнала
+    def test_check_to_csv_journal(self):
+        #Подготовка
+        unit=settings_manager()
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        unit.open('Tester.json',address)
+        factory=start_factory(unit.settings)
+
+        factory.create()
+
+        item=CSV_reporting(factory.storage.data)
+
+
+       
+
+        #Действие
+        k=item.create(storage.journal_key())
+        print (k)
+
+
+
+        #Проверка
+        assert isinstance(k,str)
+
+
 
 
 
@@ -325,6 +350,32 @@ class test_reporting(unittest.TestCase):
 
         #Проверка
         assert isinstance(k,str)
+
+    #проверка на перевод в MD журнала
+    def test_check_to_MD_journal(self):
+        #Подготовка
+        unit=settings_manager()
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        unit.open('Tester.json',address)
+        factory=start_factory(unit.settings)
+
+        factory.create()
+
+        item=MD_reporting(factory.storage.data)
+
+
+       
+
+        #Действие
+        k=item.create(storage.journal_key())
+        print (k)
+
+
+
+        #Проверка
+        assert isinstance(k,str)
+
+
 
 
 
@@ -446,6 +497,36 @@ class test_reporting(unittest.TestCase):
 
         #Действие
         k=item.create(storage.reciepe_key())
+        print (k)
+
+
+
+        #Проверка
+        try:
+            json.loads(k)
+            assert True==True
+            return
+        except:
+            assert False==True
+
+
+    #проверка на перевод в Json журнала
+    def test_check_to_Json_journal(self):
+        #Подготовка
+        unit=settings_manager()
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        unit.open('Tester.json',address)
+        factory=start_factory(unit.settings)
+
+        factory.create()
+
+        item=Json_reporting(factory.storage.data)
+
+
+       
+
+        #Действие
+        k=item.create(storage.journal_key())
         print (k)
 
 
