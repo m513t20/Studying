@@ -78,19 +78,23 @@ class test_storage(unittest.TestCase):
     def test_build_turn_model(self):
         #подготовка
         nom=nomenclature_model()
-        ran=range_model()
+        item1=storage_journal_transaction(True,nom,2,datetime(2014,12,1))
         loc='    Улица малых богов 123       '
-        stor =storage_model(loc)
+        item2=storage_model(loc)
+        ran=range_model()
+        nom=nomenclature_model()
 
         #действие
-        item=storage_turn_model(stor,23,nom,ran)
+        item3=storage_journal_row(item2,item1)
 
+        #действие
+        item=storage_turn_model(item3.storage_id,23,nom,ran)
 
         #проверка
         assert item.amount==23
         assert item.range==ran
         assert item.nomenclature==nom 
-        assert item.range==ran
+        assert item.storage_id==item3.storage_id
 
 
 

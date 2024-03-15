@@ -3,12 +3,12 @@
 from src.exceptions import argument_exception
 from models.nomenclature_model import nomenclature_model
 from models.range_model import range_model
-from src.storage.storage_model import storage_model
+from src.storage.storage_journal_row import storage_journal_row
 import uuid
 
 class storage_turn_model:
     #склад
-    __storage:storage_model=None
+    __storage_id:uuid.UUID=None
 
     #оборот
     __amount:int=0
@@ -21,8 +21,8 @@ class storage_turn_model:
     __range:range_model=None
 
     @property
-    def storage(self):
-        return self.__storage
+    def storage_id(self):
+        return self.__storage_id
     
     @property 
     def amount(self):
@@ -37,12 +37,12 @@ class storage_turn_model:
         return self.__range
 
     
-    @storage.setter
-    def storage(self,value:storage_model):
-        if not isinstance(value,storage_model):
+    @storage_id.setter
+    def storage_id(self,value:uuid.UUID):
+        if not isinstance(value,uuid.UUID):
             raise argument_exception("Невереный аргумент!")
         
-        self.__storage=value
+        self.__storage_id=value
 
     
     @amount.setter
@@ -69,9 +69,9 @@ class storage_turn_model:
         self.__range=value
 
     
-    def __init__(self,stor:storage_model,amount:int,nom:nomenclature_model,ran:range_model) -> None:
+    def __init__(self,stor:uuid.UUID,amount:int,nom:nomenclature_model,ran:range_model) -> None:
         self.amount=amount
-        self.storage=stor
+        self.storage_id=stor
         self.nomenclature=nom
         self.range=ran
         

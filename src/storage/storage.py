@@ -47,3 +47,9 @@ class storage:
     @staticmethod
     def journal_key():
         return "journal"
+    
+
+    #ключ оборота
+    @staticmethod
+    def process_turn_key():
+        return "process_turn"
