@@ -12,7 +12,7 @@ from src.storage.storage_model import storage_model
 from src.storage.storage_journal_transaction import storage_journal_transaction
 from src.storage.storage_turn_model import storage_turn_model
 from models.nomenclature_model import nomenclature_model
-from models.range_model import range_model
+from src.models.range_model import range_model
 
 
 import unittest

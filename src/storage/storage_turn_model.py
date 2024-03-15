@@ -2,7 +2,7 @@
 
 from src.exceptions import argument_exception
 from models.nomenclature_model import nomenclature_model
-from models.range_model import range_model
+from src.models.range_model import range_model
 from src.storage.storage_journal_row import storage_journal_row
 import uuid
 
