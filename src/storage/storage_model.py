@@ -2,6 +2,7 @@ import uuid
 from src.exceptions import argument_exception
 
 
+
 class storage_model:
 
 

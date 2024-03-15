@@ -10,7 +10,9 @@ from datetime import datetime
 from src.storage.storage_journal_row import storage_journal_row
 from src.storage.storage_model import storage_model
 from src.storage.storage_journal_transaction import storage_journal_transaction
+from src.storage.storage_turn_model import storage_turn_model
 from models.nomenclature_model import nomenclature_model
+from models.range_model import range_model
 
 
 import unittest
@@ -50,7 +52,7 @@ class test_storage(unittest.TestCase):
         assert item.type=="add"
         assert item.period.month    ==datetime.now().month
 
-
+    #создать журнальную строку
     def test_build_journal_row(self):
         #подготовка
         nom=nomenclature_model()
@@ -72,6 +74,23 @@ class test_storage(unittest.TestCase):
         assert item3.period==item1.period
         assert item3.operation_type==item1.type
 
+    #создать
+    def test_build_turn_model(self):
+        #подготовка
+        nom=nomenclature_model()
+        ran=range_model()
+        loc='    Улица малых богов 123       '
+        stor =storage_model(loc)
+
+        #действие
+        item=storage_turn_model(stor,23,nom,ran)
+
+
+        #проверка
+        assert item.amount==23
+        assert item.range==ran
+        assert item.nomenclature==nom 
+        assert item.range==ran
 
 
 
