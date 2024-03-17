@@ -8,12 +8,10 @@ sys.path.append(os.path.join(Path(__file__).parent.parent,'src'))
 from settings_manager import settings_manager
 from storage.storage import storage
 from Logic.start_factory import start_factory
-
+from datetime import datetime
 from Logic.Reporting.CSV_reporting import CSV_reporting
 from Logic.Reporting.MD_reporting import MD_reporting
 from Logic.Reporting.JSON_reporting import Json_reporting
-from models.range_model import range_model
-from models.nomenclature_group_model import nomenclature_group_model
 
 import unittest
 
@@ -219,6 +217,31 @@ class test_reporting(unittest.TestCase):
         #Проверка
         assert isinstance(k,str)
 
+    #проверка на перевод в CSV журнала
+    def test_check_to_csv_journal(self):
+        #Подготовка
+        unit=settings_manager()
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        unit.open('Tester.json',address)
+        factory=start_factory(unit.settings)
+
+        factory.create()
+
+        item=CSV_reporting(factory.storage.data)
+
+
+       
+
+        #Действие
+        k=item.create(storage.journal_key())
+        print (k)
+
+
+
+        #Проверка
+        assert isinstance(k,str)
+
+
 
 
 
@@ -325,6 +348,32 @@ class test_reporting(unittest.TestCase):
 
         #Проверка
         assert isinstance(k,str)
+
+    #проверка на перевод в MD журнала
+    def test_check_to_MD_journal(self):
+        #Подготовка
+        unit=settings_manager()
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        unit.open('Tester.json',address)
+        factory=start_factory(unit.settings)
+
+        factory.create()
+
+        item=MD_reporting(factory.storage.data)
+
+
+       
+
+        #Действие
+        k=item.create(storage.journal_key())
+        print (k)
+
+
+
+        #Проверка
+        assert isinstance(k,str)
+
+
 
 
 
@@ -457,6 +506,39 @@ class test_reporting(unittest.TestCase):
             return
         except:
             assert False==True
+
+
+    #проверка на перевод в Json журнала
+    def test_check_to_Json_journal(self):
+        #Подготовка
+        unit=settings_manager()
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        unit.open('Tester.json',address)
+        factory=start_factory(unit.settings)
+
+        factory.create()
+
+        item=Json_reporting(factory.storage.data)
+
+
+       
+
+        #Действие
+        k=item.create(storage.journal_key())
+        print (k)
+
+
+
+        #Проверка
+        try:
+            json.loads(k)
+            assert True==True
+            return
+        except:
+            assert False==True
+
+
+
 
 
 

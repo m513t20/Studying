@@ -25,9 +25,8 @@ app=Flask(__name__)
 @app.route("/api/report/<storage_key>",methods=["GET"])
 def get_report(storage_key:str):
 
-    check=[storage.unit_key(),storage.group_key(),storage.reciepe_key(),storage.nomenclature_key()]
+    check=[storage.unit_key(),storage.group_key(),storage.reciepe_key(),storage.nomenclature_key(),storage.journal_key()]
 
-    types=["CSV","MD","Json"]
 
     #preparation
     unit=settings_manager()
