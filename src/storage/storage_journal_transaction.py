@@ -44,7 +44,18 @@ class storage_journal_transaction:
     def nomenclature(self):
         return self.__nomenclature
 
+    @property
+    def id(self):
+        return self.__id
+    
 
+
+    @id.setter
+    def id(self,value:uuid.UUID):
+        if not isinstance(value,uuid.UUID):
+            raise  argument_exception("Некорректный аргумент")
+        
+        self.__id=value
 
 
     @type.setter
@@ -76,11 +87,3 @@ class storage_journal_transaction:
         self.__amount=value
 
 
-
-
-    def __init__(self,type_arg:bool,nomenclature:nomenclature_model,how_many:int,date:datetime) -> None:
-        self.type=type_arg
-        self.nomenclature=nomenclature
-        self.period=date
-        self.amount=how_many
-        self.__id=uuid.uuid4()

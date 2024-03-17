@@ -69,9 +69,6 @@ class storage_turn_model:
         self.__range=value
 
     
-    def __init__(self,stor:uuid.UUID,amount:int,nom:nomenclature_model,ran:range_model) -> None:
-        self.amount=amount
-        self.storage_id=stor
-        self.nomenclature=nom
-        self.range=ran
+    # def __init__(self,stor:uuid.UUID,amount:int,nom:nomenclature_model,ran:range_model) -> None:
+
         

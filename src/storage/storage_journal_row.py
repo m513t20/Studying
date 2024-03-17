@@ -118,18 +118,3 @@ class storage_journal_row:
         self.__amount=value
 
 
-
-    
-
-    def __init__(self,target_storage:storage_model,operation:storage_journal_transaction) -> None:
-        #Берём от операции
-        self.operation_id=operation.id
-        self.period=(operation.period)
-        self.operation_type=(operation.type=="add")
-        self.nomenclature=operation.nomenclature
-        self.amount=operation.amount
-
-        #Бёрём от склада
-        self.location=target_storage.location
-        self.storage_id=target_storage.id
-

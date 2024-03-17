@@ -9,7 +9,9 @@ from models.range_model import range_model
 from models.reciepe_model import reciepe_model
 from storage.storage import storage
 from exceptions import argument_exception
+from src.storage.storage_factory import storage_factory
 from models.nomenclature_model import nomenclature_model,nomenclature_group_model,range_model
+from src.storage.storage_factory import storage_factory
 from storage.storage_journal_row import storage_journal_row
 from storage.storage_journal_transaction import storage_journal_transaction
 from storage.storage_model import storage_model
@@ -104,26 +106,26 @@ class start_factory:
         date5=datetime(2023,3,4)
         
 
-        journal.append(storage_journal_row(stor1,storage_journal_transaction(True,Output[2],242,date1)))
-        journal.append(storage_journal_row(stor2,storage_journal_transaction(False,Output[2],202,date2)))
-        journal.append(storage_journal_row(stor2,storage_journal_transaction(True,Output[5],100,date3)))
-        journal.append(storage_journal_row(stor1,storage_journal_transaction(True,Output[6],2,date4)))
-        journal.append(storage_journal_row(stor1,storage_journal_transaction(False,Output[2],300,date5)))
-        journal.append(storage_journal_row(stor2,storage_journal_transaction(True,Output[1],122,date1)))
-        journal.append(storage_journal_row(stor1,storage_journal_transaction(False,Output[0],451,date2)))
-        journal.append(storage_journal_row(stor2,storage_journal_transaction(True,Output[6],4652,date3)))
-        journal.append(storage_journal_row(stor2,storage_journal_transaction(False,Output[8],1231,date4)))
-        journal.append(storage_journal_row(stor2,storage_journal_transaction(True,Output[7],12,date5)))
-        journal.append(storage_journal_row(stor2,storage_journal_transaction(False,Output[8],213,date1)))
-        journal.append(storage_journal_row(stor1,storage_journal_transaction(True,Output[4],451,date2)))
-        journal.append(storage_journal_row(stor1,storage_journal_transaction(False,Output[4],231,date3)))
-        journal.append(storage_journal_row(stor2,storage_journal_transaction(True,Output[3],4512,date4)))
-        journal.append(storage_journal_row(stor2,storage_journal_transaction(True,Output[2],10,date5)))
-        journal.append(storage_journal_row(stor2,storage_journal_transaction(False,Output[1],218,date1)))
-        journal.append(storage_journal_row(stor1,storage_journal_transaction(True,Output[3],5456,date2)))
-        journal.append(storage_journal_row(stor1,storage_journal_transaction(False,Output[7],123,date3)))
-        journal.append(storage_journal_row(stor1,storage_journal_transaction(True,Output[9],54,date4)))
-        journal.append(storage_journal_row(stor1,storage_journal_transaction(False,Output[2],242,date5)))
+        journal.append(storage_factory.create_row(stor1,storage_factory.create_transaction(True,Output[2],242,date1)))
+        journal.append(storage_factory.create_row(stor2,storage_factory.create_transaction(False,Output[2],202,date2)))
+        journal.append(storage_factory.create_row(stor2,storage_factory.create_transaction(True,Output[5],100,date3)))
+        journal.append(storage_factory.create_row(stor1,storage_factory.create_transaction(True,Output[6],2,date4)))
+        journal.append(storage_factory.create_row(stor1,storage_factory.create_transaction(False,Output[2],300,date5)))
+        journal.append(storage_factory.create_row(stor2,storage_factory.create_transaction(True,Output[1],122,date1)))
+        journal.append(storage_factory.create_row(stor1,storage_factory.create_transaction(False,Output[0],451,date2)))
+        journal.append(storage_factory.create_row(stor2,storage_factory.create_transaction(True,Output[6],4652,date3)))
+        journal.append(storage_factory.create_row(stor2,storage_factory.create_transaction(False,Output[8],1231,date4)))
+        journal.append(storage_factory.create_row(stor2,storage_factory.create_transaction(True,Output[7],12,date5)))
+        journal.append(storage_factory.create_row(stor2,storage_factory.create_transaction(False,Output[8],213,date1)))
+        journal.append(storage_factory.create_row(stor1,storage_factory.create_transaction(True,Output[4],451,date2)))
+        journal.append(storage_factory.create_row(stor1,storage_factory.create_transaction(False,Output[4],231,date3)))
+        journal.append(storage_factory.create_row(stor2,storage_factory.create_transaction(True,Output[3],4512,date4)))
+        journal.append(storage_factory.create_row(stor2,storage_factory.create_transaction(True,Output[2],10,date5)))
+        journal.append(storage_factory.create_row(stor2,storage_factory.create_transaction(False,Output[1],218,date1)))
+        journal.append(storage_factory.create_row(stor1,storage_factory.create_transaction(True,Output[3],5456,date2)))
+        journal.append(storage_factory.create_row(stor1,storage_factory.create_transaction(False,Output[7],123,date3)))
+        journal.append(storage_factory.create_row(stor1,storage_factory.create_transaction(True,Output[9],54,date4)))
+        journal.append(storage_factory.create_row(stor1,storage_factory.create_transaction(False,Output[2],242,date5)))
 
 
 
