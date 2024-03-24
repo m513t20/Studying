@@ -31,12 +31,12 @@ class test_prototype(unittest.TestCase):
         prot=storage_prototype(factory.storage.data[key])
 
 
-        #deysvye
+        #действие
         result=storage_prototype.filter_date(prot,datetime(2023,1,1),datetime(2024,12,31))
 
 
 
-
+        #проверка 
         assert isinstance(result,storage_prototype)
         assert len(result.data)>0
         assert not result.if_error
@@ -55,11 +55,14 @@ class test_prototype(unittest.TestCase):
         prot=storage_prototype(factory.storage.data[key])
 
 
-        #deysvye
+        #Действие
         result=storage_prototype.filter_nom(prot,factory.storage.data[key][0].nomenclature)
 
+
+        #проверка
         assert isinstance(result,storage_prototype)
         assert len(result.data)>0
+        assert len(result.data)==5
         assert not result.if_error
 
 
@@ -77,17 +80,42 @@ class test_prototype(unittest.TestCase):
         prot=storage_prototype(factory.storage.data[key])
 
 
-        #deysvye
+        #действие
         result=storage_prototype.filter_nom(prot,factory.storage.data[key][0].nomenclature)
         result=storage_prototype.filter_date(result,datetime(2023,3,1),datetime(2024,12,31))
 
         result_chek1=storage_prototype.filter_nom(prot,factory.storage.data[key][0].nomenclature)
         result_chek2=storage_prototype.filter_date(prot,datetime(2023,3,1),datetime(2024,12,31))
 
+
+        #проверка
         assert isinstance(result,storage_prototype)
         assert len(result.data)>0
         assert len(result.data)<len(result_chek1.data) or len(result.data)<len(result_chek2.data)
         assert not result.if_error
 
 
+    #сортировка по айди номенклатуры
+    def test_filter_nom_id(self):
+        #Подготовка
+        unit=settings_manager()
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        unit.open('Tester.json',address)
+        factory=start_factory(unit.settings)
 
+        factory.create()
+        key=storage.journal_key()
+
+        prot=storage_prototype(factory.storage.data[key])
+
+
+        #действие
+        result=storage_prototype.filter_nom_id(prot,factory.storage.data[key][0].nomenclature.id)
+
+        print(factory.storage.data[key][0].nomenclature.id)
+
+        #проверка
+        assert isinstance(result,storage_prototype)
+        assert len(result.data)>0
+        assert len(result.data)==5
+        assert not result.if_error

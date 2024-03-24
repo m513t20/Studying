@@ -2,6 +2,7 @@
 from error_proxy import error_proxy
 from datetime import datetime
 from models.nomenclature_model import nomenclature_model
+import uuid
 
 class storage_prototype(error_proxy):
     __data=[]
@@ -57,3 +58,22 @@ class storage_prototype(error_proxy):
 
 
         return storage_prototype(result)
+
+
+    def filter_nom_id(self,id:uuid.UUID):
+        if not isinstance(id,uuid.UUID):
+            self.error_text="Wrong argument"
+
+
+
+        if self.if_error:
+            return self.__data
+        
+        result=[]
+        for cur_line in self.__data:
+            if cur_line.nomenclature.id==id:
+                result.append(cur_line)
+
+
+        return storage_prototype(result)
+

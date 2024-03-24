@@ -16,7 +16,7 @@ from exceptions import argument_exception
 from src.Logic.process_factory import process_factory
 
 
-
+from src.storage.storage_turn_model import storage_turn_model
 from models.nomenclature_model import nomenclature_model
 from src.models.range_model import range_model
 from src.models.nomenclature_group_model import nomenclature_group_model
@@ -54,17 +54,22 @@ class storage_service:
         
         
         #конвентор
-        process=reference_conventor(nomenclature_model,error_proxy,nomenclature_group_model,range_model,storage_journal_row)
+        reference=reference_conventor(nomenclature_model,error_proxy,nomenclature_group_model,range_model,storage_journal_row,storage_turn_model)
         
 
+        proces=process_factory()
+
+        data=proces.create(storage.process_turn_key(),transactions.data)
+
         result={}
-        for index,cur_tran in enumerate(transactions.data):
-            result[index]=process.convert(cur_tran)
+        for index,cur_tran in enumerate(data):
+            result[index]=reference.convert(cur_tran)
 
 
         return result
     
-
+    #получить обороты по номенклатуре
+ 
 
     @staticmethod
     def create_response(data:list,app):

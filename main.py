@@ -3,8 +3,8 @@ from flask import Flask,send_file,request
 from pathlib import Path
 from datetime import datetime
 import os
-import json
 import sys
+import uuid
 
 sys.path.append(os.path.join(Path(__file__).parent,'src'))
 
@@ -15,6 +15,7 @@ from Logic.start_factory import start_factory
 from src.settings_manager import settings_manager
 from Logic.report_factory import report_factory
 from src.Logic.storage_sevice import storage_service
+
 
 
 app=Flask(__name__)
@@ -80,6 +81,13 @@ def get_rests():
 
     return response_type
    
+
+# @app.route(" /api/storage/<nomenclature_id>/turns",methods=["GET"])
+# def get_rests(nomenclature_id:uuid.UUID):
+#     key=storage.journal_key()
+
+#     data=storage_service(item.storage.data[storage.journal_key()])
+    
 
 
 
