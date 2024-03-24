@@ -2,6 +2,7 @@
 from error_proxy import error_proxy
 from datetime import datetime
 from models.nomenclature_model import nomenclature_model
+from src.models.reciepe_model import reciepe_model
 import uuid
 
 class storage_prototype(error_proxy):
@@ -77,3 +78,18 @@ class storage_prototype(error_proxy):
 
         return storage_prototype(result)
 
+    def filter_reciepe(self,recepy:reciepe_model):
+        if not isinstance(recepy,reciepe_model):
+            self.error_text="Wrong argument"
+
+        ingridients=recepy.ingridient_proportions
+
+
+        result=[]
+        for cur_ing in list(ingridients.keys()):
+            for cur_line in self.__data:
+                if cur_ing.id==cur_line.nomenclature.id:
+                    result.append(cur_line)
+
+
+        return storage_prototype(result)

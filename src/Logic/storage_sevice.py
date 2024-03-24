@@ -16,13 +16,15 @@ from src.Logic.Reporting.Json_convert.reference_conventor import reference_conve
 from exceptions import argument_exception
 from src.Logic.process_factory import process_factory
 
-
+#для референсов
 from src.storage.storage_turn_model import storage_turn_model
 from models.nomenclature_model import nomenclature_model
 from src.models.range_model import range_model
 from src.models.nomenclature_group_model import nomenclature_group_model
+from models.reciepe_model import reciepe_model
+from src.storage.storage_factory import storage_factory
 from storage.storage_journal_row import storage_journal_row
-
+from src.storage.storage_journal_transaction import storage_journal_transaction
 
 
 #PERENESTI I ZAMENIT MAIN
@@ -97,10 +99,68 @@ class storage_service:
 
 
         return result
+    
+    def create_reciepe_transactions(self,reciepe:reciepe_model):
+        if not isinstance(reciepe,reciepe_model):
+            raise argument_exception("Неверный аргумент")
+        
+        prototype=storage_prototype(self.__data)
+
+        #фильтруем
+        transactions=prototype.filter_reciepe(reciepe)
+
+        #оборот
+        proces=process_factory()
+        turn=proces.create(storage.process_turn_key(),transactions.data)
+
+
+        transactions_list=[]
+        #пробегаемся по обороту
+        for cur_ing in list(reciepe.ingridient_proportions.keys()):
+            #флаг для проверки на присутствие на складах
+            flag=True
+            for cur_nom in turn:
+
+                if cur_ing.id==cur_nom.nomenclature.id:
+
+                    amount=list(reciepe.ingridient_proportions[cur_ing].keys())[0]
+
+                    #пересчитываем единицы измерения
+                    if cur_ing.ran_mod!=cur_nom.nomenclature.ran_mod:
+                        amount*=cur_ing.ran_mod.recount_ratio
+
+
+                    transactions_list.append(storage_factory.create_transaction(False,cur_ing,amount,datetime.now()))
+
+                    flag=False 
+                    break 
+            if not flag:
+                transactions_list.append(f"{cur_nom.nomenclature.id} not found")
+
+
+        reference=reference_conventor(nomenclature_model,error_proxy,nomenclature_group_model,range_model,storage_journal_row,storage_turn_model,storage_journal_transaction)
+        result={}
+        for index,cur_tran in enumerate(transactions_list):
+            if isinstance(cur_tran,str):
+                result[index]=cur_tran
+                continue
+
+            result[index]=reference.convert(cur_tran)
+
+
+
+        return result
+        
+
+
+
+
+
+
         
 
     @staticmethod
-    def create_response(data:list,app):
+    def create_response(data:dict,app):
         if app is None:
             raise argument_exception()
         json_text = json.dumps( data)  

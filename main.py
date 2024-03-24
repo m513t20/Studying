@@ -27,6 +27,7 @@ item=start_factory(unit.settings)
 item.create()
 
 
+
 #по ссылке выдаёт результат 
 @app.route("/api/report/<storage_key>",methods=["GET"])
 def get_report(storage_key:str):
@@ -95,6 +96,32 @@ def get_rests():
 
     return response_type
    
+
+@app.route("/api/storage/<receipt_id>/debits",methods=["GET"])
+def get_debits(receipt_id:str):
+    id=uuid.UUID(receipt_id)
+    journal=storage.journal_key()
+    rec=storage.reciepe_key()
+
+
+    response_type=app.response_class(
+        response=f"not_found",
+        status=404,
+        mimetype="application/text"
+    )
+
+
+    for cur_reciepe in item.storage.data[rec]:
+
+        if id==cur_reciepe.id:
+            data=storage_service(item.storage.data[journal]).create_reciepe_transactions(cur_reciepe)
+            response_type=storage_service.create_response(data,app)
+            break 
+
+        
+    return response_type
+
+
 
 
 

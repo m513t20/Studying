@@ -7,5 +7,5 @@
     "BIK":"1 23 4 56 789      ", 
     "name":"Name example",
     "property_type":"'OOO'",
-    "report_type":"CSV"
+    "report_type":"Json"
 }

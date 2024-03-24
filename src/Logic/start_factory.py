@@ -58,13 +58,14 @@ class start_factory:
 
 
         #создаём еденицы
-        kg=range_model.create_kilogram()
+        sp=range_model.create_spoon()
+        kg=sp.base_range
         gr=kg.base_range
         
         l=range_model.create_litr()
         ml=l.base_range
 
-        sp=range_model.create_spoon()
+       
         
         sht=range_model.create_shtuka()
 

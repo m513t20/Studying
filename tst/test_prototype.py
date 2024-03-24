@@ -18,6 +18,7 @@ import unittest
 
 class test_prototype(unittest.TestCase):
 
+    #фильтер по дате
     def test_filter_date(self):
         #Подготовка
         unit=settings_manager()
@@ -41,7 +42,7 @@ class test_prototype(unittest.TestCase):
         assert len(result.data)>0
         assert not result.if_error
 
-
+    #фильтер по номенклатуре
     def test_filter_nom(self):
         #Подготовка
         unit=settings_manager()
@@ -66,7 +67,7 @@ class test_prototype(unittest.TestCase):
         assert not result.if_error
 
 
-
+    #фильтер по двум или больше условиям
     def test_filter_nom_and_date(self):
         #Подготовка
         unit=settings_manager()
@@ -118,4 +119,29 @@ class test_prototype(unittest.TestCase):
         assert isinstance(result,storage_prototype)
         assert len(result.data)>0
         assert len(result.data)==5
+        assert not result.if_error
+
+
+    def test_filter_reciepe(self):
+        #Подготовка
+        unit=settings_manager()
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        unit.open('Tester.json',address)
+        factory=start_factory(unit.settings)
+
+        factory.create()
+        key=storage.journal_key()
+
+        prot=storage_prototype(factory.storage.data[key])
+
+
+        #действие
+        result=storage_prototype.filter_reciepe(prot,factory.storage.data[storage.reciepe_key()][0])
+
+        for i in result.data:
+            print(i.nomenclature.id)
+
+        #проверка
+        assert isinstance(result,storage_prototype)
+        assert len(result.data)>0
         assert not result.if_error

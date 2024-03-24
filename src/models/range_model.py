@@ -103,4 +103,4 @@ class range_model(abstract_reference):
     
     @staticmethod 
     def create_spoon():
-        return range_model("Столовая ложка",1)
+        return range_model("Столовая ложка",67,range_model.create_kilogram())

@@ -76,8 +76,8 @@ class reference_conventor(abstract_convertor):
             result_key=str(cur_field)
             
 
-            
             result[result_key]=self.__converts[type(atr)](atr)
+
 
 
         return result
