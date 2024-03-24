@@ -28,7 +28,7 @@ class test_processing(unittest.TestCase):
         process=process_factory()
 
         #действие
-        result=process.create(storage.process_turn_key(),factory.storage.data[storage.journal_key()],datetime(2023,1,1),datetime(2024,12,31))
+        result=process.create(storage.process_turn_key(),factory.storage.data[storage.journal_key()])
 
         #тут проверял через excel, поэтому assert не придумал, но сходится
         
