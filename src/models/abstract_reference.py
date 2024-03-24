@@ -38,7 +38,7 @@ class abstract_reference(ABC):
         Returns:
             _type_: _description_
         """
-        return (self.__id).hex    
+        return self.__id    
     
 
     

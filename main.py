@@ -56,6 +56,20 @@ def get_report(storage_key:str):
     return send_file(f'report.{report_type.lower()}')
 
 
+@app.route("/api/storage/<nomenclature_id>/turns",methods=["GET"])
+def get_nomenclature_rests(nomenclature_id:uuid.UUID):
+    key=storage.journal_key()
+
+
+    #генерация работает, однако столкнулся с проблемой - тк айди каждый раз генериться случайно, узнать актуальный айди для фильтрации - можно  только из других запросов
+    data=storage_service(item.storage.data[key]).create_id_turns(uuid.UUID(nomenclature_id))
+
+    responce_type=storage_service.create_response(data,app)
+
+    return responce_type
+    
+
+
 
 @app.route("/api/storage/rests",methods=["GET"])
 def get_rests():
@@ -74,7 +88,7 @@ def get_rests():
     finish_date=datetime.strptime(args["stop_period"], "%Y-%m-%d")
 
 
-    data=storage_service(item.storage.data[storage.journal_key()]).create_turns(start_date,finish_date)
+    data=storage_service(item.storage.data[key]).create_turns(start_date,finish_date)
 
     response_type=storage_service.create_response(data,app)
 
@@ -82,12 +96,6 @@ def get_rests():
     return response_type
    
 
-# @app.route(" /api/storage/<nomenclature_id>/turns",methods=["GET"])
-# def get_rests(nomenclature_id:uuid.UUID):
-#     key=storage.journal_key()
-
-#     data=storage_service(item.storage.data[storage.journal_key()])
-    
 
 
 

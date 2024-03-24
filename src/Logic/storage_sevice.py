@@ -2,6 +2,7 @@ from pathlib import Path
 from datetime import datetime
 import os
 import json
+import uuid
 import sys
 
 sys.path.append(os.path.join(Path(__file__).parent,'src'))
@@ -21,6 +22,8 @@ from models.nomenclature_model import nomenclature_model
 from src.models.range_model import range_model
 from src.models.nomenclature_group_model import nomenclature_group_model
 from storage.storage_journal_row import storage_journal_row
+
+
 
 #PERENESTI I ZAMENIT MAIN
 
@@ -69,7 +72,32 @@ class storage_service:
         return result
     
     #получить обороты по номенклатуре
- 
+
+    def create_id_turns(self,id:uuid.UUID):
+        if not isinstance(id,uuid.UUID):
+            raise argument_exception("Неверный аргумент")
+        
+        prototype=storage_prototype(self.__data)
+
+        #фильтруем
+        transactions=prototype.filter_nom_id(id)
+
+        #конвентор
+        reference=reference_conventor(nomenclature_model,error_proxy,nomenclature_group_model,range_model,storage_journal_row,storage_turn_model)
+        
+        
+
+        proces=process_factory()
+
+        data=proces.create(storage.process_turn_key(),transactions.data)
+
+        result={}
+        for index,cur_tran in enumerate(data):
+            result[index]=reference.convert(cur_tran)
+
+
+        return result
+        
 
     @staticmethod
     def create_response(data:list,app):
