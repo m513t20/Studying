@@ -134,6 +134,9 @@ class storage_service:
 
                     flag=False 
                     break 
+
+
+            #если в обороте не найдена номенклатура кидаем not found   
             if not flag:
                 transactions_list.append(f"{cur_nom.nomenclature.id} not found")
 
@@ -141,6 +144,8 @@ class storage_service:
         reference=reference_conventor(nomenclature_model,error_proxy,nomenclature_group_model,range_model,storage_journal_row,storage_turn_model,storage_journal_transaction)
         result={}
         for index,cur_tran in enumerate(transactions_list):
+
+            #так как reference conventor работает только со сложными типами данных, делаем разделение
             if isinstance(cur_tran,str):
                 result[index]=cur_tran
                 continue

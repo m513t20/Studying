@@ -21,7 +21,7 @@ class storage_prototype(error_proxy):
 
 
 
-
+    #фильтер по дате
     def filter_date(self,start:datetime,finish:datetime):
         if len(self.__data)<=0:
             self.error_text="Wrong argument"
@@ -42,7 +42,7 @@ class storage_prototype(error_proxy):
         return storage_prototype(result)
 
 
-
+    #фильтер по номенклатуре
     def filter_nom(self,nom:nomenclature_model):
         if not isinstance(nom,nomenclature_model):
             self.error_text="Wrong argument"
@@ -61,6 +61,7 @@ class storage_prototype(error_proxy):
         return storage_prototype(result)
 
 
+    #фильтер по айди номенклатуры
     def filter_nom_id(self,id:uuid.UUID):
         if not isinstance(id,uuid.UUID):
             self.error_text="Wrong argument"
@@ -71,6 +72,7 @@ class storage_prototype(error_proxy):
             return self.__data
         
         result=[]
+        #ищем сходные айди
         for cur_line in self.__data:
             if cur_line.nomenclature.id==id:
                 result.append(cur_line)
@@ -78,6 +80,7 @@ class storage_prototype(error_proxy):
 
         return storage_prototype(result)
 
+    #фильтер по рецепту
     def filter_reciepe(self,recepy:reciepe_model):
         if not isinstance(recepy,reciepe_model):
             self.error_text="Wrong argument"
@@ -86,6 +89,7 @@ class storage_prototype(error_proxy):
 
 
         result=[]
+        #берем только записи с номенклатурой из рецепта
         for cur_ing in list(ingridients.keys()):
             for cur_line in self.__data:
                 if cur_ing.id==cur_line.nomenclature.id:

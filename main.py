@@ -83,7 +83,7 @@ def get_rests():
         return error_proxy.create_error(error_proxy,Exception)
     if("stop_period") not in args.keys():
         return error_proxy.create_error(error_proxy,Exception)
-    #BEREM DATU ZAPROSOM
+    
 
     start_date= datetime.strptime(args["start_period"], "%Y-%m-%d")
     finish_date=datetime.strptime(args["stop_period"], "%Y-%m-%d")
@@ -99,20 +99,23 @@ def get_rests():
 
 @app.route("/api/storage/<receipt_id>/debits",methods=["GET"])
 def get_debits(receipt_id:str):
+    
+    #генерация работает, однако столкнулся с проблемой - тк айди каждый раз генериться случайно, узнать актуальный айди для фильтрации - можно  только из других запросов
     id=uuid.UUID(receipt_id)
     journal=storage.journal_key()
     rec=storage.reciepe_key()
 
-
+    #на случай если указанного айди не существует
     response_type=app.response_class(
         response=f"not_found",
         status=404,
         mimetype="application/text"
     )
 
-
+    #ищем рецепт по айди
     for cur_reciepe in item.storage.data[rec]:
-
+        
+        #если нашли совпадение - начинаем работу
         if id==cur_reciepe.id:
             data=storage_service(item.storage.data[journal]).create_reciepe_transactions(cur_reciepe)
             response_type=storage_service.create_response(data,app)

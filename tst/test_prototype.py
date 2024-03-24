@@ -96,7 +96,7 @@ class test_prototype(unittest.TestCase):
         assert not result.if_error
 
 
-    #сортировка по айди номенклатуры
+    #фильтер по айди номенклатуры
     def test_filter_nom_id(self):
         #Подготовка
         unit=settings_manager()
@@ -121,7 +121,7 @@ class test_prototype(unittest.TestCase):
         assert len(result.data)==5
         assert not result.if_error
 
-
+    #фильтрация по рецепту
     def test_filter_reciepe(self):
         #Подготовка
         unit=settings_manager()
