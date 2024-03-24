@@ -6,7 +6,7 @@ sys.path.append(Path(__file__).parent.parent)
 
 
 
-from models.abstract_reference import abstract_reference
+from src.models.abstract_reference import abstract_reference
 from exceptions import argument_exception
 from datetime import datetime
 

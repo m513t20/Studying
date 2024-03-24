@@ -7,7 +7,7 @@ sys.path.append(Path(__file__).parent.parent)
 
 
 
-from abstract_reference import abstract_reference
+from src.models.abstract_reference import abstract_reference
 from exceptions import argument_exception
 
 class reciepe_model(abstract_reference):

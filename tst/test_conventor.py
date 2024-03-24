@@ -11,6 +11,7 @@ import json
 from src.Logic.Reporting.Json_convert.basic_conventor import basic_conventor
 from src.Logic.Reporting.Json_convert.date_time_convertor import date_time_conventor
 from src.Logic.Reporting.Json_convert.reference_conventor import reference_conventor
+from src.models.range_model import range_model
 from src.settings_manager import settings_manager
 from error_proxy import error_proxy
 from src.storage.storage import storage
@@ -166,7 +167,8 @@ class test_convert(unittest.TestCase):
 
         #передаём рефернсы для работы конвентора (тк в рецепты входят и еденицы измерения и error proxy, кидам их в референсы. Фабричный метод это автоматизирует)
         #
-        item=reference_conventor(type(error_proxy()),type(factory.storage.data[storage.unit_key()][0]))
+        print(type(list((factory.storage.data[storage.reciepe_key()][0].ingridient_proportions).values())[0][2]))
+        item=reference_conventor(type(error_proxy()),range_model)
 
         #Действие
         #конвертируем рецепт
