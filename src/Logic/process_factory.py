@@ -14,15 +14,6 @@ class process_factory:
     def __build_structure(self):
         self.__maps[storage.process_turn_key()]=process_factory.process_storage_turn
 
-    #просеять по временному промежутку
-    @staticmethod
-    def __seed_on_period(journal:list,start:datetime,finish:datetime):
-        result=[]
-        for cur_line in journal:
-            if cur_line.period>=start and cur_line.period<=finish:
-                result.append(cur_line)
-        return result
-
 
     @staticmethod
     def process_storage_turn(journal:list):
@@ -58,19 +49,18 @@ class process_factory:
     
 
 
-    def create(self,key:str,journal:list,start:datetime,finish:datetime):
+    def create(self,key:str,journal:list):
         if not isinstance(key,str):
             raise argument_exception("Неверный аргумент")
-        
-        #получаем просеяный массив 
-        seeded=self.__seed_on_period(journal,start,finish)
+
+
 
 
         operation=self.__maps[key]
 
 
 
-        return operation(seeded)
+        return operation(journal)
 
 
 

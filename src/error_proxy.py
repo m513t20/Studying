@@ -1,7 +1,7 @@
 class error_proxy:
     __error_text=""
     __error_source=""
-
+    __if_error=False
 
 
     def __init__ (self, error_text: str="", error_source:str=""):
@@ -23,7 +23,6 @@ class error_proxy:
             return
             
 
-        self.__if_error=True 
         self.__error_text=value.strip()
 
         
@@ -41,14 +40,13 @@ class error_proxy:
             return
             
 
-        self.__if_error=True 
         self.__error_source=value.strip()
 
     
     
     @property 
     def if_error(self):
-        return self.__if_error
+        return (len(self.error_source)+len(self.error_text))>0
     
     def create_error(self,exception: Exception):
         if not isinstance(exception,Exception):

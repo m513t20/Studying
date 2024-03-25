@@ -9,11 +9,8 @@ from models.range_model import range_model
 from models.reciepe_model import reciepe_model
 from storage.storage import storage
 from exceptions import argument_exception
-from src.storage.storage_factory import storage_factory
 from models.nomenclature_model import nomenclature_model,nomenclature_group_model,range_model
 from src.storage.storage_factory import storage_factory
-from storage.storage_journal_row import storage_journal_row
-from storage.storage_journal_transaction import storage_journal_transaction
 from storage.storage_model import storage_model
 from settings import settings
 
@@ -61,13 +58,14 @@ class start_factory:
 
 
         #создаём еденицы
-        kg=range_model.create_kilogram()
+        sp=range_model.create_spoon()
+        kg=sp.base_range
         gr=kg.base_range
         
         l=range_model.create_litr()
         ml=l.base_range
 
-        sp=range_model.create_spoon()
+       
         
         sht=range_model.create_shtuka()
 

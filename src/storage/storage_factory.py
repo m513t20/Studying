@@ -12,6 +12,11 @@ from datetime import datetime
 
 
 class storage_factory:
+
+
+
+    #CDELAT POLNOCENNOY FABRIKOY CHEREZ NASLEDOVANIYE CLASSOV METODA
+    #POTOM SOBRAT FABRIKOY  METODY POLIMORFIZMOM
     
     @staticmethod
     def create_turn(stor:uuid.UUID,amount:int,nom:nomenclature_model,ran:range_model):

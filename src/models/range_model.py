@@ -6,7 +6,7 @@ sys.path.append(Path(__file__).parent.parent)
 
 
 
-from models.abstract_reference import abstract_reference
+from src.models.abstract_reference import abstract_reference
 from exceptions import argument_exception
 from datetime import datetime
 
@@ -103,4 +103,4 @@ class range_model(abstract_reference):
     
     @staticmethod 
     def create_spoon():
-        return range_model("Столовая ложка",1)
+        return range_model("Столовая ложка",67,range_model.create_kilogram())
