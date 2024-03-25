@@ -59,7 +59,12 @@ class storage_service:
         
         
         #конвентор
-        reference=reference_conventor(nomenclature_model,error_proxy,nomenclature_group_model,range_model,storage_journal_row,storage_turn_model)
+        reference=reference_conventor(nomenclature_model,
+                                      error_proxy,
+                                      nomenclature_group_model,
+                                      range_model,
+                                      storage_journal_row,
+                                      storage_turn_model)
         
 
         proces=process_factory()
@@ -85,7 +90,12 @@ class storage_service:
         transactions=prototype.filter_nom_id(id)
 
         #конвентор
-        reference=reference_conventor(nomenclature_model,error_proxy,nomenclature_group_model,range_model,storage_journal_row,storage_turn_model)
+        reference=reference_conventor(nomenclature_model,
+                                      error_proxy,
+                                      nomenclature_group_model,
+                                      range_model,
+                                      storage_journal_row,
+                                      storage_turn_model)
         
         
 
@@ -113,25 +123,20 @@ class storage_service:
         proces=process_factory()
         turn=proces.create(storage.process_turn_key(),transactions.data)
 
-
         transactions_list=[]
         #пробегаемся по обороту
         for cur_ing in list(reciepe.ingridient_proportions.keys()):
             #флаг для проверки на присутствие на складах
             flag=True
             for cur_nom in turn:
-
                 if cur_ing.id==cur_nom.nomenclature.id:
-
                     amount=list(reciepe.ingridient_proportions[cur_ing].keys())[0]
 
                     #пересчитываем единицы измерения
                     if cur_ing.ran_mod!=cur_nom.nomenclature.ran_mod:
                         amount*=cur_ing.ran_mod.recount_ratio
 
-
                     transactions_list.append(storage_factory.create_transaction(False,cur_ing,amount,datetime.now()))
-
                     flag=False 
                     break 
 
@@ -141,7 +146,13 @@ class storage_service:
                 transactions_list.append(f"{cur_nom.nomenclature.id} not found")
 
 
-        reference=reference_conventor(nomenclature_model,error_proxy,nomenclature_group_model,range_model,storage_journal_row,storage_turn_model,storage_journal_transaction)
+        reference=reference_conventor(nomenclature_model,
+                                      error_proxy,
+                                      nomenclature_group_model,
+                                      range_model,
+                                      storage_journal_row,
+                                      storage_turn_model,
+                                      storage_journal_transaction)
         result={}
         for index,cur_tran in enumerate(transactions_list):
 
@@ -166,9 +177,11 @@ class storage_service:
 
     @staticmethod
     def create_response(data:dict,app):
+
         if app is None:
             raise argument_exception()
         json_text = json.dumps( data)  
+
    
         # Подготовить ответ    
         result = app.response_class(

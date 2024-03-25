@@ -33,7 +33,7 @@ class test_prototype(unittest.TestCase):
 
 
         #действие
-        result=storage_prototype.filter_date(prot,datetime(2023,1,1),datetime(2024,12,31))
+        result=prot.filter_date(datetime(2023,1,1),datetime(2024,12,31))
 
 
 
@@ -57,7 +57,7 @@ class test_prototype(unittest.TestCase):
 
 
         #Действие
-        result=storage_prototype.filter_nom(prot,factory.storage.data[key][0].nomenclature)
+        result=prot.filter_nom(factory.storage.data[key][0].nomenclature)
 
 
         #проверка
@@ -85,8 +85,8 @@ class test_prototype(unittest.TestCase):
         result=storage_prototype.filter_nom(prot,factory.storage.data[key][0].nomenclature)
         result=storage_prototype.filter_date(result,datetime(2023,3,1),datetime(2024,12,31))
 
-        result_chek1=storage_prototype.filter_nom(prot,factory.storage.data[key][0].nomenclature)
-        result_chek2=storage_prototype.filter_date(prot,datetime(2023,3,1),datetime(2024,12,31))
+        result_chek1=prot.filter_nom(factory.storage.data[key][0].nomenclature)
+        result_chek2=prot.filter_date(datetime(2023,3,1),datetime(2024,12,31))
 
 
         #проверка
@@ -111,7 +111,7 @@ class test_prototype(unittest.TestCase):
 
 
         #действие
-        result=storage_prototype.filter_nom_id(prot,factory.storage.data[key][0].nomenclature.id)
+        result=prot.filter_nom_id(factory.storage.data[key][0].nomenclature.id)
 
         print(factory.storage.data[key][0].nomenclature.id)
 
@@ -136,7 +136,7 @@ class test_prototype(unittest.TestCase):
 
 
         #действие
-        result=storage_prototype.filter_reciepe(prot,factory.storage.data[storage.reciepe_key()][0])
+        result=prot.filter_reciepe(factory.storage.data[storage.reciepe_key()][0])
 
         for i in result.data:
             print(i.nomenclature.id)
