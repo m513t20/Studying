@@ -1,3 +1,5 @@
+import json
+
 class error_proxy:
     __error_text=""
     __error_source=""
@@ -41,6 +43,32 @@ class error_proxy:
             
 
         self.__error_source=value.strip()
+
+
+    @staticmethod
+    def create_response(app,messege:str,code:int):
+
+
+        if app is None:
+            raise Exception("Некорректно переданы параметры!")
+        
+        if code == 0:
+            code = 500
+        else:
+            code = code
+
+
+        json_text = json.dumps({"details" : messege}, sort_keys = True, indent = 4,  ensure_ascii = False) 
+        
+        # Подготовить ответ    
+        result = app.response_class(
+            response = f"{messege}",
+            status = code,
+            mimetype = "application/json; charset=utf-8"
+        )
+
+
+        return result
 
     
     
