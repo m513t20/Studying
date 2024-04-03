@@ -1,13 +1,14 @@
 from pathlib import Path
 import os
 import sys
+import uuid 
 
 sys.path.append(Path(__file__).parent.parent)
 
 
 
 from src.models.abstract_reference import abstract_reference
-from exceptions import argument_exception
+from exceptions import argument_exception,operation_exception
 from datetime import datetime
 
 
@@ -43,6 +44,12 @@ class range_model(abstract_reference):
             _type_: _description_
         """
         return self.__id    
+
+    @id.setter
+    def id(self,value:uuid.UUID):
+        if not isinstance(value,uuid.UUID):
+            raise argument_exception('Wrong type of argument')
+        self.__id=value 
     
 
     #коэффициент пересчёта
@@ -71,11 +78,44 @@ class range_model(abstract_reference):
     #сеттер
     @base_range.setter
     def base_range(self,value):
+        if value is None:
+            return None
+
         if not isinstance(value,range_model):
             raise argument_exception("некорректный аргумент")
         
         self.__base_range=value
 
+    
+
+    def _load(self, data: dict):
+        if data is None:
+            return None
+        
+        if len(data)==0:
+            raise argument_exception("wrong parameters")
+        
+
+        source_fields = ["id", "name","recount_ratio","base_range","creation_date"]
+        if set(source_fields).issubset(list(data.keys())) == False:
+            raise operation_exception(f"Невозможно загрузить данные в объект. {data}!")
+        
+        self.id=uuid.UUID(data["id"])
+
+        self.name=data["name"]
+
+        self.recount_ratio=int(data["recount_ratio"])
+
+        day,month,year=data["creation_date"].split('-')
+
+        self.__creation_date=datetime(int(year),int(month),int(day))
+
+        if data["base_range"]=="None":
+            self.base_range=None
+        else:
+            self.base_range=range_model()._load(data["base_range"])
+
+        return self
 
 
     @staticmethod

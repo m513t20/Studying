@@ -3,7 +3,8 @@ from src.models.abstract_reference import abstract_reference
 
 class nomenclature_group_model(abstract_reference):
 
-
+    def _load(self, data: dict):
+        return super()._load(data)
 
     @staticmethod
     def create_group():

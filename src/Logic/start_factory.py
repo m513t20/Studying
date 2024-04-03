@@ -11,8 +11,11 @@ from storage.storage import storage
 from exceptions import argument_exception
 from models.nomenclature_model import nomenclature_model,nomenclature_group_model,range_model
 from src.storage.storage_factory import storage_factory
+from src.Logic.Reporting.Json_convert.reference_conventor import reference_conventor
 from storage.storage_model import storage_model
 from settings import settings
+from error_proxy import error_proxy
+import json
 
 class start_factory:
 
@@ -24,18 +27,45 @@ class start_factory:
         self.__storage=stor
 
 
+    def __save(self):
+            storage_path=Path(__file__).parent.parent/'storage'/'saved_models'
+
+            reference=reference_conventor(nomenclature_model,
+                                          reciepe_model,
+                                            nomenclature_group_model,
+                                            range_model,
+                                            error_proxy)
+            for cur_key in list(self.__storage.data.keys()):
+                result_json={}
+                for index,cur_val in enumerate(self.__storage.data[cur_key]):
+                    result_json[index]=reference.convert(cur_val)
+
+                with open(storage_path/f'{cur_key}.json','w') as saving:
+                    saving.write(json.dumps(result_json))
+
+
+
+            
 
 
     def __build(self,nom:list):
         if self.__storage==None:
             self.__storage=storage()
 
+
+
+
+
+
         nom=start_factory.create_nomenclature()
-        #добавляем в data
+        #добавляем в data 
         self.__storage.data[storage.nomenclature_key()]=nom[0]
         self.__storage.data[storage.unit_key()]=nom[1]      
         self.__storage.data[storage.group_key()]=nom[2]
         self.__storage.data[storage.reciepe_key()]=nom[3]
+        #сохраняем
+        self.__save()
+
         self.__storage.data[storage.journal_key()]=nom[4]
                                                        
 
@@ -130,14 +160,12 @@ class start_factory:
 
 
         #создаём пропорции для рецептов (словарь типа {ингридиент:{количество : единица измерения}})
-        draniki_prop={Output[2]:{2:sp},Output[0]:{2:sp},Output[12]:{7:sht},Output[13]:{1:sht},Output[14]:{2:gr}}
+        draniki_prop={Output[2].id:{2:sp},Output[0].id:{2:sp},Output[12].id:{7:sht},Output[13].id:{1:sht},Output[14].id:{2:gr}}
 
         draniki.ingridient_proportions=draniki_prop
 
         return [Output,[kg,gr,l,ml,sht,sp],[group,group_eggs,group_vegs,group_meat],[draniki],journal]
 
-    def create_receipts(self):
-        pass
 
     def create(self):
         if self.__options.is_first_start:

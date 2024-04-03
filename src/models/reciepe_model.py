@@ -1,14 +1,15 @@
 from pathlib import Path
 import os
 import sys
+import uuid
 
 
 sys.path.append(Path(__file__).parent.parent)
 
 
-
+from models.range_model import range_model
 from src.models.abstract_reference import abstract_reference
-from exceptions import argument_exception
+from exceptions import argument_exception,operation_exception
 
 class reciepe_model(abstract_reference):
     __coocking_algoritm=""
@@ -34,7 +35,14 @@ class reciepe_model(abstract_reference):
             _type_: _description_
         """
         return self.__id    
-    
+
+    @id.setter
+    def id(self,value:uuid.UUID):
+        if not isinstance(value,uuid.UUID):
+            raise argument_exception('Wrong type of argument')
+        self.__id=value
+
+
     #описание рецепта
     @property
     def coocking_algoritm(self):
@@ -65,8 +73,6 @@ class reciepe_model(abstract_reference):
         
         self.__ingridient_proportions=value
 
-
-
     @staticmethod
     def create_draniki():
         algoritm="""
@@ -79,3 +85,44 @@ class reciepe_model(abstract_reference):
 Убавьте огонь до среднего и жарьте с обеих сторон по 4 минуты, до золотистости.
 Драники получаются хорошо прожаренными и хрустящими. Сразу подавайте к столу!"""
         return reciepe_model("Драники",algoritm.replace('\n',''))
+    
+
+
+    def _load(self, data: dict):
+
+        if data is None:
+            return None
+        
+        if len(data)==0:
+            raise argument_exception("wrong parameters")
+        
+
+        source_fields = ["id", "name","coocking_algoritm","ingridient_proportions"]
+
+
+
+        if set(source_fields).issubset(list(data.keys())) == False:
+            raise operation_exception(f"Невозможно загрузить данные в объект. {data}!")
+        
+        self.id=uuid.UUID(data["id"])
+
+        self.name=data["name"]
+
+        self.coocking_algoritm=data["coocking_algoritm"]
+
+
+
+
+
+        self.ingrident_proportions={}
+        for cur_key in list(data["ingridient_proportions"].keys()):
+            amount=list(data["ingridient_proportions"][cur_key].keys())
+            tmp_rm=range_model()
+
+            ran_mod=list(data["ingridient_proportions"][cur_key].values())[0]
+
+
+            tmp_rm._load(ran_mod)
+            self.ingrident_proportions[cur_key]={amount[0]:tmp_rm}
+
+        return self

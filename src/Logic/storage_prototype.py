@@ -92,7 +92,7 @@ class storage_prototype(error_proxy):
         #берем только записи с номенклатурой из рецепта
         for cur_ing in list(ingridients.keys()):
             for cur_line in self.__data:
-                if cur_ing.id==cur_line.nomenclature.id:
+                if cur_ing==cur_line.nomenclature.id:
                     result.append(cur_line)
 
 

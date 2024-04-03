@@ -1,6 +1,8 @@
 from pathlib import Path
 import os
 import sys
+import json
+import uuid
 
 
 a=os.path.join(Path(__file__).parent.parent,'src')
@@ -248,3 +250,108 @@ class test_models(unittest.TestCase):
         assert item.name=="Драники"
         assert item.coocking_algoritm==algoritm     
         assert len(item.ingrident_proportions) !=0
+
+
+    def test_id_setter(self):
+            #подготвка 
+            item1=nomenclature_group_model("some_nome")
+            id=uuid.uuid4()
+
+
+            #действие 
+            item1.id=id 
+
+
+            assert id==item1.id
+
+
+    def test_reciepe_loader(self):
+        #подготовка
+        path_j=Path(__file__).parent/'test_load_jsons'
+
+
+        with open(path_j/('reciepe_test.json')) as j_file:
+
+            data=json.load(j_file)
+
+
+        #действие
+
+        rec=reciepe_model()
+        rec._load(data['0'])
+
+        #print(rec.coocking_algoritm,rec.id,rec.name,rec.ingrident_proportions,rec)
+
+        #проверка
+        assert rec.name==data['0']["name"]
+        assert rec.id==uuid.UUID(data['0']["id"])
+
+    
+    def test_range_loader(self):
+        #подготовка
+        path_j=Path(__file__).parent/'test_load_jsons'
+
+
+        with open(path_j/('range_test.json')) as j_file:
+
+            data=json.load(j_file)
+
+
+        #действие
+
+        rec=range_model()
+        rec._load(data['0'])
+
+        #print(rec.coocking_algoritm,rec.id,rec.name,rec.ingrident_proportions,rec)
+
+        #проверка
+        assert rec.name==data['0']["name"]
+        assert rec.id==uuid.UUID(data['0']["id"])
+
+    def test_nomenclature_loader(self):
+        #подготовка
+        path_j=Path(__file__).parent/'test_load_jsons'
+
+
+        with open(path_j/('nomenclature_test.json')) as j_file:
+
+            data=json.load(j_file)
+
+
+        #действие
+
+        rec=nomenclature_model()
+        rec._load(data['0'])
+
+        #print(rec.coocking_algoritm,rec.id,rec.name,rec.ingrident_proportions,rec)
+
+        #проверка
+        assert rec.name==data['0']["name"]
+        assert rec.id==uuid.UUID(data['0']["id"])
+        
+
+    def test_nomenclature_group_loader(self):
+        #подготовка
+        path_j=Path(__file__).parent/'test_load_jsons'
+
+
+        with open(path_j/('group_test.json')) as j_file:
+
+            data=json.load(j_file)
+
+
+        #действие
+
+        rec=nomenclature_group_model()
+        rec._load(data['0'])
+
+        #print(rec.coocking_algoritm,rec.id,rec.name,rec.ingrident_proportions,rec)
+
+        #проверка
+        assert rec.name==data['0']["name"]
+        assert rec.id==uuid.UUID(data['0']["id"])
+        
+
+        
+
+   

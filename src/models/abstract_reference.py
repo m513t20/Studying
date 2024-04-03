@@ -6,7 +6,7 @@ sys.path.append(Path(__file__).parent.parent)
 
 import uuid
 from abc import ABC
-from exceptions import argument_exception
+from exceptions import argument_exception,operation_exception
 from error_proxy import error_proxy
 
 class abstract_reference(ABC):
@@ -39,7 +39,12 @@ class abstract_reference(ABC):
             _type_: _description_
         """
         return self.__id    
-    
+
+    @id.setter
+    def id(self,value:uuid.UUID):
+        if not isinstance(value,uuid.UUID):
+            raise argument_exception('Wrong type of argument')
+        self.__id=value
 
     
     def create_id(self):
@@ -68,5 +73,28 @@ class abstract_reference(ABC):
             raise argument_exception("Некорректное значение наименование!")
         
         self.__name = value_striped
+
+
+
+    #load
+    def _load(self,data:dict):
+        if data is None:
+            return None
+        
+        if len(data)==0:
+            raise argument_exception("wrong parameters")
+        
+
+        source_fields = ["id", "name"]
+        if set(source_fields).issubset(list(data.keys())) == False:
+            raise operation_exception(f"Невозможно загрузить данные в объект. {data}!")
+        
+        self.id=uuid.UUID(data["id"])
+
+        self.name=data["name"]
+
+        return self
+
+        
         
         
