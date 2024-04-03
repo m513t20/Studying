@@ -77,23 +77,25 @@ class abstract_reference(ABC):
 
 
     #load
-    def _load(self,data:dict):
+    @staticmethod
+    def _load(data:dict):
         if data is None:
             return None
         
         if len(data)==0:
             raise argument_exception("wrong parameters")
         
+        res=abstract_reference()
 
         source_fields = ["id", "name"]
         if set(source_fields).issubset(list(data.keys())) == False:
             raise operation_exception(f"Невозможно загрузить данные в объект. {data}!")
         
-        self.id=uuid.UUID(data["id"])
+        res.id=uuid.UUID(data["id"])
 
-        self.name=data["name"]
+        res.name=data["name"]
 
-        return self
+        return res
 
         
         

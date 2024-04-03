@@ -95,8 +95,8 @@ class nomenclature_model(abstract_reference):
         self.__ran_mod=value
 
 
-
-    def _load(self, data: dict):
+    @staticmethod
+    def _load(data: dict):
         if data is None:
             return None
         
@@ -108,14 +108,16 @@ class nomenclature_model(abstract_reference):
         if set(source_fields).issubset(list(data.keys())) == False:
             raise operation_exception(f"Невозможно загрузить данные в объект. {data}!")
         
-        self.id=uuid.UUID(data["id"])
+        res=nomenclature_model()
+        
+        res.id=uuid.UUID(data["id"])
 
-        self.name=data["name"]
+        res.name=data["name"]
 
-        self.full_name=data["full_name"]
+        res.full_name=data["full_name"]
 
-        self.nom_group=nomenclature_group_model()._load(data["nom_group"])
+        res.nom_group=nomenclature_group_model._load(data["nom_group"])
 
-        self.ran_mod=range_model()._load(data["ran_mod"])
+        res.ran_mod=range_model._load(data["ran_mod"])
 
-        return self
+        return res

@@ -87,8 +87,8 @@ class reciepe_model(abstract_reference):
         return reciepe_model("Драники",algoritm.replace('\n',''))
     
 
-
-    def _load(self, data: dict):
+    @staticmethod
+    def _load(data: dict):
 
         if data is None:
             return None
@@ -99,30 +99,31 @@ class reciepe_model(abstract_reference):
 
         source_fields = ["id", "name","coocking_algoritm","ingridient_proportions"]
 
+        res=reciepe_model()
 
 
         if set(source_fields).issubset(list(data.keys())) == False:
             raise operation_exception(f"Невозможно загрузить данные в объект. {data}!")
         
-        self.id=uuid.UUID(data["id"])
+        res.id=uuid.UUID(data["id"])
 
-        self.name=data["name"]
+        res.name=data["name"]
 
-        self.coocking_algoritm=data["coocking_algoritm"]
-
-
+        res.coocking_algoritm=data["coocking_algoritm"]
 
 
 
-        self.ingrident_proportions={}
+
+
+        res.ingrident_proportions={}
         for cur_key in list(data["ingridient_proportions"].keys()):
             amount=list(data["ingridient_proportions"][cur_key].keys())
-            tmp_rm=range_model()
+
 
             ran_mod=list(data["ingridient_proportions"][cur_key].values())[0]
 
 
-            tmp_rm._load(ran_mod)
-            self.ingrident_proportions[cur_key]={amount[0]:tmp_rm}
+            tmp_rm=range_model._load(ran_mod)
+            res.ingrident_proportions[cur_key]={amount[0]:tmp_rm}
 
-        return self
+        return res

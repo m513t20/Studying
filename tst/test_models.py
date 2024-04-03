@@ -277,8 +277,7 @@ class test_models(unittest.TestCase):
 
         #действие
 
-        rec=reciepe_model()
-        rec._load(data['0'])
+        rec=reciepe_model._load(data['0'])
 
         #print(rec.coocking_algoritm,rec.id,rec.name,rec.ingrident_proportions,rec)
 
@@ -299,8 +298,7 @@ class test_models(unittest.TestCase):
 
         #действие
 
-        rec=range_model()
-        rec._load(data['0'])
+        rec=range_model._load(data['0'])
 
         #print(rec.coocking_algoritm,rec.id,rec.name,rec.ingrident_proportions,rec)
 
@@ -320,8 +318,7 @@ class test_models(unittest.TestCase):
 
         #действие
 
-        rec=nomenclature_model()
-        rec._load(data['0'])
+        rec=nomenclature_model._load(data['0'])
 
         #print(rec.coocking_algoritm,rec.id,rec.name,rec.ingrident_proportions,rec)
 
@@ -342,8 +339,7 @@ class test_models(unittest.TestCase):
 
         #действие
 
-        rec=nomenclature_group_model()
-        rec._load(data['0'])
+        rec=nomenclature_group_model._load(data['0'])
 
         #print(rec.coocking_algoritm,rec.id,rec.name,rec.ingrident_proportions,rec)
 

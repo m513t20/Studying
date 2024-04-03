@@ -87,35 +87,38 @@ class range_model(abstract_reference):
         self.__base_range=value
 
     
-
-    def _load(self, data: dict):
+    @staticmethod
+    def _load(data: dict):
         if data is None:
             return None
         
         if len(data)==0:
             raise argument_exception("wrong parameters")
         
+        
 
         source_fields = ["id", "name","recount_ratio","base_range","creation_date"]
         if set(source_fields).issubset(list(data.keys())) == False:
             raise operation_exception(f"Невозможно загрузить данные в объект. {data}!")
         
-        self.id=uuid.UUID(data["id"])
+        res=range_model()
+        
+        res.id=uuid.UUID(data["id"])
 
-        self.name=data["name"]
+        res.name=data["name"]
 
-        self.recount_ratio=int(data["recount_ratio"])
+        res.recount_ratio=int(data["recount_ratio"])
 
         day,month,year=data["creation_date"].split('-')
 
-        self.__creation_date=datetime(int(year),int(month),int(day))
+        res.__creation_date=datetime(int(year),int(month),int(day))
 
         if data["base_range"]=="None":
-            self.base_range=None
+            res.base_range=None
         else:
-            self.base_range=range_model()._load(data["base_range"])
+            res.base_range=range_model()._load(data["base_range"])
 
-        return self
+        return res
 
 
     @staticmethod
