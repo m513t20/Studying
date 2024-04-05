@@ -109,7 +109,7 @@ class settings_manager(object) :
         saved={}
 
         for cur_key in list(self.__data.keys()):
-            saved[cur_key]=getattr(self.settings,cur_key)
+            saved[cur_key]=str(getattr(self.settings,cur_key))
             print(getattr(self.settings,cur_key))
 
         return json.dumps(saved,ensure_ascii=False)
