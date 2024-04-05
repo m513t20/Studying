@@ -164,6 +164,19 @@ def get_sorted_turn(nomenclature_id:str):
 
     return responce_type
     
+@app.route("/api/settings/mode/<mode_type>")
+def switch_mode(mode_type):
+    try:
+
+        unit.settings.is_first_start=mode_type 
+        unit.save_settings()
+
+        response=storage_service.create_response({'is_first_start':str(str(mode_type).lower()=='true')},app)
+        return response
+
+    except:
+        return error_proxy.create_response(app,"wrong argumen",500)
+
 
 
 

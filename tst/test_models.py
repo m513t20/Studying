@@ -300,8 +300,8 @@ class test_models(unittest.TestCase):
 
         rec=range_model._load(data['0'])
 
-        #print(rec.coocking_algoritm,rec.id,rec.name,rec.ingrident_proportions,rec)
-
+        print(rec.creation_date)
+        
         #проверка
         assert rec.name==data['0']["name"]
         assert rec.id==uuid.UUID(data['0']["id"])

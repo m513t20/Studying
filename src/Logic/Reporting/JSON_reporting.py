@@ -21,7 +21,7 @@ class Json_reporting(abstract_reporting):
 
     #отдаём типы сложных классов в convert factory
     def __build_references(self):
-        types=[type(error_proxy())]
+        types=[error_proxy]
         for cur_ref_key in (list(self.data.keys())):
 
             types.append(type(self.data[cur_ref_key][0]))
@@ -34,14 +34,11 @@ class Json_reporting(abstract_reporting):
 
     def create(self, value):
 
-
-        #берём ключи
-        keys=super().get_fields(value)
-
         Json_return={}
 
         #по делаем json по индексам
         for index,cur_val in enumerate(self.data[value]):
+            print(type(cur_val))
             Json_return[index]=self.__factory.create(cur_val)
 
         

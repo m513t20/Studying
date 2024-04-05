@@ -26,6 +26,7 @@ class reference_conventor(abstract_convertor):
 
     #конвертация словаря с проверкой на сложные типы в нём
     def __convert_dict(self,value:dict):
+
         result={}
         for cur_key in list(value.keys()):
             atr=value[cur_key]
@@ -74,12 +75,11 @@ class reference_conventor(abstract_convertor):
         for cur_field in (fields):
             atr=getattr(reference,cur_field)
             result_key=str(cur_field)
-            
 
             result[result_key]=self.__converts[type(atr)](atr)
 
 
-
+        
         return result
 
 

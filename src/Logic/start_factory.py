@@ -21,14 +21,15 @@ class start_factory:
 
     __options:settings=None
     __storage:storage=None
-    
+    __storage_path=Path(__file__).parent.parent/'storage'/'saved_models'
+
     def __init__(self,options:settings,stor:storage=None):
         self.__options=options
         self.__storage=stor
 
 
     def __save(self):
-            storage_path=Path(__file__).parent.parent/'storage'/'saved_models'
+            
 
             reference=reference_conventor(nomenclature_model,
                                           reciepe_model,
@@ -40,7 +41,7 @@ class start_factory:
                 for index,cur_val in enumerate(self.__storage.data[cur_key]):
                     result_json[index]=reference.convert(cur_val)
 
-                with open(storage_path/f'{cur_key}.json','w') as saving:
+                with open(self.__storage_path/f'{cur_key}.json','w') as saving:
                     saving.write(json.dumps(result_json))
 
 
@@ -124,7 +125,7 @@ class start_factory:
 
 
 
-        #создаём журнал 
+        #создаём журнал ******ПЕРЕНЕСТИ В ОТДЕЛЬНУЮ ФУНКЦИЮ********
         stor1=storage_model('переулок штукатуров 212')
         stor2=storage_model('проспект блин-не-туда-свернул 11')
         date1=datetime(2024,1,15)
@@ -175,8 +176,29 @@ class start_factory:
             return ret
         
         else:
-            items=[]
+            items=self.__load_models()
+            self.__build(items)
             return items
+        
+
+    def __load_models(self):
+        res=[]
+        loader=[nomenclature_model._load,range_model._load,nomenclature_group_model._load,reciepe_model._load]
+        keys=[storage.nomenclature_key(),storage.unit_key(),storage.group_key(),storage.reciepe_key()]
+
+        for index,cur_key in enumerate(keys):
+            print(index)
+            with open(self.__storage_path/f'{cur_key}.json') as source:
+                cur_json=json.load(source)
+                tmp_res=[]
+                for cur_value in list(cur_json.values()):
+                    tmp_res.append(loader[index](cur_value))
+                res.append(tmp_res)
+        res.append([])
+        return res
+
+
+
 
 
     @property

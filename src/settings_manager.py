@@ -4,6 +4,7 @@ import json
 import uuid
 from settings import settings
 from exceptions import argument_exception, operation_exception
+from src.Logic.Reporting.Json_convert.reference_conventor import reference_conventor
 
 class settings_manager(object) :
     # Имя файла настроек
@@ -28,22 +29,18 @@ class settings_manager(object) :
             raise operation_exception("Невозможно создать объект типа settings.py")
         
         fields = dir(self.__settings.__class__)
-        print(fields)
-        
+
 
         
         field_keys=list(self.__data.keys())
-        print(field_keys)
 
         #по ключам json подставляет атрибуты для класса и проверяет их
         check_atrs=0
         for cur_key in field_keys:
             if cur_key in fields:
-                check_atrs+=1
                 value = self.__data[cur_key]
+                print(value,type(value),cur_key)
                 setattr(self.__settings,cur_key,value)
-                print(getattr(self.__settings,cur_key))
-
 
 
 
@@ -97,10 +94,7 @@ class settings_manager(object) :
         """
         file_path = os.path.join(self.__file_path,self.__file_name)
 
-        # print('choose file adress')
-        # file_adress=input(file_path.parent)
 
-        #settings_file = file_path.parent+self.__file_name
         settings_file = file_path
         if not os.path.exists(settings_file):
             raise operation_exception("ERROR: Невозможно загрузить настройки! Не найден файл %s", settings_file)
@@ -108,4 +102,22 @@ class settings_manager(object) :
         with open(settings_file, "r") as read_file:
             self.__data = json.load(read_file)          
     
-    
+
+    #настройки в json 
+    def _make_json(self):
+        saved={}
+
+        for cur_key in list(self.__data.keys()):
+            saved[cur_key]=getattr(self.settings,cur_key)
+            print(getattr(self.settings,cur_key))
+
+        return json.dumps(saved,ensure_ascii=False)
+        
+    #сохранить настройки
+    def save_settings(self):
+        res=self._make_json()
+        file=os.path.join(self.__file_path,self.__file_name)
+
+        with open(file,'w') as saved:
+            saved.write(res)
+        
