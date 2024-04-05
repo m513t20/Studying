@@ -32,6 +32,7 @@ item.create()
 @app.route("/api/report/<storage_key>",methods=["GET"])
 def get_report(storage_key:str):
 
+
     check=[storage.unit_key(),storage.group_key(),storage.reciepe_key(),storage.nomenclature_key(),storage.journal_key()]
 
 
@@ -46,15 +47,13 @@ def get_report(storage_key:str):
     #action
 
     if storage_key in check:
-        factory.create(report_type,item.storage.data,storage_key)
+        result=factory.create(report_type,item.storage.data,storage_key)
+        return send_file(f'report.{report_type.lower()}')
+    
+    else:
+        return error_proxy.create_response(app,'Ошибка ввода ключа',404)
 
-    # response_type=app.response_class(
-    #     response=f"{result}",
-    #     status=200,
-    #     mimetype="application/text"
-    # )
-   
-    return send_file(f'report.{report_type.lower()}')
+        
 
 
 @app.route("/api/storage/<nomenclature_id>/turns",methods=["GET"])
@@ -63,8 +62,12 @@ def get_nomenclature_rests(nomenclature_id:uuid.UUID):
 
 
     #генерация работает, однако столкнулся с проблемой - тк айди каждый раз генериться случайно, узнать актуальный айди для фильтрации - можно  только из других запросов
-    data=storage_service(item.storage.data[key]).create_id_turns(uuid.UUID(nomenclature_id))
+    try:
+        data=storage_service(item.storage.data[key]).create_id_turns(uuid.UUID(nomenclature_id))
+    except:
+        return error_proxy.create_response(app,'Ошибка ввода айди',500)
 
+    
     responce_type=storage_service.create_response(data,app)
 
     return responce_type
@@ -80,9 +83,9 @@ def get_rests():
 
     args=request.args
     if("start_period") not in args.keys():
-        return error_proxy.create_error(error_proxy,Exception)
+        return error_proxy.create_response(app,'Ошибка ввода ключа',404)
     if("stop_period") not in args.keys():
-        return error_proxy.create_error(error_proxy,Exception)
+        return error_proxy.create_response(app,'Ошибка ввода ключа',404)
     
 
     start_date= datetime.strptime(args["start_period"], "%Y-%m-%d")
@@ -99,11 +102,6 @@ def get_rests():
 
 @app.route("/api/storage/<receipt_id>/debits",methods=["GET"])
 def get_debits(receipt_id:str):
-    
-    #генерация работает, однако столкнулся с проблемой - тк айди каждый раз генериться случайно, узнать актуальный айди для фильтрации - можно  только из других запросов
-    id=uuid.UUID(receipt_id)
-    journal=storage.journal_key()
-    rec=storage.reciepe_key()
 
     #на случай если указанного айди не существует
     response_type=app.response_class(
@@ -112,9 +110,22 @@ def get_debits(receipt_id:str):
         mimetype="application/text"
     )
 
+
+    
+    #генерация работает, однако столкнулся с проблемой - тк айди каждый раз генериться случайно, узнать актуальный айди для фильтрации - можно  только из других запросов
+    try:
+        id=uuid.UUID(receipt_id)
+    except:
+        return response_type
+    
+    journal=storage.journal_key()
+    rec=storage.reciepe_key()
+
+
+
     #ищем рецепт по айди
     for cur_reciepe in item.storage.data[rec]:
-        
+        print(id,cur_reciepe.id)
         #если нашли совпадение - начинаем работу
         if id==cur_reciepe.id:
             data=storage_service(item.storage.data[journal]).create_reciepe_transactions(cur_reciepe)
@@ -123,6 +134,50 @@ def get_debits(receipt_id:str):
 
         
     return response_type
+
+
+
+@app.route("/api/storage/<nomenclature_id>/rests")
+def get_sorted_turn(nomenclature_id:str):
+
+
+
+    args=request.args
+    storage_id=None
+
+    key=storage.journal_key()
+    if "storage_id" in args.keys():
+        storage_id=args["storage_id"]
+
+
+
+    try:
+        #генерация работает, однако столкнулся с проблемой - тк айди каждый раз генериться случайно, узнать актуальный айди для фильтрации - можно  только из других запросов
+        data=storage_service(item.storage.data[key]).create_id_turns_storage(uuid.UUID(nomenclature_id),storage_id)
+    except:
+        return error_proxy.create_response(app,'Ошибка ввода айди',404)
+
+    responce_type=storage_service.create_response(data,app)
+
+
+    
+
+    return responce_type
+    
+@app.route("/api/settings/mode/<mode_type>")
+def switch_mode(mode_type):
+    try:
+
+        unit.settings.is_first_start=mode_type 
+        unit.save_settings()
+
+        response=storage_service.create_response({'is_first_start':str(str(mode_type).lower()=='true')},app)
+        return response
+
+    except:
+        return error_proxy.create_response(app,"wrong argumen",500)
+
+
 
 
 

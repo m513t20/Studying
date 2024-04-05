@@ -1,11 +1,1 @@
-{
-    "is_first_start":"True",
-    "first_name":"V A ",
-    "INN":"1 234 56 78 9012   ",
-    "account":"    123 45 678 901",
-    "correspond_account":"109 876 5 3210     ", 
-    "BIK":"1 23 4 56 789      ", 
-    "name":"Name example",
-    "property_type":"'OOO'",
-    "report_type":"Json"
-}
+{"is_first_start": false, "first_name": "V A", "INN": "123456789012", "account": "12345678901", "correspond_account": "10987653210", "BIK": "123456789", "name": "Name example", "property_type": "'OOO'", "report_type": "Json"}

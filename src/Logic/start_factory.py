@@ -11,31 +11,62 @@ from storage.storage import storage
 from exceptions import argument_exception
 from models.nomenclature_model import nomenclature_model,nomenclature_group_model,range_model
 from src.storage.storage_factory import storage_factory
+from src.Logic.Reporting.Json_convert.reference_conventor import reference_conventor
 from storage.storage_model import storage_model
 from settings import settings
+from error_proxy import error_proxy
+import json
 
 class start_factory:
 
     __options:settings=None
     __storage:storage=None
-    
+    __storage_path=Path(__file__).parent.parent/'storage'/'saved_models'
+
     def __init__(self,options:settings,stor:storage=None):
         self.__options=options
         self.__storage=stor
 
 
+    def __save(self):
+            
+
+            reference=reference_conventor(nomenclature_model,
+                                          reciepe_model,
+                                            nomenclature_group_model,
+                                            range_model,
+                                            error_proxy)
+            for cur_key in list(self.__storage.data.keys()):
+                result_json={}
+                for index,cur_val in enumerate(self.__storage.data[cur_key]):
+                    result_json[index]=reference.convert(cur_val)
+
+                with open(self.__storage_path/f'{cur_key}.json','w') as saving:
+                    saving.write(json.dumps(result_json))
+
+
+
+            
 
 
     def __build(self,nom:list):
         if self.__storage==None:
             self.__storage=storage()
 
+
+
+
+
+
         nom=start_factory.create_nomenclature()
-        #добавляем в data
+        #добавляем в data 
         self.__storage.data[storage.nomenclature_key()]=nom[0]
         self.__storage.data[storage.unit_key()]=nom[1]      
         self.__storage.data[storage.group_key()]=nom[2]
         self.__storage.data[storage.reciepe_key()]=nom[3]
+        #сохраняем
+        self.__save()
+
         self.__storage.data[storage.journal_key()]=nom[4]
                                                        
 
@@ -94,7 +125,7 @@ class start_factory:
 
 
 
-        #создаём журнал 
+        #создаём журнал ******ПЕРЕНЕСТИ В ОТДЕЛЬНУЮ ФУНКЦИЮ********
         stor1=storage_model('переулок штукатуров 212')
         stor2=storage_model('проспект блин-не-туда-свернул 11')
         date1=datetime(2024,1,15)
@@ -130,14 +161,12 @@ class start_factory:
 
 
         #создаём пропорции для рецептов (словарь типа {ингридиент:{количество : единица измерения}})
-        draniki_prop={Output[2]:{2:sp},Output[0]:{2:sp},Output[12]:{7:sht},Output[13]:{1:sht},Output[14]:{2:gr}}
+        draniki_prop={Output[2].id:{2:sp},Output[0].id:{2:sp},Output[12].id:{7:sht},Output[13].id:{1:sht},Output[14].id:{2:gr}}
 
         draniki.ingridient_proportions=draniki_prop
 
         return [Output,[kg,gr,l,ml,sht,sp],[group,group_eggs,group_vegs,group_meat],[draniki],journal]
 
-    def create_receipts(self):
-        pass
 
     def create(self):
         if self.__options.is_first_start:
@@ -147,8 +176,29 @@ class start_factory:
             return ret
         
         else:
-            items=[]
+            items=self.__load_models()
+            self.__build(items)
             return items
+        
+
+    def __load_models(self):
+        res=[]
+        loader=[nomenclature_model._load,range_model._load,nomenclature_group_model._load,reciepe_model._load]
+        keys=[storage.nomenclature_key(),storage.unit_key(),storage.group_key(),storage.reciepe_key()]
+
+        for index,cur_key in enumerate(keys):
+            print(index)
+            with open(self.__storage_path/f'{cur_key}.json') as source:
+                cur_json=json.load(source)
+                tmp_res=[]
+                for cur_value in list(cur_json.values()):
+                    tmp_res.append(loader[index](cur_value))
+                res.append(tmp_res)
+        res.append([])
+        return res
+
+
+
 
 
     @property

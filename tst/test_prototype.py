@@ -145,3 +145,30 @@ class test_prototype(unittest.TestCase):
         assert isinstance(result,storage_prototype)
         assert len(result.data)>0
         assert not result.if_error
+
+
+
+    #фильтрация по складу
+    def test_filter_storage(self):
+        #Подготовка
+        unit=settings_manager()
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        unit.open('Tester.json',address)
+        factory=start_factory(unit.settings)
+
+        factory.create()
+        key=storage.journal_key()
+
+        prot=storage_prototype(factory.storage.data[key])
+
+
+        #действие
+        result=prot.filter_storage(prot.data[0].storage_id)
+
+        for i in result.data:
+            print(i.storage_id)
+
+        #проверка
+        assert isinstance(result,storage_prototype)
+        assert len(result.data)>0
+        assert not result.if_error

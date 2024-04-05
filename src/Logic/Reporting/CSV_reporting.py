@@ -36,9 +36,9 @@ class CSV_reporting(abstract_reporting):
 
         #шапка таблицы
         for cur_key in keys:
-            result_csv+=cur_key+','
+            result_csv+=cur_key+';'
         
-        result_csv=result_csv.strip(',')+'\n'
+        result_csv=result_csv.strip(';')+'\n'
 
 
 
@@ -49,10 +49,10 @@ class CSV_reporting(abstract_reporting):
 
                 #проверяем на словари
                 if isinstance(cur_atr,dict):
-                    result_csv+=str(self.__dict_to_str(cur_atr))+','
+                    result_csv+=str(self.__dict_to_str(cur_atr))+';'
                 else:
-                    result_csv+=str(cur_atr)+','
-            result_csv=result_csv.strip(',')
+                    result_csv+=str(cur_atr)+';'
+            result_csv=result_csv.strip(';')
             result_csv+='\n'
         
 

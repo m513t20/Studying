@@ -195,8 +195,9 @@ class settings:
 
     @is_first_start.setter
     def is_first_start(self,value):
-        if not isinstance(value,str):
+        if not isinstance(value,str) and not isinstance(value,bool):
             raise argument_exception("wrong argument")
         
+        print(str(value).lower()=='true',value)
 
-        self.__first_start=(value.lower()=='true')
+        self.__first_start=(str(value).lower()=='true')

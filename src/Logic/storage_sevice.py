@@ -166,8 +166,71 @@ class storage_service:
 
 
         return result
+    
+        
+    #рейтинг номенклатуры по складам и айди
+    def create_id_turns_storage(self,nomenclature_id:uuid.UUID,storage_id:str):
+        if not isinstance(nomenclature_id,uuid.UUID):
+            raise argument_exception("Неверный аргумент")
+        
+        transactions=storage_prototype(self.__data)
+
+
+
+        if storage_id is not None:
+            transactions=transactions.filter_storage(uuid.UUID(storage_id))
+
+
+        #фильтруем
+        transactions=transactions.filter_nom_id(nomenclature_id)
+
+
+
         
 
+        print(transactions)
+
+
+
+
+
+
+
+        
+
+        #конвентор
+        reference=reference_conventor(nomenclature_model,
+                                      error_proxy,
+                                      nomenclature_group_model,
+                                      range_model,
+                                      storage_journal_row,
+                                      storage_turn_model)
+        
+        
+
+        proces=process_factory()
+
+        data=proces.create(storage.process_turn_key(),transactions.data)
+
+        data_turn_sort={}
+
+
+        #по ключам оборота делаем слвоарь складов
+        for cur_turn in data:
+            data_turn_sort[cur_turn.amount]=cur_turn
+
+        keys=list(data_turn_sort.keys())
+
+        keys.sort(reverse=True)
+
+
+
+        result={}
+        for index,cur_tran in enumerate(keys):
+            result[index]=reference.convert(data_turn_sort[cur_tran])
+
+
+        return result
 
 
 

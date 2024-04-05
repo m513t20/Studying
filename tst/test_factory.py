@@ -62,11 +62,13 @@ class test_factory(unittest.TestCase):
 
 
         check=item.create()
+        
+        print(item.storage.data[storage.unit_key()][0].creation_date)
+        print(check)
 
-
-
-        assert item.storage is None
-        assert len(check)==0
+        assert item.storage is  not None
+        assert len(check)==5
+        
 
 
     def test_check_factory_report_create(self):

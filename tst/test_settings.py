@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import sys
+import json
 
 sys.path.append(os.path.join(Path(__file__).parent.parent,'src'))
 
@@ -176,8 +177,28 @@ class test_settings(unittest.TestCase):
         manager=settings_manager()
         #адрес
         address=os.path.join(Path(__file__).parent.parent,'Jsons')
+
         print(address)
 
 
         result=manager.open("Tester.json",address)
         assert result==True
+
+
+
+    def test_check_convert_json_settings(self):
+        #подготовка
+        manager=settings_manager()
+        #адрес
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        result=manager.open("Tester.json",address)
+
+
+        #действие
+        try:
+            dic=manager.save_settings()
+            assert True==True
+            return
+        except:
+            assert False==True
+

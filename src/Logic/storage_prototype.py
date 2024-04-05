@@ -92,8 +92,28 @@ class storage_prototype(error_proxy):
         #берем только записи с номенклатурой из рецепта
         for cur_ing in list(ingridients.keys()):
             for cur_line in self.__data:
-                if cur_ing.id==cur_line.nomenclature.id:
+                if cur_ing==cur_line.nomenclature.id:
                     result.append(cur_line)
+
+
+        return storage_prototype(result)
+    
+    def filter_storage(self,storage_id:uuid.UUID):
+        if not isinstance(storage_id,uuid.UUID):
+            self.error_text="Wrong argument"
+
+
+
+        if self.if_error:
+            return self.__data
+        
+        result=[]
+
+        #ищем сходные айди
+        for cur_line in self.__data:
+            print(cur_line.storage_id,storage_id)
+            if cur_line.storage_id==storage_id:
+                result.append(cur_line)
 
 
         return storage_prototype(result)

@@ -1,13 +1,14 @@
 from pathlib import Path
 import os
 import sys
+import uuid 
 
 sys.path.append(Path(__file__).parent.parent)
 
 
 
 from src.models.abstract_reference import abstract_reference
-from src.exceptions import argument_exception
+from src.exceptions import argument_exception,operation_exception
 from src.models.nomenclature_group_model import nomenclature_group_model
 from src.models.range_model import range_model
 
@@ -39,6 +40,12 @@ class nomenclature_model(abstract_reference):
             _type_: _description_
         """
         return self.__id    
+
+    @id.setter
+    def id(self,value:uuid.UUID):
+        if not isinstance(value,uuid.UUID):
+            raise argument_exception('Wrong type of argument')
+        self.__id=value 
 
     @property
     def full_name(self):
@@ -88,3 +95,29 @@ class nomenclature_model(abstract_reference):
         self.__ran_mod=value
 
 
+    @staticmethod
+    def _load(data: dict):
+        if data is None:
+            return None
+        
+        if len(data)==0:
+            raise argument_exception("wrong parameters")
+        
+
+        source_fields = ["id", "name","full_name","nom_group","ran_mod"]
+        if set(source_fields).issubset(list(data.keys())) == False:
+            raise operation_exception(f"Невозможно загрузить данные в объект. {data}!")
+        
+        res=nomenclature_model()
+        
+        res.id=uuid.UUID(data["id"])
+
+        res.name=data["name"]
+
+        res.full_name=data["full_name"]
+
+        res.nom_group=nomenclature_group_model._load(data["nom_group"])
+
+        res.ran_mod=range_model._load(data["ran_mod"])
+
+        return res
