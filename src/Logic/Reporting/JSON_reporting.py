@@ -38,11 +38,11 @@ class Json_reporting(abstract_reporting):
 
         #по делаем json по индексам
         for index,cur_val in enumerate(self.data[value]):
-            print(type(cur_val))
+
             Json_return[index]=self.__factory.create(cur_val)
 
         
         self.load('json',json.dumps(Json_return))
 
 
-        return json.dumps(Json_return)
+        return json.dumps(Json_return,ensure_ascii=False)
