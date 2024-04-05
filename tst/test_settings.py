@@ -185,8 +185,8 @@ class test_settings(unittest.TestCase):
         assert result==True
 
 
-
-    def test_check_convert_json_settings(self):
+    #тест на сохранение (сохранение считается правильным, при прохождении остальных автотестов)
+    def test_check_save_settings(self):
         #подготовка
         manager=settings_manager()
         #адрес

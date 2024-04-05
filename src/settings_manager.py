@@ -105,6 +105,7 @@ class settings_manager(object) :
 
     #настройки в json 
     def _make_json(self):
+
         saved={}
 
         for cur_key in list(self.__data.keys()):
@@ -113,7 +114,7 @@ class settings_manager(object) :
 
         return json.dumps(saved,ensure_ascii=False)
         
-    #сохранить настройки
+    #сохранить настройки и записать их в файл
     def save_settings(self):
         res=self._make_json()
         file=os.path.join(self.__file_path,self.__file_name)
