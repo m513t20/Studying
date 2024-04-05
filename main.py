@@ -175,10 +175,34 @@ def switch_mode(mode_type):
         return response
 
     except:
-        return error_proxy.create_response(app,"wrong argumen",500)
+        return error_proxy.create_response(app,"wrong argument",500)
 
 
 
+#в запросе block_period
+@app.route("/api/settings/mode/period")
+def change_block_period():
+    args=request.args
+
+    if "block_period" not in args.keys():
+        response=storage_service.create_response({'block_period':str(unit.settings.block_period)},app)
+        return response
+
+    try:
+        unit.settings.block_period=args["block_period"]
+        unit.save_settings()
+        response=storage_service.create_response({'block_period':str(unit.settings.block_period)},app)
+        return response
+    except Exception as ex:
+        print(ex)
+        return error_proxy.create_response(app,"неверно предан аргумент",500)
+
+
+    
+    
+
+
+    
 
 
 

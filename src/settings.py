@@ -200,7 +200,8 @@ class settings:
             raise  argument_exception("Некорректный аргумент")
         
         year,month,day=value.split('-')
-        day=day.split(' ')[0]
+        if ' ' in day:
+            day=day.split(' ')[0]
 
         self.__block_period=datetime(int(year),int(month),int(day))
 
