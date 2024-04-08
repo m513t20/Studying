@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 import sys
 import json
+from datetime import datetime
 
 sys.path.append(os.path.join(Path(__file__).parent.parent,'src'))
 
@@ -90,7 +91,14 @@ class test_settings(unittest.TestCase):
         assert item.property_type=="'000'"
 
 
-
+    def test_block_period_check(self):
+        #подготовка
+        item=settings()
+        #дкйствие
+        item.block_period="2024-1-1"
+        #проверка
+        print(datetime(2024,4,5),item.block_period)
+        assert item.block_period==datetime(2024,1,1)
 
 
 
@@ -185,8 +193,8 @@ class test_settings(unittest.TestCase):
         assert result==True
 
 
-
-    def test_check_convert_json_settings(self):
+    #тест на сохранение (сохранение считается правильным, при прохождении остальных автотестов)
+    def test_check_save_settings(self):
         #подготовка
         manager=settings_manager()
         #адрес
@@ -195,10 +203,10 @@ class test_settings(unittest.TestCase):
 
 
         #действие
-        try:
-            dic=manager.save_settings()
-            assert True==True
-            return
-        except:
-            assert False==True
+
+        dic=manager.save_settings()
+
+           
+        #проверка
+        assert dic==True
 

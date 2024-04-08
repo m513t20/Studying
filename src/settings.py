@@ -1,4 +1,5 @@
 from exceptions import argument_exception, operation_exception
+from datetime import datetime
 
 class settings:
     __first_name = ""
@@ -6,6 +7,7 @@ class settings:
 
 
     #переменные для settings
+    __block_period=datetime(1,1,1)
     __INN=""
     __account=""
     __correspond_account=""
@@ -92,6 +94,9 @@ class settings:
     def property_type(self):
         return self.__property_type
     
+    @property
+    def block_period(self):
+        return self.__block_period
 
     #вывод CSV
     @property
@@ -188,6 +193,20 @@ class settings:
             raise argument_exception("Некорректная длинна")
             
         self.__property_type=value_stripped
+
+    @block_period.setter
+    def block_period(self,value:str):
+        if not isinstance(value,str):
+            raise  argument_exception("Некорректный аргумент")
+        
+        #проверка на указание даты со временем
+        value=value.split(' ')[0]
+
+        self.__block_period=datetime.strptime(value, "%Y-%m-%d")
+
+
+
+
 
     @property
     def is_first_start(self):

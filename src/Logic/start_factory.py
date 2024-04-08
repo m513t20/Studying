@@ -181,6 +181,10 @@ class start_factory:
             return items
         
 
+    def save(self):
+        self.__load_models()
+        
+
     def __load_models(self):
         res=[]
         loader=[nomenclature_model._load,range_model._load,nomenclature_group_model._load,reciepe_model._load]

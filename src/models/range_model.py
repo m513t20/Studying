@@ -109,16 +109,15 @@ class range_model(abstract_reference):
 
         res.recount_ratio=int(data["recount_ratio"])
 
-        year,month,day=data["creation_date"].split('-')
+        date=data["creation_date"].split(' ')[0]
         
-        day=day.split(' ')[0]
 
 
         #баг
         try:
-            res.__creation_date=datetime(int(year),int(month),int(day))
+            res.__creation_date=datetime.strptime(date, "%Y-%m-%d")
         except:
-            res.__creation_date=datetime(int(day),int(month),int(year))
+            res.__creation_date=datetime.strptime(date, "%d-%m-%Y")
 
         if data["base_range"]=="None":
             res.base_range=None

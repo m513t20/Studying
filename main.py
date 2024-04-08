@@ -15,7 +15,8 @@ from Logic.start_factory import start_factory
 from src.settings_manager import settings_manager
 from Logic.report_factory import report_factory
 from src.Logic.storage_sevice import storage_service
-
+from src.Logic.nomenclature_service import nomenclature_service
+from models.nomenclature_model import nomenclature_model
 
 
 app=Flask(__name__)
@@ -137,7 +138,7 @@ def get_debits(receipt_id:str):
 
 
 
-@app.route("/api/storage/<nomenclature_id>/rests")
+@app.route("/api/storage/<nomenclature_id>/rests",methods=["GET"])
 def get_sorted_turn(nomenclature_id:str):
 
 
@@ -164,7 +165,8 @@ def get_sorted_turn(nomenclature_id:str):
 
     return responce_type
     
-@app.route("/api/settings/mode/<mode_type>")
+#изменение is_first_start  
+@app.route("/api/settings/mode/<mode_type>",methods=["GET"])
 def switch_mode(mode_type):
     try:
 
@@ -175,13 +177,122 @@ def switch_mode(mode_type):
         return response
 
     except:
-        return error_proxy.create_response(app,"wrong argumen",500)
+        return error_proxy.create_response(app,"wrong argument",500)
 
 
 
+#в запросе block_period
+@app.route("/api/settings/mode/period",methods=["GET"])
+def change_block_period():
+    args=request.args
+
+    if "block_period" not in args.keys():
+        response=storage_service.create_response({'block_period':str(unit.settings.block_period)},app)
+        return response
+
+    try:
+        unit.settings.block_period=args["block_period"]
+        unit.save_settings()
+        response=storage_service.create_response({'block_period':str(unit.settings.block_period)},app)
+        return response
+    except Exception as ex:
+        return error_proxy.create_response(app,"ошибка",500)
 
 
+  
+#добавление
+@app.route("/api/nomenclature/add",methods=["PUT"])
+def add_nomenclature():
+    args=request.get_json()
+    if args is None:
+        return error_proxy.create_response(app,"Не передан аргумент",404)
 
+    try:
+        #При неполном заполнении номенклатуры (нет айди и тд.) метод _load выдает Exception (сеттеры и ошибка ключа) 
+        nom=nomenclature_model._load(args)
+        serv=nomenclature_service(item.storage.data[storage.nomenclature_key()])
+        added=serv.add_nom(nom)
+        item.storage.data[storage.nomenclature_key()]=added
+
+        item.save()
+        return nomenclature_service.create_response(args,app)
+
+    except:
+        
+        #если _load выдаёт Exception, мы возвращаем "Ошибка обработки"
+        return error_proxy.create_response(app,"Ошибка обработки",500)
+    
+
+@app.route("/api/nomenclature/change",methods=["PATCH"])
+def change_nomenclature():
+    args=request.get_json()
+
+    if args is None:
+        return error_proxy.create_response(app,"Не передан аргумент",404)
+
+    try:
+        #метод load выдаёт ошибку если какой-то из аргументов не передан
+        nom=nomenclature_model._load(args)
+        serv=nomenclature_service(item.storage.data[storage.nomenclature_key()])
+        added=serv.change_nome(nom)
+        item.storage.data[storage.nomenclature_key()]=added
+
+        item.save()
+        return nomenclature_service.create_response(args,app)
+
+    except:
+        #ошибка обработки при неполной передачи данных
+        return error_proxy.create_response(app,"Ошибка обработки",500)
+
+#удаление
+@app.route("/api/nomenclature/delete",methods=["DELETE"])
+def delete_nomenclature():
+    args=request.args
+    try:
+        if "id" not in args.keys():
+            return error_proxy.create_response(app,"не найден аргумент",404)
+
+        nom_id=args["id"]
+        serv=nomenclature_service(item.storage.data[storage.nomenclature_key()])
+
+
+        #в сервисе получаем массив без удаляемой номенклатуры
+        added,result=serv.delete_nom(nom_id)
+
+        #сохраняем его в storage по ключу если удалили 
+        if result:
+            item.storage.data[storage.nomenclature_key()]=added
+
+            #сохраняем
+            item.save()
+
+        return nomenclature_service.create_response({"result":result},app)
+
+    except:
+        return error_proxy.create_response(app,"Ошибка обработки",500)
+    
+
+#получение (если нет айди - даёт всё)
+@app.route("/api/nomenclature/get",methods=["GET"])
+def get_nomenclature():
+    args=request.args
+    try:
+        #Если в апи запросе не указан айди конкретной номенклатуры, то мы передаем все существующие номенклатуры (Конвертация происходит фабричным методом )
+        if "id" not in args.keys():
+            factory=report_factory()
+            result=factory.create("Json",item.storage.data,storage.nomenclature_key())
+            return nomenclature_service.create_response(result,app)
+
+
+        #иначе ищем номенклатуру по нужному нам id и возвращаем её в формате json
+        nom_id=args["id"]
+        serv=nomenclature_service(item.storage.data[storage.nomenclature_key()])
+        added=serv.get_nom(nom_id)
+
+        return nomenclature_service.create_response(added,app)
+
+    except:
+        return error_proxy.create_response(app,"Ошибка обработки",500)
 
 
 if __name__=="__main__":
