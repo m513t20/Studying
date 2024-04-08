@@ -199,11 +199,10 @@ class settings:
         if not isinstance(value,str):
             raise  argument_exception("Некорректный аргумент")
         
-        year,month,day=value.split('-')
-        if ' ' in day:
-            day=day.split(' ')[0]
+        #проверка на указание даты со временем
+        value=value.split(' ')[0]
 
-        self.__block_period=datetime(int(year),int(month),int(day))
+        self.__block_period=datetime.strptime(value, "%Y-%m-%d")
 
 
 

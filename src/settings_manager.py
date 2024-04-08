@@ -121,4 +121,6 @@ class settings_manager(object) :
 
         with open(file,'w') as saved:
             saved.write(res)
+
+        return True
         

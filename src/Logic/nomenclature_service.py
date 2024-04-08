@@ -57,27 +57,36 @@ class nomenclature_service:
 
 
     #ищем по айди и передаём
+    #Если в api была передана конкретная id, то мы ищем её, преобразуем в json и возвращаем
     def get_nom(self,id:uuid.UUID):
+        #при разных типах данных hash возвращает разные коды, поэтому переводим id в uuid и сравениваем
+        id=uuid.UUID(id)
+        
+
         for cur_nom in self.__data:
-            if id==str(cur_nom.id):
+            if id==cur_nom.id:
                 reference=reference_conventor(nomenclature_model,
                                       error_proxy,
                                       nomenclature_group_model,
                                       range_model,
                                       storage_journal_row,
                                       storage_turn_model)
-                return reference.convert(cur_nom)
+                return cur_nom
             
 
     #ищем по айди, удаляем, возвращаем массив
     def delete_nom(self,id:str):
-
+        #при разных типах данных hash возвращает разные коды, поэтому переводим id в uuid и сравениваем
+        id=uuid.UUID(id)
+        
+        res=False
 
         for index,cur_nom in enumerate(self.__data):
-            if str(cur_nom.id)==id:
+            if cur_nom.id==id:
                 self.__data.pop(index) 
+                res=True
                 break
-        return self.__data
+        return self.__data,res
 
 
 

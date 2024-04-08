@@ -95,7 +95,7 @@ class test_settings(unittest.TestCase):
         #подготовка
         item=settings()
         #дкйствие
-        item.block_period="2024-1-1 00:00:00"
+        item.block_period="2024-1-1"
         #проверка
         print(datetime(2024,4,5),item.block_period)
         assert item.block_period==datetime(2024,1,1)
@@ -203,10 +203,10 @@ class test_settings(unittest.TestCase):
 
 
         #действие
-        try:
-            dic=manager.save_settings()
-            assert True==True
-            return
-        except:
-            assert False==True
+
+        dic=manager.save_settings()
+
+           
+        #проверка
+        assert dic==True
 

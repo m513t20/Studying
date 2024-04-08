@@ -204,8 +204,11 @@ def change_block_period():
 @app.route("/api/nomenclature/add",methods=["PUT"])
 def add_nomenclature():
     args=request.get_json()
+    if args is None:
+        return error_proxy.create_response(app,"Не передан аргумент",404)
 
     try:
+        #При неполном заполнении номенклатуры (нет айди и тд.) метод _load выдает Exception (сеттеры и ошибка ключа) 
         nom=nomenclature_model._load(args)
         serv=nomenclature_service(item.storage.data[storage.nomenclature_key()])
         added=serv.add_nom(nom)
@@ -215,14 +218,20 @@ def add_nomenclature():
         return nomenclature_service.create_response(args,app)
 
     except:
-        return error_proxy.create_response(app,"не предан аргумент",500)
+        
+        #если _load выдаёт Exception, мы возвращаем "Ошибка обработки"
+        return error_proxy.create_response(app,"Ошибка обработки",500)
     
 
 @app.route("/api/nomenclature/change",methods=["PATCH"])
 def change_nomenclature():
     args=request.get_json()
 
+    if args is None:
+        return error_proxy.create_response(app,"Не передан аргумент",404)
+
     try:
+        #метод load выдаёт ошибку если какой-то из аргументов не передан
         nom=nomenclature_model._load(args)
         serv=nomenclature_service(item.storage.data[storage.nomenclature_key()])
         added=serv.change_nome(nom)
@@ -232,7 +241,8 @@ def change_nomenclature():
         return nomenclature_service.create_response(args,app)
 
     except:
-        return error_proxy.create_response(app,"не предан аргумент",500)
+        #ошибка обработки при неполной передачи данных
+        return error_proxy.create_response(app,"Ошибка обработки",500)
 
 #удаление
 @app.route("/api/nomenclature/delete",methods=["DELETE"])
@@ -244,14 +254,22 @@ def delete_nomenclature():
 
         nom_id=args["id"]
         serv=nomenclature_service(item.storage.data[storage.nomenclature_key()])
-        added=serv.delete_nom(nom_id)
-        item.storage.data[storage.nomenclature_key()]=added
 
-        item.save()
-        return nomenclature_service.create_response(args,app)
+
+        #в сервисе получаем массив без удаляемой номенклатуры
+        added,result=serv.delete_nom(nom_id)
+
+        #сохраняем его в storage по ключу если удалили 
+        if result:
+            item.storage.data[storage.nomenclature_key()]=added
+
+            #сохраняем
+            item.save()
+
+        return nomenclature_service.create_response({"result":result},app)
 
     except:
-        return error_proxy.create_response(app,"не предан аргумент",500)
+        return error_proxy.create_response(app,"Ошибка обработки",500)
     
 
 #получение (если нет айди - даёт всё)
@@ -259,11 +277,14 @@ def delete_nomenclature():
 def get_nomenclature():
     args=request.args
     try:
+        #Если в апи запросе не указан айди конкретной номенклатуры, то мы передаем все существующие номенклатуры (Конвертация происходит фабричным методом )
         if "id" not in args.keys():
             factory=report_factory()
             result=factory.create("Json",item.storage.data,storage.nomenclature_key())
             return nomenclature_service.create_response(result,app)
 
+
+        #иначе ищем номенклатуру по нужному нам id и возвращаем её в формате json
         nom_id=args["id"]
         serv=nomenclature_service(item.storage.data[storage.nomenclature_key()])
         added=serv.get_nom(nom_id)
@@ -271,7 +292,7 @@ def get_nomenclature():
         return nomenclature_service.create_response(added,app)
 
     except:
-        return error_proxy.create_response(app,"не предан аргумент",500)
+        return error_proxy.create_response(app,"Ошибка обработки",500)
 
 
 if __name__=="__main__":
