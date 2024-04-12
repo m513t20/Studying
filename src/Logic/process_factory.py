@@ -21,7 +21,7 @@ class process_factory:
             raise argument_exception("Неверный аргумент")
         
         if len(journal)==0:
-            raise argument_exception("пустой массив")
+            return[]
         
         if not isinstance(journal[0],storage_journal_row):
             raise argument_exception("Неверный массив")

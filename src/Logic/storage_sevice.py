@@ -10,7 +10,7 @@ sys.path.append(os.path.join(Path(__file__).parent,'src'))
 from error_proxy import error_proxy
 from pathlib import Path
 from storage.storage import storage
-
+from settings import settings
 from Logic.storage_prototype import storage_prototype
 from src.Logic.Reporting.Json_convert.reference_conventor import reference_conventor
 from exceptions import argument_exception
@@ -31,6 +31,8 @@ from src.storage.storage_journal_transaction import storage_journal_transaction
 
 class storage_service:
     __data=[]
+    __options=None
+    __blocked=[]
 
     #конструктор
     def __init__ (self,data:list):
@@ -40,6 +42,82 @@ class storage_service:
             raise argument_exception("Wrong argument")
         
         self.__data=data
+
+    @property
+    def options(self):
+        return self.__options
+    
+    @options.setter
+    def options(self,value:settings):
+        if not isinstance(value,settings):
+            raise argument_exception("неверный аргумент")
+        self.__options=value
+
+
+
+    #объединить обороты
+    @staticmethod
+    def _colide_turns(base_turns:list,added_turns:list):
+        if len(added_turns)==0:
+            return base_turns
+        for index,cur_base_turn in enumerate(base_turns):
+            
+            for aded_index,cur_added_turn in enumerate(added_turns):
+
+                if cur_base_turn.nomenclature==cur_added_turn.nomenclature and cur_base_turn.storage_id==cur_added_turn.storage_id:
+                    base_turns[index].amount+=cur_added_turn.amount
+                    added_turns.pop(aded_index)
+                    break
+                
+        for cur_added_turn in added_turns:
+            base_turns.append(cur_added_turn)
+        return base_turns
+
+
+
+    #получить обооты за период по номенклатуре
+    def create_turns_by_nomenclature(self,start_date:datetime,finish_date:datetime,id:uuid.UUID)->dict:
+
+        if not isinstance(start_date,datetime) or not isinstance(finish_date,datetime):
+            raise argument_exception("Неверный аргумент")
+        
+        if start_date>finish_date:
+            raise argument_exception("Неверно переданы аргументы")
+  
+        prototype=storage_prototype(self.__data)
+
+        #фильтруем полученные после даты блокировки по номенклатуре
+        transactions=prototype.filter_date(self.__options.block_period,finish_date).data
+        transactions=prototype.filter_nom_id(id)
+
+
+        #фильтруем до блока
+        base=storage_prototype(self.__blocked).filter_nom_id(id)
+        
+
+        #конвентор
+        reference=reference_conventor(nomenclature_model,
+                                      error_proxy,
+                                      nomenclature_group_model,
+                                      range_model,
+                                      storage_journal_row,
+                                      storage_turn_model)
+        
+
+        proces=process_factory()
+
+
+        data=proces.create(storage.process_turn_key(),transactions.data)
+
+        data=self._colide_turns(base.data,data)
+
+        result={}
+        for index,cur_tran in enumerate(data):
+            result[index]=reference.convert(cur_tran)
+
+
+        return result
+    
 
 
     #получить обооты за период
@@ -53,8 +131,10 @@ class storage_service:
   
         prototype=storage_prototype(self.__data)
 
-        #фильтруем
-        transactions=prototype.filter_date(start_date,finish_date)
+        #фильтруем полученные после даты блокировки
+        transactions=prototype.filter_date(self.__options.block_period,finish_date)
+
+
         
         
         
@@ -71,15 +151,19 @@ class storage_service:
 
         data=proces.create(storage.process_turn_key(),transactions.data)
 
+        data=self._colide_turns(self.__blocked,data)
+        print(self.__blocked)
         result={}
         for index,cur_tran in enumerate(data):
             result[index]=reference.convert(cur_tran)
 
 
         return result
+
+
+
     
     #получить обороты по номенклатуре
-
     def create_id_turns(self,id:uuid.UUID):
         if not isinstance(id,uuid.UUID):
             raise argument_exception("Неверный аргумент")
@@ -110,6 +194,7 @@ class storage_service:
 
         return result
     
+    #создать транзакции по рецепту
     def create_reciepe_transactions(self,reciepe:reciepe_model):
         if not isinstance(reciepe,reciepe_model):
             raise argument_exception("Неверный аргумент")
@@ -184,20 +269,6 @@ class storage_service:
         #фильтруем
         transactions=transactions.filter_nom_id(nomenclature_id)
 
-
-
-        
-
-        print(transactions)
-
-
-
-
-
-
-
-        
-
         #конвентор
         reference=reference_conventor(nomenclature_model,
                                       error_proxy,
@@ -231,6 +302,30 @@ class storage_service:
 
 
         return result
+    
+
+
+    #получить обооты до периода блокировки
+    def create_blocked_turns(self)->dict:
+
+  
+        prototype=storage_prototype(self.__data)
+
+
+
+        #фильтруем
+        transactions=prototype.filter_date(datetime(1999,1,1),self.__options.block_period)
+        
+        
+        
+        proces=process_factory()
+
+        data=proces.create(storage.process_turn_key(),transactions.data)
+
+        #сохраняем обороты в сервис
+        self.__blocked=data
+
+        return data
 
 
 
