@@ -35,7 +35,7 @@ class storage_prototype(error_proxy):
         
         result=[]
         for cur_line in self.__data:
-            if cur_line.period>=start and cur_line.period<=finish:
+            if cur_line.period>=start and cur_line.period<finish:
                 result.append(cur_line)
 
 
@@ -77,7 +77,7 @@ class storage_prototype(error_proxy):
             if cur_line.nomenclature.id==id:
                 result.append(cur_line)
 
-
+        
         return storage_prototype(result)
 
     #фильтер по рецепту

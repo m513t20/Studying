@@ -12,6 +12,8 @@ from exceptions import argument_exception
 from models.nomenclature_model import nomenclature_model,nomenclature_group_model,range_model
 from src.storage.storage_factory import storage_factory
 from src.Logic.Reporting.Json_convert.reference_conventor import reference_conventor
+from src.Logic.storage_sevice import storage_service
+from src.storage.storage_turn_model import storage_turn_model
 from storage.storage_model import storage_model
 from settings import settings
 from error_proxy import error_proxy
@@ -29,13 +31,12 @@ class start_factory:
 
 
     def __save(self):
-            
-
             reference=reference_conventor(nomenclature_model,
                                           reciepe_model,
                                             nomenclature_group_model,
                                             range_model,
-                                            error_proxy)
+                                            error_proxy,
+                                            storage_turn_model)
             for cur_key in list(self.__storage.data.keys()):
                 result_json={}
                 for index,cur_val in enumerate(self.__storage.data[cur_key]):
@@ -64,6 +65,12 @@ class start_factory:
         self.__storage.data[storage.unit_key()]=nom[1]      
         self.__storage.data[storage.group_key()]=nom[2]
         self.__storage.data[storage.reciepe_key()]=nom[3]
+
+        serv=storage_service(nom[4])
+        serv.options=self.__options
+        self.__storage.data[storage.b_turn_key()]=serv.create_blocked_turns()
+
+
         #сохраняем
         self.__save()
 

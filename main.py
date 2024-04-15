@@ -92,8 +92,9 @@ def get_rests():
     start_date= datetime.strptime(args["start_period"], "%Y-%m-%d")
     finish_date=datetime.strptime(args["stop_period"], "%Y-%m-%d")
 
-
-    data=storage_service(item.storage.data[key]).create_turns(start_date,finish_date)
+    serv=storage_service(item.storage.data[key])
+    serv.options=unit.settings
+    data=serv.create_turns(start_date,finish_date)
 
     response_type=storage_service.create_response(data,app)
 

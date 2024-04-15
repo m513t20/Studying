@@ -53,3 +53,11 @@ class storage:
     @staticmethod
     def process_turn_key():
         return "process_turn"
+    
+
+    #ключ оборота до блокировки
+    @staticmethod
+    def b_turn_key():
+        return "block_turn"
+    
+    
