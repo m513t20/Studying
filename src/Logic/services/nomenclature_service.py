@@ -25,21 +25,15 @@ from models.reciepe_model import reciepe_model
 from src.storage.storage_factory import storage_factory
 from storage.storage_journal_row import storage_journal_row
 from src.storage.storage_journal_transaction import storage_journal_transaction
-
+from src.Logic.services.abstract_service import abstract_sevice
 
 #PERENESTI I ZAMENIT MAIN
 
-class nomenclature_service:
-    __data=[]
+class nomenclature_service(abstract_sevice):
 
     #конструктор
-    def __init__ (self,data:list):
-
-
-        if len(data)==0:
-            raise argument_exception("Wrong argument")
-        
-        self.__data=data
+    def __init__(self, data: list):
+        super().__init__(data)
 
     #возвращаем массив с добавленной номенклатурой
     def add_nom(self,nom:nomenclature_model):
@@ -111,3 +105,4 @@ class nomenclature_service:
 
 
         return result
+    

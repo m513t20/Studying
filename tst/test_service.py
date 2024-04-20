@@ -8,7 +8,7 @@ from settings_manager import settings_manager
 from datetime import datetime
 from storage.storage import storage
 from Logic.start_factory import start_factory
-from src.Logic.storage_sevice import storage_service
+from src.Logic.services.storage_sevice import storage_service
 
 from error_proxy import error_proxy
 from exceptions import argument_exception, operation_exception
