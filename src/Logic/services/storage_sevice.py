@@ -25,11 +25,12 @@ from models.reciepe_model import reciepe_model
 from src.storage.storage_factory import storage_factory
 from storage.storage_journal_row import storage_journal_row
 from src.storage.storage_journal_transaction import storage_journal_transaction
-
+from src.Logic.services.abstract_service import abstract_sevice
+from src.models.event_type import event_type
 
 #PERENESTI I ZAMENIT MAIN
 
-class storage_service:
+class storage_service(abstract_sevice):
     __data=[]
     __options=None
     __blocked=[]
@@ -329,7 +330,11 @@ class storage_service:
 
 
 
-
+    def handle_event(self, handle_type: str):
+        super().handle_event(handle_type)
+        
+        if handle_type==event_type.changed_block_period():
+            self.create_blocked_turns()
 
         
 

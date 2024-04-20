@@ -14,8 +14,8 @@ from storage.storage import storage
 from Logic.start_factory import start_factory
 from src.settings_manager import settings_manager
 from Logic.report_factory import report_factory
-from src.Logic.storage_sevice import storage_service
-from src.Logic.nomenclature_service import nomenclature_service
+from src.Logic.services.storage_sevice import storage_service
+from src.Logic.services.nomenclature_service import nomenclature_service
 from models.nomenclature_model import nomenclature_model
 
 

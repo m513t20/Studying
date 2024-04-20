@@ -12,7 +12,7 @@ from exceptions import argument_exception
 from models.nomenclature_model import nomenclature_model,nomenclature_group_model,range_model
 from src.storage.storage_factory import storage_factory
 from src.Logic.Reporting.Json_convert.reference_conventor import reference_conventor
-from src.Logic.storage_sevice import storage_service
+from src.Logic.services.storage_sevice import storage_service
 from src.storage.storage_turn_model import storage_turn_model
 from storage.storage_model import storage_model
 from settings import settings
