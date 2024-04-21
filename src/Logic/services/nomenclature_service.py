@@ -15,6 +15,8 @@ from Logic.storage_prototype import storage_prototype
 from src.Logic.Reporting.Json_convert.reference_conventor import reference_conventor
 from exceptions import argument_exception
 from src.Logic.process_factory import process_factory
+from src.Logic.storage_observer import storage_observer
+from src.models.event_type import event_type
 
 #для референсов
 from src.storage.storage_turn_model import storage_turn_model
@@ -26,14 +28,21 @@ from src.storage.storage_factory import storage_factory
 from storage.storage_journal_row import storage_journal_row
 from src.storage.storage_journal_transaction import storage_journal_transaction
 from src.Logic.services.abstract_service import abstract_sevice
-
+from src.Logic.services.post_processing_sevice import post_processing_service
 #PERENESTI I ZAMENIT MAIN
 
 class nomenclature_service(abstract_sevice):
+    
+
 
     #конструктор
-    def __init__(self, data: list):
-        super().__init__(data)
+    def __init__ (self,data:list):
+
+
+        if len(data)==0:
+            raise argument_exception("Wrong argument")
+        
+        self.__data=data
 
     #возвращаем массив с добавленной номенклатурой
     def add_nom(self,nom:nomenclature_model):
@@ -72,15 +81,21 @@ class nomenclature_service(abstract_sevice):
     def delete_nom(self,id:str):
         #при разных типах данных hash возвращает разные коды, поэтому переводим id в uuid и сравениваем
         id=uuid.UUID(id)
-        
         res=False
+
+        obs=post_processing_service(storage().data[storage.nomenclature_key()])
+        obs.nomenclature_id=id
+
+
 
         for index,cur_nom in enumerate(self.__data):
             if cur_nom.id==id:
                 self.__data.pop(index) 
                 res=True
+                storage_observer.raise_event(event_type.deleted_nomenclature())
                 break
         return self.__data,res
+    
 
 
 

@@ -16,6 +16,8 @@ from src.Logic.Reporting.Json_convert.reference_conventor import reference_conve
 from exceptions import argument_exception
 from src.Logic.storage_observer import storage_observer
 from src.Logic.process_factory import process_factory
+from src.models.event_type import event_type
+
 
 #для референсов
 from src.storage.storage_turn_model import storage_turn_model
@@ -27,7 +29,6 @@ from src.storage.storage_factory import storage_factory
 from storage.storage_journal_row import storage_journal_row
 from src.storage.storage_journal_transaction import storage_journal_transaction
 from src.Logic.services.abstract_service import abstract_sevice
-from src.models.event_type import event_type
 
 #PERENESTI I ZAMENIT MAIN
 
@@ -311,7 +312,7 @@ class storage_service(abstract_sevice):
     #получить обооты до периода блокировки
     def create_blocked_turns(self)->dict:
   
-        prototype=storage_prototype(self.__data)
+        prototype=storage_prototype(storage().data[storage.journal_key()])
 
 
 

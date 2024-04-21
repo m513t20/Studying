@@ -17,10 +17,11 @@ from src.storage.storage_turn_model import storage_turn_model
 from storage.storage_model import storage_model
 from settings import settings
 from error_proxy import error_proxy
+from src.Logic.services.post_processing_sevice import post_processing_service
 import json
 
 class start_factory:
-
+    __observer:post_processing_service=None
     __options:settings=None
     __storage:storage=None
     __storage_path=Path(__file__).parent.parent/'storage'/'saved_models'
@@ -65,16 +66,22 @@ class start_factory:
         self.__storage.data[storage.unit_key()]=nom[1]      
         self.__storage.data[storage.group_key()]=nom[2]
         self.__storage.data[storage.reciepe_key()]=nom[3]
+        
+
+
+
+
+
+        self.__storage.data[storage.journal_key()]=nom[4]
 
         serv=storage_service(nom[4])
         serv.options=self.__options
-        self.__storage.data[storage.b_turn_key()]=serv.create_blocked_turns()
+        serv.create_blocked_turns()
 
 
         #сохраняем
         self.__save()
 
-        self.__storage.data[storage.journal_key()]=nom[4]
                                                        
 
 
