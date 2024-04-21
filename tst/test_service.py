@@ -9,7 +9,8 @@ from datetime import datetime
 from storage.storage import storage
 from Logic.start_factory import start_factory
 from src.Logic.services.storage_sevice import storage_service
-
+from src.Logic.storage_observer import storage_observer
+from src.models.event_type import event_type
 from error_proxy import error_proxy
 from exceptions import argument_exception, operation_exception
 
@@ -91,3 +92,26 @@ class test_sevice(unittest.TestCase):
         assert res is not None
         assert len(res)>0
 
+
+
+    def test_check_observer_blocked_period(self):
+        #Подготовка
+        unit=settings_manager()
+        address=os.path.join(Path(__file__).parent.parent,'Jsons')
+        unit.open('Tester.json',address)
+        unit.settings.block_period="2024-1-1"
+        factory=start_factory(unit.settings)
+        factory.create()
+        key=storage.journal_key()
+        transactions_data = factory.storage.data[ key ]
+        service = storage_service(transactions_data)
+
+          
+        
+        # Действие
+        try:
+            storage_observer.raise_event(  event_type.changed_block_period()  )
+            assert True
+        except Exception as ex:
+            print(f"{ex}")
+            

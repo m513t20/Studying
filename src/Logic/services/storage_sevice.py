@@ -14,6 +14,7 @@ from settings import settings
 from Logic.storage_prototype import storage_prototype
 from src.Logic.Reporting.Json_convert.reference_conventor import reference_conventor
 from exceptions import argument_exception
+from src.Logic.storage_observer import storage_observer
 from src.Logic.process_factory import process_factory
 
 #для референсов
@@ -43,6 +44,7 @@ class storage_service(abstract_sevice):
             raise argument_exception("Wrong argument")
         
         self.__data=data
+        storage_observer.observers.append(self)
 
     @property
     def options(self):
@@ -308,7 +310,6 @@ class storage_service(abstract_sevice):
 
     #получить обооты до периода блокировки
     def create_blocked_turns(self)->dict:
-
   
         prototype=storage_prototype(self.__data)
 
@@ -324,6 +325,7 @@ class storage_service(abstract_sevice):
         data=proces.create(storage.process_turn_key(),transactions.data)
 
         #сохраняем обороты в сервис
+        storage().data[storage.b_turn_key()]=data
         self.__blocked=data
 
         return data

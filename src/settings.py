@@ -1,6 +1,7 @@
 from exceptions import argument_exception, operation_exception
 from datetime import datetime
-
+from src.Logic.storage_observer import storage_observer
+from src.models.event_type import event_type
 class settings:
     __first_name = ""
     __first_start=True
@@ -200,9 +201,19 @@ class settings:
             raise  argument_exception("Некорректный аргумент")
         
         #проверка на указание даты со временем
-        value=value.split(' ')[0]
 
-        self.__block_period=datetime.strptime(value, "%Y-%m-%d")
+        try:
+            value=value.split(' ')[0]
+
+            legacy=self.__block_period
+
+            self.__block_period=datetime.strptime(value, "%Y-%m-%d")
+
+            if legacy!=self.__block_period:
+                storage_observer.raise_event(event_type.changed_block_period())
+            
+        except Exception as ex:
+            raise operation_exception(f'неудалось сконвертировать дату {ex}')
 
 
 
@@ -217,6 +228,5 @@ class settings:
         if not isinstance(value,str) and not isinstance(value,bool):
             raise argument_exception("wrong argument")
         
-        print(str(value).lower()=='true',value)
 
         self.__first_start=(str(value).lower()=='true')
