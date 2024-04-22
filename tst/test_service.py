@@ -144,6 +144,8 @@ class test_sevice(unittest.TestCase):
         print(res)
         print(controll_rec,list(factory.storage.data[storage.reciepe_key()][0].ingridient_proportions.keys()))
 
+
+        #проверка
         assert controll_rec!=list(factory.storage.data[storage.reciepe_key()][0].ingridient_proportions.keys())
         assert controll_journal!=factory.storage.data[storage.journal_key()]
         assert controll_blocked!=factory.storage.data[storage.b_turn_key()]
