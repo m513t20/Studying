@@ -38,7 +38,6 @@ class post_processing_service(abstract_sevice):
     def nomenclature_id(self,nom_id:uuid.UUID):
         if not isinstance(nom_id,uuid.UUID):
             raise argument_exception("неверный тип аргумента")
-        storage_observer.observers.append(self)
         self.__nomenclature=nom_id
 
 
