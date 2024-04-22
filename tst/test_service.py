@@ -140,7 +140,6 @@ class test_sevice(unittest.TestCase):
 
 
 
-        #проверка
         print(res)
         print(controll_rec,list(factory.storage.data[storage.reciepe_key()][0].ingridient_proportions.keys()))
 
