@@ -1,5 +1,5 @@
 from src.error_proxy import error_proxy
-from src.storage.storage import storage
+from storage.storage import storage
 from src.Logic.storage_observer import storage_observer
 from src.models.event_type import event_type
 from src.Logic.Reporting.Json_convert.reference_conventor import reference_conventor
@@ -22,8 +22,10 @@ class log_master:
             self._create_log(splitted[1],splitted[2],splitted[3])
 
     def _create_log(self,type:str,text:str,source:str):
+        self.__storage=storage()
         self.__log=error_proxy(text,source)
         self.__log.log_type=type
+        print(list(self.__storage.data.keys()))
         self.__storage.data[storage.logs_key()].append(self.__log)
 
     def _save_log(self):

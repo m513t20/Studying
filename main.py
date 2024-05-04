@@ -17,6 +17,9 @@ from Logic.report_factory import report_factory
 from src.Logic.services.storage_sevice import storage_service
 from src.Logic.services.nomenclature_service import nomenclature_service
 from models.nomenclature_model import nomenclature_model
+from src.models.event_type import event_type
+from src.models.log_type_model import log_type
+from src.Logic.storage_observer import storage_observer
 
 
 app=Flask(__name__)
@@ -32,7 +35,7 @@ item.create()
 #по ссылке выдаёт результат 
 @app.route("/api/report/<storage_key>",methods=["GET"])
 def get_report(storage_key:str):
-
+    storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),"Получить репорт","main.py"))
 
     check=[storage.unit_key(),storage.group_key(),storage.reciepe_key(),storage.nomenclature_key(),storage.journal_key()]
 
