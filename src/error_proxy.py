@@ -1,12 +1,17 @@
 import json
+from datetime import datetime
+
 
 class error_proxy:
+    __period=None
+    __type=""
     __error_text=""
     __error_source=""
     __if_error=False
 
 
     def __init__ (self, error_text: str="", error_source:str=""):
+        self.__period=datetime.now()
         self.error_source=error_source
         self.error_text=error_text
 
@@ -20,7 +25,7 @@ class error_proxy:
         if not isinstance(value,str):
             raise Exception("Invalid argument")
             
-        if value.strip()==" ":
+        if value.strip()=="":
             self.__if_error=False
             return
             
@@ -37,13 +42,28 @@ class error_proxy:
         if not isinstance(value,str):
             raise Exception("Invalid argument")
             
-        if value.strip()==" ":
+        if value.strip()=="":
             self.__if_error=False
             return
             
 
         self.__error_source=value.strip()
 
+    @property
+    def period(self):
+        return self.__period
+    
+
+    @property 
+    def log_type(self):
+        return self.__type
+    
+
+    @log_type.setter
+    def log_type(self,value:str):
+        if not isinstance(value,str):
+            raise Exception("неверный аргумент")
+        self.__type=value
 
     @staticmethod
     def create_response(app,messege:str,code:int):
