@@ -215,7 +215,7 @@ def change_block_period():
         unit.settings.block_period=args["block_period"]
         unit.save_settings()
         response=storage_service.create_response({'block_period':str(unit.settings.block_period)},app)
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"изменить block_period на {args["block_period"]}","main.py/change_block_period"))
+        storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"изменить block_period","main.py/change_block_period"))
         return response
     except Exception as ex:
         storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"Ошибка {ex}","main.py/change_block_period"))

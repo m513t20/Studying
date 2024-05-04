@@ -10,6 +10,7 @@ class log_master:
     __storage=None
     __log=None
     __save_path=Path(__file__).parent.parent/"storage"/"saved_models"/"logs.txt"
+    __save_path_json=Path(__file__).parent.parent/"storage"/"saved_models"/"logs.json"
 
     def __init__(self) -> None:
         self.__storage=storage()
@@ -32,6 +33,7 @@ class log_master:
     def _save_log(self):
         ref=reference_conventor(error_proxy)
         ret=ref.convert(self.__log)
+        get=None
         to_write=json.dumps(ret,ensure_ascii=False)
         with open(self.__save_path,"r+") as saved:
             if not self.__save_path.stat().st_size==0:
@@ -39,7 +41,18 @@ class log_master:
 
             saved.write(to_write)
             saved.write("\n")
-            
+
+        with open(self.__save_path_json,"r+") as saved_json:
+            if self.__save_path_json.stat().st_size==0:
+                saved_json.write(json.dumps({'logs':[to_write]}))
+            else:
+                get=json.load(saved_json)
+                get['logs'].append(to_write)
+
+
+        if get is not None:
+            with open(self.__save_path_json,"w") as saved_json:
+                saved_json.write(json.dumps(get,ensure_ascii=False))
 
         
         

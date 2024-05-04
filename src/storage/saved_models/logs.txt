@@ -2,3 +2,15 @@
 {"if_error": "True", "log_type": "ERROR", "period": "2024-05-04 21:58:32.381868", "source": "ввода", "text": "Ошибка"}
 {"if_error": "True", "log_type": "INFO", "period": "2024-05-04 21:59:24.634394", "source": "репорт", "text": "Получить"}
 {"if_error": "True", "log_type": "INFO", "period": "2024-05-04 21:59:52.166699", "source": "оборот", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:33:53.023625", "source": "оборот", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:34:04.782264", "source": "репорт", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:35:34.313061", "source": "репорт", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:35:36.203551", "source": "репорт", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:35:37.161740", "source": "репорт", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:38:11.912695", "source": "репорт", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:39:31.821812", "source": "репорт", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:39:46.576561", "source": "репорт", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:39:50.158465", "source": "репорт", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:39:51.480548", "source": "репорт", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:40:25.625352", "source": "репорт", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:40:27.068875", "source": "репорт", "text": "Получить"}
