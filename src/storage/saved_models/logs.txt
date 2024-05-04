@@ -14,3 +14,4 @@
 {"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:39:51.480548", "source": "репорт", "text": "Получить"}
 {"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:40:25.625352", "source": "репорт", "text": "Получить"}
 {"if_error": "True", "log_type": "INFO", "period": "2024-05-04 22:40:27.068875", "source": "репорт", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 23:01:08.106599", "source": "is_first_start", "text": "изменить"}
