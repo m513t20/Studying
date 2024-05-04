@@ -21,11 +21,8 @@ class post_processing_service(abstract_sevice):
 
 
 
-    def __init__(self, data: list):
-        super().__init__(data)
+    def __init__(self):
         self.__storage=storage()
-        #добавляем в наблюдатели
-        storage_observer.observers.append(self)
 
 
     #тк веб метод удаления у нас требует именно айди номенклатуры, с id
@@ -39,12 +36,15 @@ class post_processing_service(abstract_sevice):
         if not isinstance(nom_id,uuid.UUID):
             raise argument_exception("неверный тип аргумента")
         self.__nomenclature=nom_id
+        #add observer
+        storage_observer.observers.append(self)
 
 
     def handle_event(self, handle_type: str):
         super().handle_event(handle_type)
-        
-        if handle_type==event_type.deleted_nomenclature():
+        splited_handle=handle_type.split()
+        event=splited_handle[0]
+        if event==event_type.deleted_nomenclature() and splited_handle[1]==str(self.nomenclature_id):
             self.clear_reciepe()
             self.clear_journal()
 
@@ -71,5 +71,6 @@ class post_processing_service(abstract_sevice):
                 res.append(cur_line)
 
         self.__storage.data[key]=res
+
         #перерасчитываем оборот за блок период
         storage_observer.raise_event(event_type.changed_block_period())

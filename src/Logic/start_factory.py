@@ -21,7 +21,7 @@ from src.Logic.services.post_processing_sevice import post_processing_service
 import json
 
 class start_factory:
-    __observer:post_processing_service=None
+    __post_processing=[]
     __options:settings=None
     __storage:storage=None
     __storage_path=Path(__file__).parent.parent/'storage'/'saved_models'
@@ -79,6 +79,7 @@ class start_factory:
         serv.create_blocked_turns()
 
 
+        self.__add_post_processing()
         #сохраняем
         self.__save()
 
@@ -180,6 +181,13 @@ class start_factory:
         draniki.ingridient_proportions=draniki_prop
 
         return [Output,[kg,gr,l,ml,sht,sp],[group,group_eggs,group_vegs,group_meat],[draniki],journal]
+
+
+    def __add_post_processing(self):
+        nomes=self.storage.data[storage.nomenclature_key()]
+        for cur_nom in nomes:
+            self.__post_processing.append(post_processing_service())
+            self.__post_processing[-1].nomenclature_id=cur_nom.id
 
 
     def create(self):
