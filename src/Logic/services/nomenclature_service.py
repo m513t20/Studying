@@ -78,8 +78,8 @@ class nomenclature_service(abstract_sevice):
         id=uuid.UUID(id)
         res=False
 
-        obs=post_processing_service(storage().data[storage.nomenclature_key()])
-        obs.nomenclature_id=id
+        # obs=post_processing_service()
+        # obs.nomenclature_id=id
 
 
 
@@ -88,7 +88,7 @@ class nomenclature_service(abstract_sevice):
                 self.__data.pop(index) 
                 res=True
                 #если функция удаления нашла номенклатуру, то сразу жу вызываем наблюдателя
-                storage_observer.raise_event(event_type.deleted_nomenclature())
+                storage_observer.raise_event(event_type.deleted_nomenclature_id(id))
                 break
         return self.__data,res
     
