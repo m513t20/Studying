@@ -12,16 +12,16 @@ class error_proxy:
 
     def __init__ (self, error_text: str="", error_source:str=""):
         self.__period=datetime.now()
-        self.error_source=error_source
-        self.error_text=error_text
+        self.source=error_source
+        self.text=error_text
 
     @property
-    def error_text(self):
+    def text(self):
         return self.__error_text
     
 
-    @error_text.setter
-    def error_text(self,value:str):
+    @text.setter
+    def text(self,value:str):
         if not isinstance(value,str):
             raise Exception("Invalid argument")
             
@@ -34,11 +34,11 @@ class error_proxy:
 
         
     @property
-    def error_source(self):
+    def source(self):
         return self.__error_source
     
-    @error_source.setter
-    def error_source(self,value:str):
+    @source.setter
+    def source(self,value:str):
         if not isinstance(value,str):
             raise Exception("Invalid argument")
             
@@ -94,7 +94,7 @@ class error_proxy:
     
     @property 
     def if_error(self):
-        return (len(self.error_source)+len(self.error_text))>0
+        return (len(self.text)+len(self.source))>0
     
     def create_error(self,exception: Exception):
         if not isinstance(exception,Exception):

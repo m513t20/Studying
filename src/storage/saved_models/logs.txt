@@ -1,0 +1,4 @@
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 21:58:28.857454", "source": "репорт", "text": "Получить"}
+{"if_error": "True", "log_type": "ERROR", "period": "2024-05-04 21:58:32.381868", "source": "ввода", "text": "Ошибка"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 21:59:24.634394", "source": "репорт", "text": "Получить"}
+{"if_error": "True", "log_type": "INFO", "period": "2024-05-04 21:59:52.166699", "source": "оборот", "text": "Получить"}

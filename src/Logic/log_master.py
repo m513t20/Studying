@@ -20,9 +20,10 @@ class log_master:
         splitted=event.split(" ")
         if splitted[0]==event_type.make_log_key():
             self._create_log(splitted[1],splitted[2],splitted[3])
+            self._save_log()
 
     def _create_log(self,type:str,text:str,source:str):
-        self.__storage=storage()
+
         self.__log=error_proxy(text,source)
         self.__log.log_type=type
         print(list(self.__storage.data.keys()))
@@ -32,10 +33,12 @@ class log_master:
         ref=reference_conventor(error_proxy)
         ret=ref.convert(self.__log)
         to_write=json.dumps(ret,ensure_ascii=False)
-
         with open(self.__save_path,"r+") as saved:
-            saved.seek(1,2)
+            if not self.__save_path.stat().st_size==0:
+                saved.seek(0,2)
+
             saved.write(to_write)
+            saved.write("\n")
             
 
         

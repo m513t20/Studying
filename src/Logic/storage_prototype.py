@@ -15,7 +15,7 @@ class storage_prototype(error_proxy):
 
     def __init__(self,data:list) -> None:
         if len(data)<=0:
-            self.error_text="Wrong argument"
+            self.text="Wrong argument"
         self.__data=data
 
 
@@ -24,11 +24,11 @@ class storage_prototype(error_proxy):
     #фильтер по дате
     def filter_date(self,start:datetime,finish:datetime):
         if len(self.__data)<=0:
-            self.error_text="Wrong argument"
+            self.text="Wrong argument"
 
 
         if start>finish:
-            self.error_text="Incorrect period"
+            self.text="Incorrect period"
 
         if self.if_error:
             return self.__data
@@ -45,7 +45,7 @@ class storage_prototype(error_proxy):
     #фильтер по номенклатуре
     def filter_nom(self,nom:nomenclature_model):
         if not isinstance(nom,nomenclature_model):
-            self.error_text="Wrong argument"
+            self.text="Wrong argument"
 
 
 
@@ -64,7 +64,7 @@ class storage_prototype(error_proxy):
     #фильтер по айди номенклатуры
     def filter_nom_id(self,id:uuid.UUID):
         if not isinstance(id,uuid.UUID):
-            self.error_text="Wrong argument"
+            self.text="Wrong argument"
 
 
 
@@ -83,7 +83,7 @@ class storage_prototype(error_proxy):
     #фильтер по рецепту
     def filter_reciepe(self,recepy:reciepe_model):
         if not isinstance(recepy,reciepe_model):
-            self.error_text="Wrong argument"
+            self.text="Wrong argument"
 
         ingridients=recepy.ingridient_proportions
 
@@ -100,7 +100,7 @@ class storage_prototype(error_proxy):
     
     def filter_storage(self,storage_id:uuid.UUID):
         if not isinstance(storage_id,uuid.UUID):
-            self.error_text="Wrong argument"
+            self.text="Wrong argument"
 
 
 
