@@ -37,3 +37,11 @@ class event_type(abstract_reference):
         if not isinstance(id,uuid.UUID):
             raise argument_exception("wrong argument type")
         return f"deleted_nomenclature {str(id)}"
+    
+    @staticmethod
+    def make_log_key():
+        return f"make_log"
+
+    @staticmethod
+    def make_log(type:str,text:str,source:str):
+        return f"make_log {type} {text} {source}"

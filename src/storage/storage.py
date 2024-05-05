@@ -60,4 +60,7 @@ class storage:
     def b_turn_key():
         return "block_turn"
     
-    
+    #ключ логов
+    @staticmethod
+    def logs_key():
+        return "logs"

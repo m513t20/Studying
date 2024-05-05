@@ -18,6 +18,7 @@ from storage.storage_model import storage_model
 from settings import settings
 from error_proxy import error_proxy
 from src.Logic.services.post_processing_sevice import post_processing_service
+from src.Logic.log_master import log_master
 import json
 
 class start_factory:
@@ -25,6 +26,7 @@ class start_factory:
     __options:settings=None
     __storage:storage=None
     __storage_path=Path(__file__).parent.parent/'storage'/'saved_models'
+    __logger=None
 
     def __init__(self,options:settings,stor:storage=None):
         self.__options=options
@@ -48,7 +50,9 @@ class start_factory:
 
 
 
-            
+    def __create_logs(self):
+        self.__logger=log_master()
+        self.storage.data[storage.logs_key()]=[]
 
 
     def __build(self,nom:list):
@@ -82,6 +86,10 @@ class start_factory:
         self.__add_post_processing()
         #сохраняем
         self.__save()
+
+        #добавляем логи 
+        self.__create_logs()
+
 
                                                        
 

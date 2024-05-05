@@ -6,6 +6,7 @@ import uuid
 
 
 a=os.path.join(Path(__file__).parent.parent,'src')
+sys.path.append(Path(__file__).parent.parent)
 sys.path.append(os.path.join(Path(__file__).parent.parent,'src'))
 sys.path.append(os.path.join(Path(__file__).parent.parent,'src','models'))
 

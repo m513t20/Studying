@@ -1,7 +1,7 @@
 from error_proxy import error_proxy
 
 
-class argument_exception:
+class argument_exception(Exception):
     __inner_error:error_proxy=error_proxy()
 
     def __init__ (Self,*args:object):
