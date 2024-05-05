@@ -28,20 +28,18 @@ class event_type(abstract_reference):
     
 
     @staticmethod 
-    def deleted_nomenclature_id(id:uuid.UUID)->str:
+    def deleted_nomenclature_id()->str:
         """
             Событие удаления номенклатуры
         Returns:
             str: _description_
         """
-        if not isinstance(id,uuid.UUID):
-            raise argument_exception("wrong argument type")
-        return f"deleted_nomenclature {str(id)}"
+        return f"deleted_nomenclature"
     
     @staticmethod
     def make_log_key():
         return f"make_log"
 
     @staticmethod
-    def make_log(type:str,text:str,source:str):
-        return f"make_log {type} {text} {source}"
+    def make_log():
+        return f"make_log"

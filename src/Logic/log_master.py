@@ -17,10 +17,10 @@ class log_master:
         storage_observer.observers.append(self)
 
 
-    def handle_event(self,event:str):
+    def handle_event(self,event:str,*args):
         splitted=event.split(" ")
         if splitted[0]==event_type.make_log_key():
-            self._create_log(splitted[1],splitted[2],splitted[3])
+            self._create_log(args[0],args[1],args[2])
             self._save_log()
 
     def _create_log(self,type:str,text:str,source:str):
