@@ -2,11 +2,12 @@ from src.error_proxy import error_proxy
 from storage.storage import storage
 from src.Logic.storage_observer import storage_observer
 from src.models.event_type import event_type
+from src.Logic.services.abstract_service import abstract_sevice
 from src.Logic.Reporting.Json_convert.reference_conventor import reference_conventor
 from pathlib import Path
 import json
 
-class log_master:
+class log_master(abstract_sevice):
     __storage=None
     __log=None
     __save_path=Path(__file__).parent.parent/"storage"/"saved_models"/"logs.txt"
@@ -17,10 +18,11 @@ class log_master:
         storage_observer.observers.append(self)
 
 
-    def handle_event(self,event:str):
+    def handle_event(self,event:str,*args):
+        super().handle_event(event,args)
         splitted=event.split(" ")
         if splitted[0]==event_type.make_log_key():
-            self._create_log(splitted[1],splitted[2],splitted[3])
+            self._create_log(args[0],args[1],args[2])
             self._save_log()
 
     def _create_log(self,type:str,text:str,source:str):

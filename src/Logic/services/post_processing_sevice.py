@@ -40,11 +40,10 @@ class post_processing_service(abstract_sevice):
         storage_observer.observers.append(self)
 
 
-    def handle_event(self, handle_type: str):
-        super().handle_event(handle_type)
-        splited_handle=handle_type.split()
-        event=splited_handle[0]
-        if event==event_type.deleted_nomenclature() and splited_handle[1]==str(self.nomenclature_id):
+    def handle_event(self, handle_type: str,*args):
+        super().handle_event(handle_type,args)
+
+        if handle_type==event_type.deleted_nomenclature() and args[0]==str(self.nomenclature_id):
             self.clear_reciepe()
             self.clear_journal()
 

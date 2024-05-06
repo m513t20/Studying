@@ -51,13 +51,13 @@ def get_report(storage_key:str):
 
     if storage_key in check:
         
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"Получить репорт {storage_key}","main.py/get_report"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_info(),f"Получить репорт {storage_key}","main.py/get_report")
         result=factory.create(report_type,item.storage.data,storage_key)
         return send_file(f'report.{report_type.lower()}')
     
     else:
         text='Ошибка ввода ключа'
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"{text}","main.py/get_report"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"{text}","main.py/get_report")
         return error_proxy.create_response(app,text,404)
 
         
@@ -74,10 +74,10 @@ def get_nomenclature_rests(nomenclature_id:uuid.UUID):
         data=storage_service(item.storage.data[key]).create_id_turns(uuid.UUID(nomenclature_id))
     except:
         text='Ошибка ввода айди'
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"{text}","main.py/get_nomenclature_turns"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"{text}","main.py/get_nomenclature_turns")
         return error_proxy.create_response(app,text,500)
     
-    storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"Получить оборот по  {nomenclature_id}","main.py/get_nomenclature_turns"))
+    storage_observer.raise_event(event_type.make_log(),log_type.log_type_info(),f"Получить оборот по  {nomenclature_id}","main.py/get_nomenclature_turns")
     
     responce_type=storage_service.create_response(data,app)
 
@@ -94,10 +94,10 @@ def get_rests():
 
     args=request.args
     if("start_period") not in args.keys():
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"Ошибка ввода ключа","main.py/get_rests"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"Ошибка ввода ключа","main.py/get_rests")
         return error_proxy.create_response(app,'Ошибка ввода ключа',404)
     if("stop_period") not in args.keys():
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"Ошибка ввода ключа","main.py/get_rests"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"Ошибка ввода ключа","main.py/get_rests")
         return error_proxy.create_response(app,'Ошибка ввода ключа',404)
     
 
@@ -110,7 +110,7 @@ def get_rests():
 
     response_type=storage_service.create_response(data,app)
 
-    storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"Получить складские остатки","main.py/get_rests"))
+    storage_observer.raise_event(event_type.make_log(),log_type.log_type_info(),f"Получить складские остатки","main.py/get_rests")
     
 
     return response_type
@@ -133,7 +133,7 @@ def get_debits(receipt_id:str):
     try:
         id=uuid.UUID(receipt_id)
     except Exception as ex:
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"Ошибка {ex}","main.py/get_debits"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"Ошибка {ex}","main.py/get_debits")
         return response_type
     
     journal=storage.journal_key()
@@ -150,7 +150,7 @@ def get_debits(receipt_id:str):
             response_type=storage_service.create_response(data,app)
             break 
 
-    storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"Создать транзакции по рецепту","main.py/get_debits"))
+    storage_observer.raise_event(event_type.make_log(),log_type.log_type_info(),f"Создать транзакции по рецепту","main.py/get_debits")
     return response_type
 
 
@@ -172,9 +172,9 @@ def get_sorted_turn(nomenclature_id:str):
     try:
         #генерация работает, однако столкнулся с проблемой - тк айди каждый раз генериться случайно, узнать актуальный айди для фильтрации - можно  только из других запросов
         data=storage_service(item.storage.data[key]).create_id_turns_storage(uuid.UUID(nomenclature_id),storage_id)
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"обороты номенклатуры по рейтингу с id {storage_id}","main.py/get_sorted_turn"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_info(),f"обороты номенклатуры по рейтингу с id {storage_id}","main.py/get_sorted_turn")
     except Exception as ex:
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"Ошибка {ex}","main.py/get_sorted_turn"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"Ошибка {ex}","main.py/get_sorted_turn")
         return error_proxy.create_response(app,'Ошибка ввода айди',404)
 
     responce_type=storage_service.create_response(data,app)
@@ -193,11 +193,11 @@ def switch_mode(mode_type):
         unit.save_settings()
 
         response=storage_service.create_response({'is_first_start':str(str(mode_type).lower()=='true')},app)
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"изменить is_first_start на {mode_type}","main.py/switch_mode"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_info(),f"изменить is_first_start на {mode_type}","main.py/switch_mode")
         return response
 
     except Exception as ex:
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"Ошибка {ex}","main.py/switch_mode"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"Ошибка {ex}","main.py/switch_mode")
         return error_proxy.create_response(app,"wrong argument",500)
 
 
@@ -215,10 +215,10 @@ def change_block_period():
         unit.settings.block_period=args["block_period"]
         unit.save_settings()
         response=storage_service.create_response({'block_period':str(unit.settings.block_period)},app)
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"изменить block_period","main.py/change_block_period"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_info(),f"изменить block_period","main.py/change_block_period")
         return response
     except Exception as ex:
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"Ошибка {ex}","main.py/change_block_period"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"Ошибка {ex}","main.py/change_block_period")
         return error_proxy.create_response(app,"ошибка",500)
 
 
@@ -228,7 +228,7 @@ def change_block_period():
 def add_nomenclature():
     args=request.get_json()
     if args is None:
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"не передан аргумент","main.py/add_nomenclature"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"не передан аргумент","main.py/add_nomenclature")
         return error_proxy.create_response(app,"Не передан аргумент",404)
 
     try:
@@ -239,11 +239,11 @@ def add_nomenclature():
         item.storage.data[storage.nomenclature_key()]=added
 
         item.save()
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"добавить номенклатуру с id {nom.id}","main.py/add_nomenclature"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_info(),f"добавить номенклатуру с id {nom.id}","main.py/add_nomenclature")
         return nomenclature_service.create_response(args,app)
 
     except Exception as ex: 
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"Ошибка {ex}","main.py/add_nomenclature"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"Ошибка {ex}","main.py/add_nomenclature")
         #если _load выдаёт Exception, мы возвращаем "Ошибка обработки"
         return error_proxy.create_response(app,"Ошибка обработки",500)
     
@@ -253,7 +253,7 @@ def change_nomenclature():
     args=request.get_json()
 
     if args is None:
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"не передан аргумент","main.py/change_nomenclature"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"не передан аргумент","main.py/change_nomenclature")
         return error_proxy.create_response(app,"Не передан аргумент",404)
 
     try:
@@ -263,12 +263,12 @@ def change_nomenclature():
         added=serv.change_nome(nom)
         item.storage.data[storage.nomenclature_key()]=added
 
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"изменить номенклатуру с id {nom.id}","main.py/change_nomenclature"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_info(),f"изменить номенклатуру с id {nom.id}","main.py/change_nomenclature")
         item.save()
         return nomenclature_service.create_response(args,app)
 
     except Exception as ex:
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"Ошибка {ex}","main.py/change_nomenclature"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"Ошибка {ex}","main.py/change_nomenclature")
         #ошибка обработки при неполной передачи данных
         return error_proxy.create_response(app,"Ошибка обработки",500)
 
@@ -278,7 +278,7 @@ def delete_nomenclature():
     args=request.args
     try:
         if "id" not in args.keys():
-            storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"не передан аргумент","main.py/delete_nomenclature"))
+            storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"не передан аргумент","main.py/delete_nomenclature")
             return error_proxy.create_response(app,"не найден аргумент",404)
 
         nom_id=args["id"]
@@ -294,11 +294,11 @@ def delete_nomenclature():
 
             #сохраняем
             item.save()
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"удалить номенклатуру с id {nom_id}","main.py/delete_nomenclature"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_info(),f"удалить номенклатуру с id {nom_id}","main.py/delete_nomenclature")
         return nomenclature_service.create_response({"result":result},app)
 
     except Exception as ex:
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"Ошибка {ex}","main.py/delete_nomenclature"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"Ошибка {ex}","main.py/delete_nomenclature")
         return error_proxy.create_response(app,"Ошибка обработки",500)
     
 
@@ -311,7 +311,7 @@ def get_nomenclature():
         if "id" not in args.keys():
             factory=report_factory()
             result=factory.create("Json",item.storage.data,storage.nomenclature_key())
-            storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"получить номенклатуру","main.py/get_nomenclature"))
+            storage_observer.raise_event(event_type.make_log(),log_type.log_type_info(),f"получить номенклатуру","main.py/get_nomenclature")
             return nomenclature_service.create_response(result,app)
 
 
@@ -319,11 +319,11 @@ def get_nomenclature():
         nom_id=args["id"]
         serv=nomenclature_service(item.storage.data[storage.nomenclature_key()])
         added=serv.get_nom(nom_id)
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_info(),f"получить номенклатуру с id {nom_id}","main.py/get_nomenclature"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_info(),f"получить номенклатуру с id {nom_id}","main.py/get_nomenclature")
         return nomenclature_service.create_response(added,app)
 
     except Exception as ex:
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_error(),f"Ошибка {ex}","main.py/get_nomenclature"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_error(),f"Ошибка {ex}","main.py/get_nomenclature")
         return error_proxy.create_response(app,"Ошибка обработки",500)
 
 

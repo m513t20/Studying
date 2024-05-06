@@ -43,7 +43,7 @@ class nomenclature_service(abstract_sevice):
 
     #возвращаем массив с добавленной номенклатурой
     def add_nom(self,nom:nomenclature_model):
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_debug(),"добавление номенклатуры", "nomenclature_service.py/add_nom"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_debug(),"добавление номенклатуры", "nomenclature_service.py/add_nom")
         self.__data.append(nom)
         return self.__data
 
@@ -54,7 +54,7 @@ class nomenclature_service(abstract_sevice):
             if cur_nom.id==nom.id:
                 self.__data[index]=nom 
                 break
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_debug(),"изменение номенклатуры", "nomenclature_service.py/change_nome"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_debug(),"изменение номенклатуры", "nomenclature_service.py/change_nome")
         return self.__data
 
 
@@ -73,7 +73,7 @@ class nomenclature_service(abstract_sevice):
                                       range_model,
                                       storage_journal_row,
                                       storage_turn_model)
-                storage_observer.raise_event(event_type.make_log(log_type.log_type_debug(),"получение номенклатуры", "nomenclature_service.py/get_nom"))
+                storage_observer.raise_event(event_type.make_log(),log_type.log_type_debug(),"получение номенклатуры", "nomenclature_service.py/get_nom")
                 return cur_nom
             
 
@@ -93,8 +93,8 @@ class nomenclature_service(abstract_sevice):
                 self.__data.pop(index) 
                 res=True
                 #если функция удаления нашла номенклатуру, то сразу жу вызываем наблюдателя
-                storage_observer.raise_event(event_type.make_log(log_type.log_type_debug(),"удаление номенклатуры", "nomenclature_service.py/delete_nom"))
-                storage_observer.raise_event(event_type.deleted_nomenclature_id(id))
+                storage_observer.raise_event(event_type.make_log(),log_type.log_type_debug(),"удаление номенклатуры", "nomenclature_service.py/delete_nom")
+                storage_observer.raise_event(event_type.deleted_nomenclature_id(),id)
                 break
         return self.__data,res
     

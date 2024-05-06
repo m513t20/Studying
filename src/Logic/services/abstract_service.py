@@ -44,7 +44,7 @@ class abstract_sevice(ABC):
 
 
 
-    def handle_event(self,handle_type:str):
+    def handle_event(self,handle_type:str,args):
         if not isinstance(handle_type,str):
             raise argument_exception("Неверный тип аргумента")
         

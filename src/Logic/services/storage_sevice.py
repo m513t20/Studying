@@ -120,7 +120,7 @@ class storage_service(abstract_sevice):
         for index,cur_tran in enumerate(data):
             result[index]=reference.convert(cur_tran)
 
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_debug(),"создание оборотв по номенклатуре ", "storage_service.py/create_turns_by_nomenclature"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_debug(),"создание оборотв по номенклатуре ", "storage_service.py/create_turns_by_nomenclature")
 
         return result
     
@@ -163,7 +163,7 @@ class storage_service(abstract_sevice):
         for index,cur_tran in enumerate(data):
             result[index]=reference.convert(cur_tran)
 
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_debug(),"создание оборотoв", "storage_service.py/create_turns"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_debug(),"создание оборотoв", "storage_service.py/create_turns")
         return result
 
 
@@ -197,7 +197,7 @@ class storage_service(abstract_sevice):
         for index,cur_tran in enumerate(data):
             result[index]=reference.convert(cur_tran)
 
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_debug(),"получить обороты по номенклатуре", "storage_service.py/create_id_turns"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_debug(),"получить обороты по номенклатуре", "storage_service.py/create_id_turns")
 
         return result
     
@@ -255,7 +255,7 @@ class storage_service(abstract_sevice):
 
             result[index]=reference.convert(cur_tran)
 
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_debug(),"создать транзакции по рецепту", "storage_service.py/create_reciepe_transactions"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_debug(),"создать транзакции по рецепту", "storage_service.py/create_reciepe_transactions")
 
         return result
     
@@ -307,7 +307,7 @@ class storage_service(abstract_sevice):
         for index,cur_tran in enumerate(keys):
             result[index]=reference.convert(data_turn_sort[cur_tran])
 
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_debug(),"рейтинг номенклатуры по складам и айди", "storage_service.py/create_id_turns_storage"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_debug(),"рейтинг номенклатуры по складам и айди", "storage_service.py/create_id_turns_storage")
         return result
     
 
@@ -331,13 +331,13 @@ class storage_service(abstract_sevice):
         #сохраняем обороты в сервис
         storage().data[storage.b_turn_key()]=data
         self.__blocked=data
-        storage_observer.raise_event(event_type.make_log(log_type.log_type_debug(),"получить обооты до периода блокировки", "storage_service.py/create_blocked_turns"))
+        storage_observer.raise_event(event_type.make_log(),log_type.log_type_debug(),"получить обооты до периода блокировки", "storage_service.py/create_blocked_turns")
         return data
 
 
 
-    def handle_event(self, handle_type: str):
-        super().handle_event(handle_type)
+    def handle_event(self, handle_type: str,*args):
+        super().handle_event(handle_type,args)
         
         if handle_type==event_type.changed_block_period():
             self.create_blocked_turns()
